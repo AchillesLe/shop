@@ -20,17 +20,25 @@ namespace shop_api.Controllers
         [HttpPost(),Route("login")]
         public HttpResponseMessage login([FromBody]RequestLogin requestLogin)
         {
-            string username = requestLogin.username.Trim();
-            string password = requestLogin.password.Trim();
-            LoginDTO login = null;
-            UserDTO user = LoginService.GetAccountLogin(username, password);
-            if (user != null )
+            if (requestLogin!=null && requestLogin.username != null && requestLogin.password!=null)
             {
-                login = LoginService.Create(user);
-                return Request.CreateResponse(HttpStatusCode.OK, login);
+                string username = requestLogin.username.Trim();
+                string password = requestLogin.password.Trim();
+                LoginDTO login = null;
+                UserDTO user = LoginService.GetAccountLogin(username, password);
+                if (LoginService.CkechHasLogin(user.idUser))
+                {
+                    return Request.CreateResponse(HttpStatusCode.Forbidden, "Login fail !");
+                }
+                if (user != null)
+                {
+                    login = LoginService.Create(user);
+                    return Request.CreateResponse(HttpStatusCode.OK, login);
 
+                }
+                return Request.CreateResponse(HttpStatusCode.NotFound, login);
             }
-            return Request.CreateResponse(HttpStatusCode.NotFound , login);
+            return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
         
     }

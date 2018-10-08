@@ -28,7 +28,15 @@ namespace shop_api.Service
             }
             return user;
         }
-
+        public bool CkechHasLogin(int idUser)
+        {
+            var user = context.Logins.Where(x=>x.idUser == idUser && x.expiredTime > DateTime.Now).FirstOrDefault();
+            if (user != null)
+            {
+                return true;
+            }
+            return false;
+        }
         public LoginDTO Create(UserDTO user)
         {
             LoginDTO loginDTO = null;

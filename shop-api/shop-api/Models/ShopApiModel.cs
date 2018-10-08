@@ -67,7 +67,7 @@ namespace shop_api.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()
-                .Property(e => e.avatarssss)
+                .Property(e => e.avatar)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()

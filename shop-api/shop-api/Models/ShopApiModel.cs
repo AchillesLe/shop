@@ -59,7 +59,15 @@ namespace shop_api.Models
                 .HasPrecision(10, 0);
 
             modelBuilder.Entity<Product>()
+                .Property(e => e.madein)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
                 .Property(e => e.description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.avatarssss)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()

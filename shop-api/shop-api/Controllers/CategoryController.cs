@@ -25,7 +25,7 @@ namespace shop_api.Controllers
             {
                 var db = new ShopApiModel();
                 var cat_entity = new Category();
-                cat_entity.name = cat.name;
+                //cat_entity.name = cat.name;
                 cat_entity.isDelete = 0;
                 cat_entity.createdDate = DateTime.Now;
                 cat_entity.updatedDate = DateTime.Now;

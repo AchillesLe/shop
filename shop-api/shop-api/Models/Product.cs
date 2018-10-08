@@ -36,10 +36,16 @@ namespace shop_api.Models
 
         public decimal price { get; set; }
 
+        [StringLength(250)]
+        public string madein { get; set; }
+
         public int quantity { get; set; }
 
         [Column(TypeName = "text")]
         public string description { get; set; }
+
+        [StringLength(250)]
+        public string avatar { get; set; }
 
         [Column(TypeName = "text")]
         public string images { get; set; }

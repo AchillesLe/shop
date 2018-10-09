@@ -7,7 +7,7 @@ using System.Web.Http;
 using shop_api.DTO;
 using shop_api.Service;
 using shop_api.DTO.RequestDTO;
-
+using shop_api.Utility;
 namespace shop_api.Controllers
 {
     [RoutePrefix("api")]
@@ -22,12 +22,8 @@ namespace shop_api.Controllers
         public HttpResponseMessage logout()
         {
             var headers = Request.Headers;
-            string token = "";
-            if (headers.Contains("token"))
-            {
-                token = headers.GetValues("token").First();
-            }
-            if (token!= "" &&LoginService.DeleteToken(token))
+            string token = Token.getToken(Request);
+            if (token!= "" && LoginService.DeleteToken(token))
             {
                 return Request.CreateResponse(HttpStatusCode.OK,"Logout successfuly !");
             }

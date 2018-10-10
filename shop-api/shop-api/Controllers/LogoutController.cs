@@ -22,7 +22,7 @@ namespace shop_api.Controllers
         public HttpResponseMessage logout()
         {
             var headers = Request.Headers;
-            string token = Token.getToken(Request);
+            string token = Token.HandleToken(Request);
             if (token!= "" && LoginService.DeleteToken(token))
             {
                 return Request.CreateResponse(HttpStatusCode.OK,"Logout successfuly !");

@@ -106,15 +106,27 @@ namespace shop_api.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-                .Property(e => e.fullName)
+                .Property(e => e.fullname)
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
-                .Property(e => e.userName)
+                .Property(e => e.username)
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
                 .Property(e => e.password)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.phone)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.address)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.cmnd)
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()

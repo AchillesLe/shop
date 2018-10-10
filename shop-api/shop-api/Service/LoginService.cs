@@ -19,9 +19,21 @@ namespace shop_api.Service
         public UserDTO GetAccountLogin(string username, string password)
         {
             UserDTO user = null;
-            var result = context.Users.Where(x => x.userName == username && x.password == password)
-                .Select(x => new UserDTO { idUser = x.idUser, fullName = x.fullName, role = x.role ,userName = x.userName , password = x.password,createdDate = x.createdDate,updatedDate= x.updatedDate})
-                .FirstOrDefault();
+            var result = context.Users.Where(x => x.username == username && x.password == password)
+                .Select(x => new UserDTO
+                {
+                    iduser = x.iduser,
+                    createdDate = x.createdDate,
+                    password = x.password,
+                    fullname = x.fullname,
+                    updatedDate = x.updatedDate,
+                    role = x.role,
+                    username = x.username,
+                    address = x.address,
+                    cmnd = x.cmnd,
+                    phone = x.phone,
+                    isDelete = x.isDelete
+                }).FirstOrDefault();
             if (result != null)
             {
                 user = result;
@@ -43,8 +55,8 @@ namespace shop_api.Service
             try
             {
                 Login reqlogin = new Login();
-                string token = BaseCode64.Base64Encode(user.idUser.ToString()+ user.userName + DateTime.Now);
-                reqlogin.idUser = user.idUser;
+                string token = BaseCode64.Base64Encode(user.iduser.ToString()+ user.username + DateTime.Now);
+                reqlogin.idUser = user.iduser;
                 reqlogin.token = token;
                 reqlogin.createdTime = DateTime.Now;
                 reqlogin.expiredTime = DateTime.Now.AddMinutes(30);

@@ -18,21 +18,28 @@ namespace shop_api.Models
         }
 
         [Key]
-        public int idUser { get; set; }
+        public int iduser { get; set; }
 
         [Required]
         [StringLength(250)]
-        public string fullName { get; set; }
+        public string fullname { get; set; }
 
-        [Required]
         [StringLength(50)]
-        public string userName { get; set; }
+        public string username { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string password { get; set; }
 
         public int role { get; set; }
+
+        [StringLength(11)]
+        public string phone { get; set; }
+
+        [StringLength(250)]
+        public string address { get; set; }
+
+        [StringLength(10)]
+        public string cmnd { get; set; }
 
         public int isDelete { get; set; }
 

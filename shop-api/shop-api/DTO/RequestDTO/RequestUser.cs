@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace shop_api.DTO
+namespace shop_api.DTO.RequestDTO
 {
-    public class UserDTO
+    public class RequestUser
     {
         public int iduser { get; set; }
         public string fullname { get; set; }

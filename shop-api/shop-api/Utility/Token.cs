@@ -13,7 +13,7 @@ namespace shop_api.Utility
     
     public class Token
     {
-        public static string HandelToken(HttpRequestMessage Request)
+        public static string HandleToken(HttpRequestMessage Request)
         {
             string token = string.Empty;
             if (Request!=null)
@@ -51,8 +51,20 @@ namespace shop_api.Utility
                 int iduser = context.Logins.Where(x => x.token == token && x.expiredTime > DateTime.Now).Select(x => x.idUser).FirstOrDefault();
                 if (iduser > 0)
                 {
-                    userdto = context.Users.Where(x => x.idUser == iduser && x.isDelete == 0).Select(x => new UserDTO { idUser = x.idUser, createdDate = x.createdDate, password = x.password, fullName = x.fullName, updatedDate = x.updatedDate, role = x.role, userName = x.userName, isDelete = x.isDelete })
-                        .FirstOrDefault();
+                    userdto = context.Users.Where(x => x.iduser == iduser && x.isDelete == 0).Select(x => new UserDTO
+                    {
+                        iduser = x.iduser,
+                        createdDate = x.createdDate,
+                        password = x.password,
+                        fullname = x.fullname,
+                        updatedDate = x.updatedDate,
+                        role = x.role,
+                        username = x.username,
+                        address = x.address,
+                        cmnd = x.cmnd,
+                        phone = x.phone,
+                        isDelete = x.isDelete
+                    }).FirstOrDefault();
                 }
                 context.Dispose();
                 return userdto;

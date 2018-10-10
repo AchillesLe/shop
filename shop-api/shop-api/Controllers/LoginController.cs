@@ -26,7 +26,7 @@ namespace shop_api.Controllers
                 string password = requestLogin.password.Trim();
                 LoginDTO login = null;
                 UserDTO user = LoginService.GetAccountLogin(username, password);
-                if (LoginService.CkechHasLogin(user.idUser))
+                if (LoginService.CkechHasLogin(user.iduser))
                 {
                     return Request.CreateResponse(HttpStatusCode.Forbidden, "Login fail !");
                 }

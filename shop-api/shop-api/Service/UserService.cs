@@ -12,7 +12,18 @@ namespace shop_api.Service
         public List<UserDTO> getall()
         {
             List< UserDTO> listuser = context.Users.Where(x=>x.isDelete == 0 )
-                .Select(x=>new UserDTO { idUser = x.idUser ,createdDate=x.createdDate,password=x.password,fullName=x.fullName,updatedDate=x.updatedDate,role=x.role,userName=x.userName,isDelete=x.isDelete })
+                .Select(x=>new UserDTO {
+                    iduser = x.iduser,
+                    createdDate =x.createdDate,
+                    password =x.password,
+                    fullname =x.fullname,
+                    updatedDate =x.updatedDate,
+                    role =x.role,
+                    username =x.username,
+                    address = x.address,
+                    cmnd=x.cmnd,
+                    phone=x.phone,
+                    isDelete =x.isDelete })
                 .ToList();
             return listuser;
         }
@@ -24,9 +35,50 @@ namespace shop_api.Service
                 int iduser = context.Logins.Where(x=>x.token == token && x.expiredTime > DateTime.Now).Select(x=>x.idUser).FirstOrDefault();
                 if (iduser > 0)
                 {
-                    userdto = context.Users.Where(x => x.idUser == iduser && x.isDelete == 0).Select(x => new UserDTO { idUser = x.idUser, createdDate = x.createdDate, password = x.password, fullName = x.fullName, updatedDate = x.updatedDate, role = x.role, userName = x.userName, isDelete = x.isDelete })
+                    userdto = context.Users.Where(x => x.iduser == iduser && x.isDelete == 0)
+                        .Select(x => new UserDTO
+                        {
+                            iduser = x.iduser,
+                            createdDate = x.createdDate,
+                            password = x.password,
+                            fullname = x.fullname,
+                            updatedDate = x.updatedDate,
+                            role = x.role,
+                            username = x.username,
+                            address = x.address,
+                            cmnd = x.cmnd,
+                            phone = x.phone,
+                            isDelete = x.isDelete
+                        })
                         .FirstOrDefault();
                 }
+                return userdto;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public UserDTO getUserById(int id)
+        {
+            try
+            {
+                UserDTO userdto = null;
+                userdto = context.Users.Where(x => x.iduser == id && x.isDelete == 0)
+                     .Select(x => new UserDTO
+                     {
+                         iduser = x.iduser,
+                         createdDate = x.createdDate,
+                         password = x.password,
+                         fullname = x.fullname,
+                         updatedDate = x.updatedDate,
+                         role = x.role,
+                         username = x.username,
+                         address = x.address,
+                         cmnd = x.cmnd,
+                         phone = x.phone,
+                         isDelete = x.isDelete
+                     }).FirstOrDefault();
                 return userdto;
             }
             catch (Exception ex)
@@ -40,13 +92,15 @@ namespace shop_api.Service
                 UserDTO userdto = new UserDTO();
                 context.Users.Add(user);
                 context.SaveChanges();
-                userdto.createdDate = user.createdDate;
-                userdto.fullName = user.fullName;
-                userdto.idUser = user.idUser;
-                userdto.isDelete = user.isDelete;
+                userdto.fullname = user.fullname;
+                userdto.username = user.username;
+                userdto.phone = user.phone;
+                userdto.address = user.address;
+                userdto.isDelete = 0;
                 userdto.password = user.password;
-                userdto.updatedDate = user.updatedDate;
-                userdto.userName = user.userName;
+                userdto.createdDate = DateTime.Now;
+                userdto.updatedDate = DateTime.Now;
+                
                 return userdto;
             }
             catch (Exception  ex)
@@ -54,20 +108,41 @@ namespace shop_api.Service
                 return null;
             }
         }
-        public UserDTO update(User user)
+        public UserDTO update(User requser)
         {
+            UserDTO userdto = new UserDTO();
             try
             {
-                UserDTO userdto = new UserDTO();
-                context.Users.Add(user);
-                context.SaveChanges();
-                userdto.createdDate = user.createdDate;
-                userdto.fullName = user.fullName;
-                userdto.idUser = user.idUser;
-                userdto.isDelete = user.isDelete;
-                userdto.password = user.password;
-                userdto.updatedDate = user.updatedDate;
-                userdto.userName = user.userName;
+                User user = context.Users.Where(x => x.iduser == requser.iduser).FirstOrDefault();
+                if (user!=null)
+                {
+                    user.fullname = requser.fullname;
+                    user.password = requser.password;
+                    user.username = requser.username;
+                    user.phone = user.phone;
+                    user.address = user.address;
+                    user.password = user.password;
+                    user.updatedDate = DateTime.Now;
+    
+                    context.Users.Attach(user);
+                    context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
+                    userdto = context.Users.Where(x => x.iduser == user.iduser && x.isDelete == 0)
+                        .Select(x => new UserDTO
+                        {
+                            iduser = x.iduser,
+                            createdDate = x.createdDate,
+                            password = x.password,
+                            fullname = x.fullname,
+                            updatedDate = x.updatedDate,
+                            role = x.role,
+                            username = x.username,
+                            address = x.address,
+                            cmnd = x.cmnd,
+                            phone = x.phone,
+                            isDelete = x.isDelete
+                        }).FirstOrDefault();
+                }
                 return userdto;
             }
             catch (Exception ex)
@@ -79,11 +154,12 @@ namespace shop_api.Service
         {
             try
             {
-                User user = context.Users.Where(x => x.idUser == iduser).FirstOrDefault();
+                User user = context.Users.Where(x => x.iduser == iduser).FirstOrDefault();
                 if (user!=null)
                 {
                     user.isDelete = 1;
-                    context.Users.Add(user);
+                    context.Users.Attach(user);
+                    context.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     context.SaveChanges();
                     return true;
                 }

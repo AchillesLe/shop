@@ -7,5 +7,6 @@ namespace shop_api.DTO
 {
     public class CategoryDTO
     {
+        public string name;
     }
 }

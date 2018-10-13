@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using shop_api.Models;
 using shop_api.DTO;
+using shop_api.Utility;
 
 namespace shop_api.Controllers
 {
@@ -48,6 +49,12 @@ namespace shop_api.Controllers
         [HttpPost,Route("add")]
         public IHttpActionResult Add([FromBody] CategoryDTO cat)
         {
+            var headers = Request.Headers;
+            string token = Token.HandleToken(Request);
+            if (token == String.Empty)
+            {
+                return BadRequest("You need to store token in header");
+            }
             try
             {
                 var cat_entity = new Category();
@@ -70,6 +77,12 @@ namespace shop_api.Controllers
             {
                 return BadRequest("Category Not Found");
             }
+            var headers = Request.Headers;
+            string token = Token.HandleToken(Request);
+            if (token == String.Empty)
+            {
+                return BadRequest("You need to store token in header");
+            }
             try
             {
                 cat_entity.name = cat.name;
@@ -86,6 +99,12 @@ namespace shop_api.Controllers
             if (cat_entity == null)
             {
                 return BadRequest("Category Not Found");
+            }
+            var headers = Request.Headers;
+            string token = Token.HandleToken(Request);
+            if (token == String.Empty)
+            {
+                return BadRequest("You need to store token in header");
             }
             try
             {

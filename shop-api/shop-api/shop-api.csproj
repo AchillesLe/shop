@@ -50,6 +50,9 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MultipartDataMediaFormatter, Version=2.0.2.0, Culture=neutral, PublicKeyToken=67148dd0761d95a0, processorArchitecture=MSIL">
+      <HintPath>..\packages\MultipartDataMediaFormatter.V2.2.0.2\lib\net45\MultipartDataMediaFormatter.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -98,9 +101,12 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
+    <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\RequestDTO\RequestLogin.cs" />
+    <Compile Include="DTO\RequestDTO\RequestUser.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

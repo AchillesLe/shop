@@ -134,3 +134,4 @@ C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.csprojAssembl
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CopyComplete
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.dll
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.pdb
+C:\Users\VU\source\repos\shop\shop-api\shop-api\bin\MultipartDataMediaFormatter.dll

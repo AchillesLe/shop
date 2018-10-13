@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultipartDataMediaFormatter.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +19,7 @@ namespace shop_api.DTO
         public string madein { get; set; }
         public int quantity { get; set; }
         public string description { get; set; }
-        public string avatar { get; set; }
+        public HttpFile avatar { get; set; }
         public string images { get; set; }
         public int idCreator { get; set; }
         public int isDelete { get; set; }

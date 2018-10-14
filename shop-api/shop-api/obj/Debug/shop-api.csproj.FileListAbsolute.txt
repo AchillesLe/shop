@@ -61,8 +61,8 @@ E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Net.
 E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Web.Http.xml
 E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Web.Http.WebHost.xml
 E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\obj\Debug\shop-api.csprojAssemblyReference.cache
 E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CoreCompileInputs.cache
 E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CopyComplete
 E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\obj\Debug\shop-api.dll
 E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\obj\Debug\shop-api.pdb
+E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\obj\Debug\shop-api.csprojAssemblyReference.cache

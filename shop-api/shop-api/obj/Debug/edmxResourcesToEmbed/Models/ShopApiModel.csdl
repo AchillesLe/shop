@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BanHangModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="idCategory" />
+    </Key>
+    <Property Name="idCategory" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="idCreator" Type="Int32" Nullable="false" />
+    <Property Name="isDelete" Type="Int32" Nullable="false" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="updatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_tblProduct_tblCategory" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="DetailReciept">
+    <Key>
+      <PropertyRef Name="idDetail" />
+    </Key>
+    <Property Name="idDetail" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idReciept" Type="Int32" Nullable="false" />
+    <Property Name="idProduct" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_tblDetailReciept_tblProduct" FromRole="DetailReciept" ToRole="Product" />
+    <NavigationProperty Name="Receipt" Relationship="Self.FK_tblDetailReciept_tblReceipt" FromRole="DetailReciept" ToRole="Receipt" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="idLogin" />
+    </Key>
+    <Property Name="idLogin" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idUser" Type="Int32" Nullable="false" />
+    <Property Name="token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="createdTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="expiredTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK_tblLogin_tblUser" FromRole="Login" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="idProduct" />
+    </Key>
+    <Property Name="idProduct" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idCategory" Type="Int32" />
+    <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="length" Type="Decimal" Precision="6" Scale="1" />
+    <Property Name="width" Type="Decimal" Precision="6" Scale="1" />
+    <Property Name="high" Type="Decimal" Precision="6" Scale="1" />
+    <Property Name="price" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="madein" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="avatar" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="idCreator" Type="Int32" Nullable="false" />
+    <Property Name="isDelete" Type="Int32" Nullable="false" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="updatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_tblProduct_tblCategory" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="DetailReciepts" Relationship="Self.FK_tblDetailReciept_tblProduct" FromRole="Product" ToRole="DetailReciept" />
+    <NavigationProperty Name="User" Relationship="Self.FK__tblProduc__idCre__66603565" FromRole="Product" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Receipt">
+    <Key>
+      <PropertyRef Name="idReceipt" />
+    </Key>
+    <Property Name="idReceipt" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameCustomer" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="total" Type="Decimal" Precision="15" Scale="0" Nullable="false" />
+    <Property Name="status" Type="Int32" Nullable="false" />
+    <Property Name="idUpdator" Type="Int32" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="updatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="DetailReciepts" Relationship="Self.FK_tblDetailReciept_tblReceipt" FromRole="Receipt" ToRole="DetailReciept" />
+    <NavigationProperty Name="User" Relationship="Self.FK_tblReceipt_tblUser" FromRole="Receipt" ToRole="User" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="idUser" />
+    </Key>
+    <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fullName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="userName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="role" Type="Int32" Nullable="false" />
+    <Property Name="isDelete" Type="Int32" Nullable="false" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="updatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Logins" Relationship="Self.FK_tblLogin_tblUser" FromRole="User" ToRole="Login" />
+    <NavigationProperty Name="Products" Relationship="Self.FK__tblProduc__idCre__66603565" FromRole="User" ToRole="Product" />
+    <NavigationProperty Name="Receipts" Relationship="Self.FK_tblReceipt_tblUser" FromRole="User" ToRole="Receipt" />
+  </EntityType>
+  <Association Name="FK_tblProduct_tblCategory">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="idCategory" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="idCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblDetailReciept_tblProduct">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="DetailReciept" Type="Self.DetailReciept" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="idProduct" />
+      </Principal>
+      <Dependent Role="DetailReciept">
+        <PropertyRef Name="idProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblDetailReciept_tblReceipt">
+    <End Role="Receipt" Type="Self.Receipt" Multiplicity="1" />
+    <End Role="DetailReciept" Type="Self.DetailReciept" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Receipt">
+        <PropertyRef Name="idReceipt" />
+      </Principal>
+      <Dependent Role="DetailReciept">
+        <PropertyRef Name="idReciept" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblLogin_tblUser">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Login" Type="Self.Login" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="idUser" />
+      </Principal>
+      <Dependent Role="Login">
+        <PropertyRef Name="idUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblProduc__idCre__66603565">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="idUser" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="idCreator" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblReceipt_tblUser">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="idUser" />
+      </Principal>
+      <Dependent Role="Receipt">
+        <PropertyRef Name="idUpdator" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ShopApiConnectionString" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="DetailReciepts" EntityType="Self.DetailReciept" />
+    <EntitySet Name="Logins" EntityType="Self.Login" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Receipts" EntityType="Self.Receipt" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_tblProduct_tblCategory" Association="Self.FK_tblProduct_tblCategory">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblDetailReciept_tblProduct" Association="Self.FK_tblDetailReciept_tblProduct">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="DetailReciept" EntitySet="DetailReciepts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblDetailReciept_tblReceipt" Association="Self.FK_tblDetailReciept_tblReceipt">
+      <End Role="Receipt" EntitySet="Receipts" />
+      <End Role="DetailReciept" EntitySet="DetailReciepts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblLogin_tblUser" Association="Self.FK_tblLogin_tblUser">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Login" EntitySet="Logins" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblProduc__idCre__66603565" Association="Self.FK__tblProduc__idCre__66603565">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblReceipt_tblUser" Association="Self.FK_tblReceipt_tblUser">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Receipt" EntitySet="Receipts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

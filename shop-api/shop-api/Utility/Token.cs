@@ -11,7 +11,7 @@ using shop_api.Models;
 namespace shop_api.Utility
 {
     
-    public class Token
+    public static class Token
     {
         public static string HandleToken(HttpRequestMessage Request)
         {

@@ -120,6 +120,7 @@
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Utility\BaseCode64.cs" />
+    <Compile Include="Utility\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="Utility\Message.cs" />
     <Compile Include="Utility\Token.cs" />
   </ItemGroup>

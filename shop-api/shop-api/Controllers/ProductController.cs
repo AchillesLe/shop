@@ -4,10 +4,12 @@ using shop_api.Service;
 using shop_api.Utility;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
@@ -189,10 +191,49 @@ namespace shop_api.Controllers
             }
             catch (Exception e) { return BadRequest("Delete Error" +e.GetBaseException()); }
         }
-
-
-
-
-
+        [HttpPost(), Route("upload")]
+        public async Task<HttpResponseMessage> Post()
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+            string fileSaveLocation = HttpContext.Current.Server.MapPath("~/App_Data");
+            CustomMultipartFormDataStreamProvider provider = new CustomMultipartFormDataStreamProvider(fileSaveLocation);
+            List<string> files = new List<string>();
+            try
+            {
+                await Request.Content.ReadAsMultipartAsync(provider);
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    string now = DateTime.Now.ToString("ddMMyyyyhhmmss");
+                    string fileName = "File_" + now;
+                    string nameFilePlod = Path.GetFileName(file.LocalFileName);
+                    string newNameFile =  fileName + getNameTypeExtend(nameFilePlod);
+                    System.IO.File.Move(file.LocalFileName, fileSaveLocation + "\\" + newNameFile);
+                    files.Add(newNameFile);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, files);
+            }
+            catch (System.Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+        private string getNameTypeExtend(string name)
+        {
+            string ext = "";
+            for(int i = name.Length-1; i > 0; i--)
+            {
+                if (name[i].Equals('.'))
+                {
+                    ext  = name.Substring(i);
+                    break;
+                }
+            }
+            return ext;
+        }
     }
+
 }
+

@@ -89,18 +89,24 @@ namespace shop_api.Service
         public UserDTO create(User user)
         {
             try {
-                UserDTO userdto = new UserDTO();
                 context.Users.Add(user);
                 context.SaveChanges();
-                userdto.fullname = user.fullname;
-                userdto.username = user.username;
-                userdto.phone = user.phone;
-                userdto.address = user.address;
-                userdto.isDelete = 0;
-                userdto.password = user.password;
-                userdto.createdDate = DateTime.Now;
-                userdto.updatedDate = DateTime.Now;
-                
+                UserDTO userdto = context.Users.Where(x => x.iduser == user.iduser && x.isDelete == 0)
+                        .Select(x => new UserDTO
+                        {
+                            iduser = x.iduser,
+                            createdDate = x.createdDate,
+                            password = x.password,
+                            fullname = x.fullname,
+                            updatedDate = x.updatedDate,
+                            role = x.role,
+                            username = x.username,
+                            address = x.address,
+                            cmnd = x.cmnd,
+                            phone = x.phone,
+                            isDelete = x.isDelete
+                        }).FirstOrDefault();
+
                 return userdto;
             }
             catch (Exception  ex)
@@ -108,6 +114,7 @@ namespace shop_api.Service
                 return null;
             }
         }
+        // Không update username
         public UserDTO update(User requser)
         {
             UserDTO userdto = new UserDTO();
@@ -118,10 +125,10 @@ namespace shop_api.Service
                 {
                     user.fullname = requser.fullname;
                     user.password = requser.password;
-                    user.username = requser.username;
-                    user.phone = user.phone;
-                    user.address = user.address;
-                    user.password = user.password;
+                    user.phone = requser.phone;
+                    user.address = requser.address;
+                    user.cmnd = requser.cmnd;
+                    user.password = requser.password;
                     user.updatedDate = DateTime.Now;
     
                     context.Users.Attach(user);
@@ -169,6 +176,35 @@ namespace shop_api.Service
             {
                 return false;
             }
+        }
+
+        public bool  CheckUserName(string username)
+        {
+            var checkuser = context.Users.Where(x=>x.username == username).FirstOrDefault();
+            if (checkuser!=null)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool CheckCMND(string cmnd)
+        {
+            var checkuser = context.Users.Where(x => x.cmnd == cmnd).FirstOrDefault();
+            if (checkuser != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        // Check khi update cmnd
+        public bool CheckCMND(int idUser, string cmnd)
+        {
+            var checkuser = context.Users.Where(x => x.iduser != idUser && x.cmnd == cmnd).FirstOrDefault();
+            if (checkuser != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

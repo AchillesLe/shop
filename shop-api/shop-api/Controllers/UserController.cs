@@ -36,6 +36,23 @@ namespace shop_api.Controllers
             }
             return BadRequest(Message.messageRequireInvalid);
         }
+
+        [HttpGet(), Route("getuser/{id:int}")]
+        public IHttpActionResult getuser(int id)
+        {
+            string token = Token.HandleToken(Request);
+            if (token != "")
+            {
+                UserDTO userRes = userService.getUserById(id);
+                if (userRes != null)
+                {
+                    return Ok(userRes);
+                }
+                return NotFound();
+            }
+            return BadRequest(Message.messageRequireInvalid);
+        }
+
         [HttpPut(), Route("create")]
         public IHttpActionResult CreateUser([FromBody]RequestUser requser)
         {
@@ -44,6 +61,10 @@ namespace shop_api.Controllers
                 if (requser != null)
                 {
                     string token = Token.HandleToken(Request);
+                    if (token == string.Empty)
+                    {
+                        return BadRequest(Message.messageNotValidToken);
+                    }
                     UserDTO whoReq = Token.getUser(token);
                     if (whoReq!=null && whoReq.role == 1)
                     {
@@ -54,26 +75,30 @@ namespace shop_api.Controllers
                         user.address = requser.address;
                         user.cmnd = requser.cmnd;
                         user.phone = requser.phone;
-                        if (ModelState.IsValid)
+                        user.updatedDate = DateTime.Now;
+                        user.createdDate = DateTime.Now;
+                        user.isDelete = 0;
+                        if (userService.CheckUserName(requser.username))
                         {
-                            UserDTO userdto = userService.create(user);
-                            if (userdto != null)
-                            {
-                                return Ok(userdto);
-                            }
+                            return BadRequest(Message.messageUserNameExist);
                         }
-                        else
+                        if (userService.CheckCMND(requser.cmnd))
                         {
-                            var errorList = ModelState.Values.SelectMany(m => m.Errors)
-                                 .Select(e => e.ErrorMessage)
-                                 .ToList();
-                            string errors = JsonConvert.SerializeObject(errorList);
-                            return BadRequest(errors);
+                            return BadRequest(Message.messageCMNDExist);
+                        }
+                        UserDTO userdto = userService.create(user);
+                        if (userdto != null)
+                        {
+                            return Ok(userdto);
                         }
                         return InternalServerError();
                     }
+                    else
+                    {
+                        return BadRequest(Message.messageNoEnoughRole);
+                    }
                 }
-                return BadRequest();
+                return BadRequest(Message.messageNotValidRequest);
             }
             catch (Exception ex)
             {
@@ -81,41 +106,43 @@ namespace shop_api.Controllers
             }
 
         }
-        [HttpPost(), Route("update")]
-        public IHttpActionResult UpdateUser([FromBody]RequestUser requser)
+        [HttpPost(), Route("update/{id:int}")]
+        public IHttpActionResult UpdateUser([FromUri]int id,[FromBody]RequestUser requser)
         {
             try
             {
                 if (requser != null)
                 {
                     string token = Token.HandleToken(Request);
+                    if (token == string.Empty)
+                    {
+                        return BadRequest(Message.messageNotValidToken);
+                    }
                     UserDTO whoReq = Token.getUser(token);
                     if (whoReq != null && whoReq.role == 1)
                     {
                         User user = new User();
+                        user.iduser = id;
                         user.fullname = requser.fullname;
                         user.username = requser.username;
                         user.password = requser.password;
                         user.address = requser.address;
                         user.cmnd = requser.cmnd;
                         user.phone = requser.phone;
-                        if (ModelState.IsValid)
+                        if (userService.CheckCMND(id, requser.cmnd))
                         {
-                            UserDTO userdto = userService.update(user);
-                            if (userdto != null)
-                            {
-                                return Ok(userdto);
-                            }
+                            return BadRequest(Message.messageCMNDExist);
                         }
-                        else
+                        UserDTO userdto = userService.update(user);
+                        if (userdto != null)
                         {
-                            var errorList = ModelState.Values.SelectMany(m => m.Errors)
-                                 .Select(e => e.ErrorMessage)
-                                 .ToList();
-                            string errors = JsonConvert.SerializeObject(errorList);
-                            return BadRequest(errors);
+                            return Ok(userdto);
                         }
                         return InternalServerError();
+                    }
+                    else
+                    {
+                        return BadRequest(Message.messageNoEnoughRole);
                     }
                 }
                 return BadRequest();
@@ -133,6 +160,10 @@ namespace shop_api.Controllers
                 if (id > 0 )
                 {
                     string token = Token.HandleToken(Request);
+                    if (token == string.Empty)
+                    {
+                        return BadRequest(Message.messageNotValidToken);
+                    }
                     UserDTO whoReq = Token.getUser(token);
                     if (whoReq != null && whoReq.role == 1)
                     {

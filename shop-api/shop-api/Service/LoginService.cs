@@ -18,27 +18,34 @@ namespace shop_api.Service
         }
         public UserDTO GetAccountLogin(string username, string password)
         {
-            UserDTO user = null;
-            var result = context.Users.Where(x => x.username == username && x.password == password)
-                .Select(x => new UserDTO
-                {
-                    iduser = x.iduser,
-                    createdDate = x.createdDate,
-                    password = x.password,
-                    fullname = x.fullname,
-                    updatedDate = x.updatedDate,
-                    role = x.role,
-                    username = x.username,
-                    address = x.address,
-                    cmnd = x.cmnd,
-                    phone = x.phone,
-                    isDelete = x.isDelete
-                }).FirstOrDefault();
-            if (result != null)
+            try
             {
-                user = result;
+                UserDTO user = null;
+                var result = context.Users.Where(x => x.username == username && x.password == password)
+                    .Select(x => new UserDTO
+                    {
+                        iduser = x.iduser,
+                        createdDate = x.createdDate,
+                        password = x.password,
+                        fullname = x.fullname,
+                        updatedDate = x.updatedDate,
+                        role = x.role,
+                        username = x.username,
+                        address = x.address,
+                        cmnd = x.cmnd,
+                        phone = x.phone,
+                        isDelete = x.isDelete
+                    }).FirstOrDefault();
+                if (result != null)
+                {
+                    user = result;
+                }
+                return user;
             }
-            return user;
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         public bool CkechHasLogin(int idUser)
         {

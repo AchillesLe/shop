@@ -97,9 +97,11 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
+    <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\RequestDTO\RequestLogin.cs" />
     <Compile Include="DTO\RequestDTO\RequestUser.cs" />
     <Compile Include="DTO\UserDTO.cs" />

@@ -19,5 +19,7 @@ namespace shop_api.Utility
         public static string messageUploadSuccessfully= "Upload file thành công !";
         public static string messageUploadSuccessfailed= "Upload file thất bại !";
         public static string messageNotAuthenticate= "Không thể xác thực !";
+        public static string messageInsertSuccessfully= "Insert thành công !";
+        public static string messageInsertFailed= "Insert thất bại !";
     }
 }

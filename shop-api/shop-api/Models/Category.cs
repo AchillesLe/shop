@@ -22,8 +22,6 @@ namespace shop_api.Models
         [StringLength(250)]
         public string name { get; set; }
 
-        public int idCreator { get; set; }
-
         public int isDelete { get; set; }
 
         public DateTime createdDate { get; set; }

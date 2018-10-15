@@ -22,26 +22,25 @@ namespace shop_api.Service
                            idCategory = x.idCategory,
                            name = x.name,
                            createdDate = x.createdDate,
-                           idCreator = x.idCreator,
                            updatedDate = x.updatedDate,
-                           isDelete = x.isDelete,
-                           products = context.Products.Where(a=>a.idCategory == x.idCategory).Select(a=>new ProductDTO {
-                               idProduct = a.idProduct,
-                               name = a.name,
-                               code = a.code,
-                               avatar = a.avatar,
-                               images = a.images,
-                               idCreator = a.idCreator,
-                               madein = a.madein,
-                               width = a.width,
-                               high = a.high,
-                               price = a.price,
-                               length = a.length,
-                               quantity = a.quantity,
-                               isDelete = a.isDelete,
-                               createdDate = a.createdDate,
-                               updatedDate = a.updatedDate
-                           }).ToList()
+                           isDelete = x.isDelete
+                           //products = context.Products.Where(a=>a.idCategory == x.idCategory).Select(a=>new ProductDTO {
+                           //    idProduct = a.idProduct,
+                           //    name = a.name,
+                           //    code = a.code,
+                           //    avatar = a.avatar,
+                           //    images = a.images,
+                           //    idCreator = a.idCreator,
+                           //    madein = a.madein,
+                           //    width = a.width,
+                           //    high = a.high,
+                           //    price = a.price,
+                           //    length = a.length,
+                           //    quantity = a.quantity,
+                           //    isDelete = a.isDelete,
+                           //    createdDate = a.createdDate,
+                           //    updatedDate = a.updatedDate
+                           //}).ToList()
                        }).ToList();
 
                 return listcates;
@@ -63,27 +62,26 @@ namespace shop_api.Service
                            idCategory = x.idCategory,
                            name = x.name,
                            createdDate = x.createdDate,
-                           idCreator = x.idCreator,
                            updatedDate = x.updatedDate,
-                           isDelete = x.isDelete,
-                           products = context.Products.Where(a => a.idCategory == x.idCategory).Select(a => new ProductDTO
-                           {
-                               idProduct = a.idProduct,
-                               name = a.name,
-                               code = a.code,
-                               avatar = a.avatar,
-                               images = a.images,
-                               idCreator = a.idCreator,
-                               madein = a.madein,
-                               width = a.width,
-                               high = a.high,
-                               price = a.price,
-                               length = a.length,
-                               quantity = a.quantity,
-                               isDelete = a.isDelete,
-                               createdDate = a.createdDate,
-                               updatedDate = a.updatedDate
-                           }).ToList()
+                           isDelete = x.isDelete
+                           //products = context.Products.Where(a => a.idCategory == x.idCategory).Select(a => new ProductDTO
+                           //{
+                           //    idProduct = a.idProduct,
+                           //    name = a.name,
+                           //    code = a.code,
+                           //    avatar = a.avatar,
+                           //    images = a.images,
+                           //    idCreator = a.idCreator,
+                           //    madein = a.madein,
+                           //    width = a.width,
+                           //    high = a.high,
+                           //    price = a.price,
+                           //    length = a.length,
+                           //    quantity = a.quantity,
+                           //    isDelete = a.isDelete,
+                           //    createdDate = a.createdDate,
+                           //    updatedDate = a.updatedDate
+                           //}).ToList()
                        }).ToList();
 
                 return listcates;
@@ -105,27 +103,26 @@ namespace shop_api.Service
                             idCategory = x.idCategory,
                             name = x.name,
                             createdDate = x.createdDate,
-                            idCreator = x.idCreator,
                             updatedDate = x.updatedDate,
                             isDelete = x.isDelete,
-                            products = context.Products.Where(a => a.idCategory == x.idCategory).Select(a => new ProductDTO
-                            {
-                                idProduct = a.idProduct,
-                                name = a.name,
-                                code = a.code,
-                                avatar = a.avatar,
-                                images = a.images,
-                                idCreator = a.idCreator,
-                                madein = a.madein,
-                                width = a.width,
-                                high = a.high,
-                                price = a.price,
-                                length = a.length,
-                                quantity = a.quantity,
-                                isDelete = a.isDelete,
-                                createdDate = a.createdDate,
-                                updatedDate = a.updatedDate
-                            }).ToList()
+                            //products = context.Products.Where(a => a.idCategory == x.idCategory).Select(a => new ProductDTO
+                            //{
+                            //    idProduct = a.idProduct,
+                            //    name = a.name,
+                            //    code = a.code,
+                            //    avatar = a.avatar,
+                            //    images = a.images,
+                            //    idCreator = a.idCreator,
+                            //    madein = a.madein,
+                            //    width = a.width,
+                            //    high = a.high,
+                            //    price = a.price,
+                            //    length = a.length,
+                            //    quantity = a.quantity,
+                            //    isDelete = a.isDelete,
+                            //    createdDate = a.createdDate,
+                            //    updatedDate = a.updatedDate
+                            //}).ToList()
                         }).FirstOrDefault();
 
                 return catedto;
@@ -149,7 +146,6 @@ namespace shop_api.Service
                             idCategory = x.idCategory,
                             name = x.name,
                             createdDate = x.createdDate,
-                            idCreator = x.idCreator,
                             updatedDate = x.updatedDate,
                             isDelete = x.isDelete,
                             products = context.Products.Where(a => a.idCategory == x.idCategory).Select(a => new ProductDTO
@@ -187,7 +183,9 @@ namespace shop_api.Service
                 var cate = context.Categories.Where(x => x.idCategory == id).FirstOrDefault();
                 if (cate!=null)
                 {
-                    context.Categories.Remove(cate);
+                    cate.isDelete = 1;
+                    context.Categories.Attach(cate);
+                    context.Entry(cate).State = System.Data.Entity.EntityState.Modified;
                     context.SaveChanges();
                 }
                 return true;

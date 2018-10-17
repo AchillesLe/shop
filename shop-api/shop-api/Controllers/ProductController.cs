@@ -20,63 +20,19 @@ namespace shop_api.Controllers
     {
         private ShopApiModel context = new ShopApiModel();
         UserService userService = new UserService();
+        ProductService productService = new ProductService();
         [HttpGet(), Route("getall")]
         public Object Get()
         {
-            var lstProducts = context.Products.Select(x => new
-            {
-                id = x.idProduct,
-                name = x.name,
-                code = x.code,
-                avatar = x.avatar,
-                images = x.images,
-                categoryID = x.idCategory,
-                categoryName = x.Category.name,
-                creatorID = x.idCreator,
-                creatorName = x.User.fullname,
-                width = x.width,
-                height = x.high,
-                price = x.price,
-                madeIn = x.madein,
-                length = x.length,
-                quantity = x.quantity,
-                isDelete = x.isDelete,
-                createdDate = x.createdDate,
-                updateDate = x.updatedDate
-            });
-            return lstProducts.ToList();
+            var listproduct =  productService.getAll();
+            return listproduct;
         }
 
         [HttpGet(), Route("getdetails/{id_product}")]
         public Object Get(int id_product)
         {
-            var pro = context.Products.Select(x => new
-            {
-                id = x.idProduct,
-                name = x.name,
-                code = x.code,
-                avatar = x.avatar,
-                images = x.images,
-                categoryID = x.idCategory,
-                categoryName = x.Category.name,
-                creatorID = x.idCreator,
-                creatorName = x.User.fullname,
-                width = x.width,
-                height = x.high,
-                price = x.price,
-                madeIn = x.madein,
-                length = x.length,
-                quantity = x.quantity,
-                isDelete = x.isDelete,
-                createdDate = x.createdDate,
-                updateDate = x.updatedDate
-            }).Where(x => x.id == id_product).FirstOrDefault();
-
-            if (pro == null)
-            {
-                return BadRequest("Product Not Found");
-            }
-            return pro;
+            var product = productService.getById(id_product);
+            return product;
         }
 
         [HttpPost(), Route("add")]
@@ -86,28 +42,14 @@ namespace shop_api.Controllers
             string token = Token.HandleToken(Request);
             if(token == String.Empty)
             {
-                return BadRequest("You need to store token in header");
+                return BadRequest(Message.messageNotValidToken);
             }
 
             try
             {
                 UserDTO logged_user = new UserDTO();
                 logged_user = userService.getUserByToken(token);
-                //// Get the uploaded image from the Files collection
-                //var httpPostedFile = HttpContext.Current.Request.Files["avatar"];
-
-                //if (httpPostedFile != null)
-                //{
-                //    // Validate the uploaded image(optional)
-
-                //    // Get the complete file path
-                //    var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/UploadedFiles"), httpPostedFile.FileName);
-
-                //    // Save the uploaded file to "UploadedFiles" folder
-                //    httpPostedFile.SaveAs(fileSavePath);
-                //}
-
-
+               
                 var pro_entity = new Product();
                 pro_entity.name = pro.name;
                 pro_entity.code = pro.code;
@@ -125,11 +67,16 @@ namespace shop_api.Controllers
                 pro_entity.createdDate = DateTime.Now;
                 pro_entity.updatedDate = DateTime.Now;
 
-                context.Products.Add(pro_entity);
-                context.SaveChanges();
-                return Ok("Insert Complete");
+                var newPro = productService.create(pro_entity);
+                if (newPro!= null)
+                {
+                    return Ok(newPro);
+                }
+                //context.Categories.Add(cat_entity);
+                //context.SaveChanges();
+                return Ok(Message.messageInsertFailed);
             }
-            catch (Exception e) { return BadRequest("Insert Error" + e.GetBaseException()); }
+            catch (Exception e) { return InternalServerError(); }
         }
         [HttpPut, Route("edit/{id_pro}")]
         public IHttpActionResult Edit(int id_pro,[FromBody] ProductDTO pro)
@@ -138,13 +85,13 @@ namespace shop_api.Controllers
             var pro_entity = context.Products.Where(x => x.idProduct == id_pro).FirstOrDefault();
             if (pro_entity == null)
             {
-                return BadRequest("Product Not Found");
+                return BadRequest(Message.messageNotFound);
             }
             var headers = Request.Headers;
             string token = Token.HandleToken(Request);
             if (token == String.Empty)
             {
-                return BadRequest("You need to store token in header");
+                return BadRequest(Message.messageNotValidToken);
             }
             try
             {
@@ -164,10 +111,14 @@ namespace shop_api.Controllers
                 pro_entity.isDelete = 0;
                 pro_entity.updatedDate = DateTime.Now;
 
-                context.SaveChanges();
-                return Ok("Update Completed");
+                var updated_product = productService.edit(pro_entity);
+                if (updated_product != null)
+                {
+                    return Ok(updated_product);
+                }
+                return Ok(Message.messageUpdateFailed);
             }
-            catch (Exception e) { return BadRequest("Update Error" +e.GetBaseException() ); }
+            catch (Exception e) { return InternalServerError(); }
         }
         [HttpDelete, Route("delete/{id_pro}")]
         public IHttpActionResult Delete(int id_pro)
@@ -175,21 +126,26 @@ namespace shop_api.Controllers
             var pro_entity = context.Products.Where(x => x.idProduct == id_pro).FirstOrDefault();
             if (pro_entity == null)
             {
-                return BadRequest("Product Not Found");
+                return BadRequest(Message.messageNotFound);
             }
             var headers = Request.Headers;
             string token = Token.HandleToken(Request);
             if (token == String.Empty)
             {
-                return BadRequest("You need to store token in header");
+                return BadRequest(Message.messageNotValidToken);
             }
             try
             {
-                context.Products.Remove(pro_entity);
-                context.SaveChanges();
-                return Ok("Delete Completed");
+                if (pro_entity != null)
+                {
+                    if (productService.delete(id_pro))
+                    {
+                        return Ok(Message.messageDeleteSuccessfully);
+                    }
+                }
+                return BadRequest();
             }
-            catch (Exception e) { return BadRequest("Delete Error" +e.GetBaseException()); }
+            catch (Exception e) { return InternalServerError(); }
         }
         [HttpPost(), Route("upload")]
         public async Task<HttpResponseMessage> Post()

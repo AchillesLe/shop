@@ -28,11 +28,7 @@ namespace shop_api.Controllers
             //    updateDate = x.updatedDate
             //});
             //return lstCats.ToList();
-            string token = Token.HandleToken(Request);
-            if (token == string.Empty)
-            {
-                return BadRequest(Message.messageNotValidToken);
-            }
+           
             var listcate = cateService.getAll();
             return listcate;
         }
@@ -53,11 +49,7 @@ namespace shop_api.Controllers
             //    updateDate = x.updatedDate
             //});
             //return cat;
-            string token = Token.HandleToken(Request);
-            if (token == string.Empty)
-            {
-                return BadRequest(Message.messageNotValidToken);
-            }
+            
             var listcate = cateService.getById(id_cat);
             return listcate;
         }

@@ -10,6 +10,7 @@ namespace shop_api.DTO
     {
         public int idProduct { get; set; }
         public int? idCategory { get; set; }
+        public string categoryName { get; set; }
         public string code { get; set; }
         public string name { get; set; }
         public decimal? length { get; set; }
@@ -22,6 +23,7 @@ namespace shop_api.DTO
         public string avatar { get; set; }
         public string images { get; set; }
         public int idCreator { get; set; }
+        public string creatorName { get; set; }
         public int isDelete { get; set; }
         public DateTime createdDate { get; set; }
         public DateTime updatedDate { get; set; }

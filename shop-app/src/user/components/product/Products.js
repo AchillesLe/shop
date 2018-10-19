@@ -6,15 +6,18 @@ class Products extends PureComponent{
         super(props)
     }
     render(){
+        const {isProductPage} =this.props;
          return(
             <ProducProvider>
                 <ProductConsumer>
                     {
                         ({products})=>{
-                            return products.map((p,i)=>
+                            return products.map((p,i)=> isProductPage?
                                 (
+                                    <div className="col-12 col-sm-6 col-lg-4">
                                     <Product key={i} product={p}/>
-                                )
+                                    </div>
+                                ):( <Product key={i} product={p}/>)
                             )
                         }
                     }

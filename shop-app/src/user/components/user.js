@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-
+import {route} from './../../config'
 import './user.css';
 import './../../assets/user/img/core-img/favicon.ico'
 import './../../assets/user/css/core-style.css'
@@ -34,7 +34,7 @@ class User extends Component {
         return (
             <Switch>
                 <HomeRoute exact path={`${this.props.match.path}`} component={Home} />
-                <HomeRoute path={`${this.props.match.path}san-pham`} component={ProductPage}/>
+                <HomeRoute path={`${this.props.match.path}${route.product}/:id?`} component={ProductPage}/>
             </Switch>
         )
     }

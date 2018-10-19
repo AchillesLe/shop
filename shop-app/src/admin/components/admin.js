@@ -21,6 +21,7 @@ import LogIn from './log-in/log-in';
 
 const HomeRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
+        <div class="container body">
         <div className="main_container">
             <LeftNav></LeftNav>
             <TopNav></TopNav>
@@ -29,6 +30,7 @@ const HomeRoute = ({ component: Component, ...rest }) => (
 
             <Footer></Footer>
         </div>
+        </div>
     )} />
 )
 
@@ -36,13 +38,15 @@ class Admin extends Component {
 
     render() {
         document.body.className = 'nav-md';
-
+       
+        
         return (
             <Switch>
                 <Route exact path={this.props.match.path} component={LogIn} />
                 <HomeRoute path={`${this.props.match.path}/home`} component={Content}></HomeRoute>
                 <HomeRoute path={`${this.props.match.path}/product`} component={Product}/>
             </Switch>
+            
         )
     }
 }

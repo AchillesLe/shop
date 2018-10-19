@@ -10,12 +10,13 @@ namespace shop_api.Service
     public class ProductService
     {
         private ShopApiModel context = new ShopApiModel();
-        public List<ProductDTO> getAll()
+        public List<ProductDTO> getAll(int page = 1)
         {
+            int skipRows = (page - 1) * 9;
             List<ProductDTO> listpros = new List<ProductDTO>();
             try
             {
-                listpros = context.Products.Select(x => new ProductDTO
+                listpros = context.Products.Skip(skipRows).Take(9).Select(x => new ProductDTO
                 {
                     idProduct = x.idProduct,
                     name = x.name,

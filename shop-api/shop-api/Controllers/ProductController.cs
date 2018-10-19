@@ -21,10 +21,10 @@ namespace shop_api.Controllers
         private ShopApiModel context = new ShopApiModel();
         UserService userService = new UserService();
         ProductService productService = new ProductService();
-        [HttpGet(), Route("getall")]
-        public Object Get()
+        [HttpGet(), Route("get/page/{page}")]
+        public Object GetList(int page = 1)
         {
-            var listproduct =  productService.getAll();
+            var listproduct =  productService.getAll(page);
             return listproduct;
         }
 

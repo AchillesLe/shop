@@ -16,7 +16,7 @@ namespace shop_api.Service
             List<ProductDTO> listpros = new List<ProductDTO>();
             try
             {
-                listpros = context.Products.Skip(skipRows).Take(9).Select(x => new ProductDTO
+                listpros = context.Products.Where(x=>x.isDelete == 0).OrderBy(x=>x.idProduct).Skip(skipRows).Take(9).Select(x => new ProductDTO
                 {
                     idProduct = x.idProduct,
                     name = x.name,
@@ -29,7 +29,8 @@ namespace shop_api.Service
                     creatorName = x.User.fullname,
                     width = x.width,
                     high = x.high,
-                    price = x.price,
+                    priceIn = x.priceIn,
+                    priceOut = x.priceOut,
                     madein = x.madein,
                     length = x.length,
                     quantity = x.quantity,
@@ -62,7 +63,8 @@ namespace shop_api.Service
                     creatorName = x.User.fullname,
                     width = x.width,
                     high = x.high,
-                    price = x.price,
+                    priceIn = x.priceIn,
+                    priceOut = x.priceOut,
                     madein = x.madein,
                     length = x.length,
                     quantity = x.quantity,
@@ -98,7 +100,8 @@ namespace shop_api.Service
                           creatorName = x.User.fullname,
                           width = x.width,
                           high = x.high,
-                          price = x.price,
+                          priceIn = x.priceIn,
+                          priceOut = x.priceOut,
                           madein = x.madein,
                           length = x.length,
                           quantity = x.quantity,
@@ -134,7 +137,8 @@ namespace shop_api.Service
                          creatorName = x.User.fullname,
                          width = x.width,
                          high = x.high,
-                         price = x.price,
+                         priceIn = x.priceIn,
+                         priceOut = x.priceOut,
                          madein = x.madein,
                          length = x.length,
                          quantity = x.quantity,

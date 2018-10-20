@@ -109,7 +109,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Bill.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\DetailBill.cs" />
     <Compile Include="Models\DetailReciept.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Product.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Utility\BaseCode64.cs" />
     <Compile Include="Utility\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="Utility\Message.cs" />
+    <Compile Include="Utility\Status.cs" />
     <Compile Include="Utility\Token.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -148,24 +148,25 @@ namespace shop_api.Service
                             createdDate = x.createdDate,
                             updatedDate = x.updatedDate,
                             isDelete = x.isDelete,
-                            products = context.Products.Where(a => a.idCategory == x.idCategory).Select(a => new ProductDTO
-                            {
-                                idProduct = a.idProduct,
-                                name = a.name,
-                                code = a.code,
-                                avatar = a.avatar,
-                                images = a.images,
-                                idCreator = a.idCreator,
-                                madein = a.madein,
-                                width = a.width,
-                                high = a.high,
-                                price = a.price,
-                                length = a.length,
-                                quantity = a.quantity,
-                                isDelete = a.isDelete,
-                                createdDate = a.createdDate,
-                                updatedDate = a.updatedDate
-                            }).ToList()
+                            //products = context.Products.Where(a => a.idCategory == x.idCategory).Select(a => new ProductDTO
+                            //{
+                            //    idProduct = a.idProduct,
+                            //    name = a.name,
+                            //    code = a.code,
+                            //    avatar = a.avatar,
+                            //    images = a.images,
+                            //    idCreator = a.idCreator,
+                            //    madein = a.madein,
+                            //    width = a.width,
+                            //    high = a.high,
+                            //    priceIn = x.priceIn,
+                            //    priceOut = x.priceOut,
+                            //    length = a.length,
+                            //    quantity = a.quantity,
+                            //    isDelete = a.isDelete,
+                            //    createdDate = a.createdDate,
+                            //    updatedDate = a.updatedDate
+                            //}).ToList()
                         }).FirstOrDefault();
 
                 return catedto;

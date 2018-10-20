@@ -16,7 +16,8 @@ namespace shop_api.DTO
         public decimal? length { get; set; }
         public decimal? width { get; set; }
         public decimal? high { get; set; }
-        public decimal price { get; set; }
+        public decimal priceIn { get; set; }
+        public decimal priceOut { get; set; }
         public string madein { get; set; }
         public int quantity { get; set; }
         public string description { get; set; }

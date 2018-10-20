@@ -59,7 +59,8 @@ namespace shop_api.Controllers
                 pro_entity.idCreator = logged_user.iduser;
                 pro_entity.width = pro.width;
                 pro_entity.high = pro.high;
-                pro_entity.price = pro.price;
+                pro_entity.priceIn = pro.priceIn;
+                pro_entity.priceOut = pro.priceOut;
                 pro_entity.madein = pro.madein;
                 pro_entity.length = pro.length;
                 pro_entity.quantity = pro.quantity;
@@ -103,8 +104,8 @@ namespace shop_api.Controllers
 
                 pro_entity.idCreator = pro.idCreator;
                 pro_entity.width = pro.width;
-                pro_entity.high = pro.high;
-                pro_entity.price = pro.price;
+                pro_entity.priceIn = pro.priceIn;
+                pro_entity.priceOut = pro.priceOut;
                 pro_entity.madein = pro.madein;
                 pro_entity.length = pro.length;
                 pro_entity.quantity = pro.quantity;

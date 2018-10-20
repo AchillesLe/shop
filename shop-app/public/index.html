@@ -13,58 +13,13 @@
     -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-
+    <link rel="stylesheet" href="style.css">
   <title>Toys Shop</title>
-    <script src="./js/jquery/jquery-2.2.4.min.js"></script>
-    <script src="./js/popper.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/plugins.js"></script>
-    <script src="./js/classy-nav.min.js"></script>
-    <script src="./js/active.js"></script>
 </head>
 
 <body>
 
   <div id="root" class=""></div>
-  <script>
-  $(document).ready(function () {
-        $('.popular-products-slides').owlCarousel({
-          items: 4,
-          margin: 30,
-          loop: true,
-          nav: false,
-          dots: false,
-          autoplay: true,
-          autoplayTimeout: 5000,
-          smartSpeed: 1000,
-          responsive: {
-            0: {
-              items: 1
-            },
-            576: {
-              items: 2
-            },
-            768: {
-              items: 3
-            },
-            992: {
-              items: 4
-            }
-          }
-        });
-        $('.product_thumbnail_slides').owlCarousel({
-            items: 1,
-            margin: 0,
-            loop: true,
-            nav: true,
-            navText: ["<img src='./img/long-arrow-left.svg' alt=''>", "<img src='./img/long-arrow-right.svg' alt=''>"],
-            dots: false,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            smartSpeed: 1000
-        });
-    });
-  </script>
 </body>
 
 </html>

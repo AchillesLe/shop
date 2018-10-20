@@ -1,11 +1,12 @@
 import React, {Component} from  'react'
 import {urlUpload} from './../../../config'
+import {queryStringParser} from './../../common'
 class ProductDetailPage extends Component{
     constructor(props){
         super(props)
     }
     render(){
-        console.log(this.props)
+        console.log(queryStringParser(this.props.location.search)['id'])
         return(
             <section className="single_product_details_area d-flex align-items-center mt-100">
 

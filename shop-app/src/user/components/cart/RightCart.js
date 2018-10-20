@@ -29,7 +29,7 @@ export const RightCart = ()=>{
                 <CartConsumer>
                     {
                         (value)=>{
-                            const {cartItems,toggleCart,isToggleCart} = value;
+                            const {cartItems,isToggleCart} = value;
                             return(
                                 <React.Fragment>
                                 <div className={`cart-bg-overlay ${isToggleCart?'cart-bg-overlay-on':''}`}></div>

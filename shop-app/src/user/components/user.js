@@ -11,18 +11,21 @@ import {Footer} from './nav/Footer';
 import {GoTop} from './nav/GoTop';
 import Home from './page/Home';
 import ProductPage from './page/ProductPage';
-
+import ProductDetailPage from './page/ProductDetailPage';
+import { RightCart } from './cart/RightCart';
+import { CartProvider } from './context/CartContext';
 
 const HomeRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => (
-      <div>
+      <CartProvider>
         <NavBar />
+        <RightCart/>
         <Component {...props} />
         <Footer />
         <GoTop/>
-      </div>
+      </CartProvider>
     )}
   />
 );
@@ -35,6 +38,7 @@ class User extends Component {
             <Switch>
                 <HomeRoute exact path={`${this.props.match.path}`} component={Home} />
                 <HomeRoute path={`${this.props.match.path}${route.product}/:id?`} component={ProductPage}/>
+                <HomeRoute path={`${this.props.match.path}${route.detail}`} component={ProductDetailPage}/>
             </Switch>
         )
     }

@@ -12,12 +12,12 @@ class Products extends PureComponent{
                 <ProductConsumer>
                     {
                         ({products})=>{
-                            return products.map((p,i)=> isProductPage?
+                            return products.map((p)=> isProductPage?
                                 (
                                     <div className="col-12 col-sm-6 col-lg-4">
-                                    <Product key={i} product={p}/>
+                                    <Product key={p.id} product={p}/>
                                     </div>
-                                ):( <Product key={i} product={p}/>)
+                                ):( <Product key={p.id} product={p}/>)
                             )
                         }
                     }

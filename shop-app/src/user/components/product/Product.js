@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {route} from './../../../config'
 export const Product = ({ product, addToCart }) => (
     <div className="single-product-wrapper">
         <div className="product-img">
@@ -9,7 +9,7 @@ export const Product = ({ product, addToCart }) => (
 
         <div className="product-description">
             <span>topshop</span>
-            <a href="single-product-details.html">
+            <a href={`/${route.detail}?id=${product.id}/`}>
                 <h6>Knot Front Mini Dress</h6>
             </a>
             <p className="product-price">$80.00</p>

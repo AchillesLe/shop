@@ -16,5 +16,12 @@ namespace shop_api.Utility
         public static string messageNotValidToken= "Token không hợp lệ !";
         public static string messageUserNameExist= "Username đã tồn tại !";
         public static string messageCMNDExist= "CMND đã tồn tại !";
+        public static string messageUploadSuccessfully= "Upload file thành công !";
+        public static string messageUploadSuccessfailed= "Upload file thất bại !";
+        public static string messageNotAuthenticate= "Không thể xác thực !";
+        public static string messageInsertSuccessfully= "Insert thành công !";
+        public static string messageInsertFailed= "Insert thất bại !";
+        public static string messageUpdateFailed = "Update thất bại !";
+        public static string messageDeleteFailed = "Delete thất bại !";
     }
 }

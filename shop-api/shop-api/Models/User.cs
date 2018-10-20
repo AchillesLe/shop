@@ -12,6 +12,7 @@ namespace shop_api.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
+            Bills = new HashSet<Bill>();
             Logins = new HashSet<Login>();
             Products = new HashSet<Product>();
             Receipts = new HashSet<Receipt>();
@@ -46,6 +47,9 @@ namespace shop_api.Models
         public DateTime createdDate { get; set; }
 
         public DateTime updatedDate { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Bill> Bills { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Login> Logins { get; set; }

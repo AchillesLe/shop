@@ -8,6 +8,7 @@ import {
 import Admin from './admin/components/admin';
 import User from './user/components/user';
 
+
 class AppRouter extends React.Component {
     render() {
         return (
@@ -17,7 +18,7 @@ class AppRouter extends React.Component {
                     <Route path="/" component={User} />
                 </Switch>
             </Router>
-        )
+        );
     }
 }
 

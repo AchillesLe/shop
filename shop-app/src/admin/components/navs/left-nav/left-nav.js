@@ -3,18 +3,11 @@ import img from '../../../../assets/images/img.jpg';
 
 import { Link } from 'react-router-dom';
 
+import $ from 'jquery';
+
 class LeftNav extends Component {
     constructor() {
         super();
-        this.state = {
-            active: false
-        }
-    }
-
-    toggleMenu() {
-        this.setState({
-            active: !this.state.active
-        })
     }
 
     render() {
@@ -42,10 +35,30 @@ class LeftNav extends Component {
                         <div className="menu_section">
                             <h3>General</h3>
                             <ul className="nav side-menu">
-                                <li className={this.state.active ? "active" : ""} onClick={this.toggleMenu.bind(this)}><a><i className="fa fa-home" /> Product <span className="fa fa-chevron-down" /></a>
-                                    <ul className="nav child_menu" style={{ display: this.state.active ? 'block' : 'none' }}>
-                                        <li><Link to="/admin/product">View Details</Link></li>
-                                        <li><a href="index2.html">Statistics</a></li>
+                                <li><a><i className="fa fa-home" /> Product <span className="fa fa-chevron-down" /></a>
+                                    <ul className="nav child_menu">
+                                        <li><Link to="/admin/product">Overview</Link></li>
+                                        <li><a href="index2.html">Create New</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i className="fa fa-home" /> Category <span className="fa fa-chevron-down" /></a>
+                                    <ul className="nav child_menu">
+                                        <li><Link to="/admin/category">Overview</Link></li>
+                                        <li><a href="index2.html">Create New</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i className="fa fa-home" /> Home <span className="fa fa-chevron-down" /></a>
+                                    <ul className="nav child_menu">
+                                        <li><a href="index.html">Dashboard</a></li>
+                                        <li><a href="index2.html">Dashboard2</a></li>
+                                        <li><a href="index3.html">Dashboard3</a></li>
+                                    </ul>
+                                </li>
+                                <li><a><i className="fa fa-home" /> Home <span className="fa fa-chevron-down" /></a>
+                                    <ul className="nav child_menu">
+                                        <li><a href="index.html">Dashboard</a></li>
+                                        <li><a href="index2.html">Dashboard2</a></li>
+                                        <li><a href="index3.html">Dashboard3</a></li>
                                     </ul>
                                 </li>
                             </ul>

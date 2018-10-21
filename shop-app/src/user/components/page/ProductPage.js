@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import bgHeader from './../../../assets/user/img/bg-img/breadcumb.jpg'
 import Products from './../product/Products'
 import SideBar from "../nav/SideBar";
+import {queryStringParser} from './../../common'
 class ProductPage extends Component {
   constructor(props) {
     super(props);
-    
   }
-
   render() {
-    
+    const cateID = queryStringParser(this.props.location.search)['id']
     return (
       <React.Fragment>
          
@@ -34,7 +33,7 @@ class ProductPage extends Component {
                             <div className="catagories-menu">
                                 <ul id="menu-content2" className="menu-content collapse show">
                                     <li>
-                                        <a href="#">Đồ chơi</a>
+                                        <a>Đồ chơi</a>
                                         <SideBar/>
                                         
                                     </li>
@@ -50,7 +49,7 @@ class ProductPage extends Component {
                         
 
                         <div className="row">
-                          <Products isProductPage/>
+                          <Products isProductPage cateID={cateID}/>
 
                         </div>
                     </div>

@@ -6,3 +6,6 @@ body{
 .user-component .light.left{
     float: none;
 }
+.user-component footer{
+    margin: 0
+}

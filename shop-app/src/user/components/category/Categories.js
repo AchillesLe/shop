@@ -1,10 +1,12 @@
 import React,{PureComponent} from 'react'
 import { CategoriesProvider, CategoriesConsumer } from '../context/CategoriesContext';
+import {Link} from 'react-router-dom';
+import {route} from './../../../config'
 const Category =({category})=>(
     <div className="col-12 col-sm-6 col-md-4">
         <div className="single_catagory_area d-flex align-items-center justify-content-center bg-img" style={{backgroundImage: `url(${category.image})`}}>
             <div className="catagory-content">
-                <a href="#">{category.name}</a>
+                <Link to={`${route.product}?id=${category.id}`}>{category.name}</Link>
             </div>
         </div>
     </div>

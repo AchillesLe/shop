@@ -1,6 +1,7 @@
 import React, {Component} from  'react'
 import {urlUpload} from './../../../config'
 import {queryStringParser} from './../../common'
+import {withJS} from './../withJS'
 class ProductDetailPage extends Component{
     constructor(props){
         super(props)
@@ -38,4 +39,4 @@ class ProductDetailPage extends Component{
     }
 }
 
-export default ProductDetailPage
+export default withJS(ProductDetailPage)

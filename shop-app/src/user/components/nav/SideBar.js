@@ -4,7 +4,7 @@ import { CategoriesConsumer,CategoriesProvider } from '../context/CategoriesCont
 
 import {route} from './../../../config'
 const SideBarItem = ({cate})=>(
-    <li><Link to={`/${route.product}/${cate.id}`}>{cate.name}</Link></li>
+    <li><Link to={`${route.product}?id=${cate.id}`}>{cate.name}</Link></li>
 )
 class SideBar extends PureComponent{
     render(){

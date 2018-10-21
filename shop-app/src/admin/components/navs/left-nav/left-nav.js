@@ -15,50 +15,24 @@ class LeftNav extends Component {
             <div className="col-md-3 left_col">
                 <div className="left_col scroll-view">
                     <div className="navbar nav_title" style={{ border: 0 }}>
-                        <Link to="/admin/home" className="site_title"><i className="fa fa-paw" /> <span>Gentelella Alela!</span></Link>
+                        <Link to="/admin/home" className="site_title"><i className="fa fa-gift" /> <span>Admin</span></Link>
                     </div>
                     <div className="clearfix" />
-                    {/* menu profile quick info */}
-                    <div className="profile clearfix">
-                        <div className="profile_pic">
-                            <img src={img} alt="..." className="img-circle profile_img" />
-                        </div>
-                        <div className="profile_info">
-                            <span>Welcome,</span>
-                            <h2>John Doe</h2>
-                        </div>
-                    </div>
-                    {/* /menu profile quick info */}
                     <br />
                     {/* sidebar menu */}
                     <div id="sidebar-menu" className="main_menu_side hidden-print main_menu">
                         <div className="menu_section">
-                            <h3>General</h3>
                             <ul className="nav side-menu">
-                                <li><a><i className="fa fa-home" /> Product <span className="fa fa-chevron-down" /></a>
+                                <li><a><i className="fa fa-archive" /> Product <span className="fa fa-chevron-down" /></a>
                                     <ul className="nav child_menu">
                                         <li><Link to="/admin/product">Overview</Link></li>
-                                        <li><a href="index2.html">Create New</a></li>
+                                        <li><Link to="/admin/product/create-new">Create New</Link></li>
                                     </ul>
                                 </li>
-                                <li><a><i className="fa fa-home" /> Category <span className="fa fa-chevron-down" /></a>
+                                <li><a><i className="fa fa-list-alt" /> Category <span className="fa fa-chevron-down" /></a>
                                     <ul className="nav child_menu">
                                         <li><Link to="/admin/category">Overview</Link></li>
-                                        <li><a href="index2.html">Create New</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i className="fa fa-home" /> Home <span className="fa fa-chevron-down" /></a>
-                                    <ul className="nav child_menu">
-                                        <li><a href="index.html">Dashboard</a></li>
-                                        <li><a href="index2.html">Dashboard2</a></li>
-                                        <li><a href="index3.html">Dashboard3</a></li>
-                                    </ul>
-                                </li>
-                                <li><a><i className="fa fa-home" /> Home <span className="fa fa-chevron-down" /></a>
-                                    <ul className="nav child_menu">
-                                        <li><a href="index.html">Dashboard</a></li>
-                                        <li><a href="index2.html">Dashboard2</a></li>
-                                        <li><a href="index3.html">Dashboard3</a></li>
+                                        <li><Link to="/admin/category/create-new">Create New</Link></li>
                                     </ul>
                                 </li>
                             </ul>

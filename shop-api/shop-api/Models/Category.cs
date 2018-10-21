@@ -22,7 +22,8 @@ namespace shop_api.Models
         [StringLength(250)]
         public string name { get; set; }
 
-        public int idCreator { get; set; }
+        [StringLength(250)]
+        public string avatar { get; set; }
 
         public int isDelete { get; set; }
 

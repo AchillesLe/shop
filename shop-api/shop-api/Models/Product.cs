@@ -12,6 +12,7 @@ namespace shop_api.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
+            DetailBills = new HashSet<DetailBill>();
             DetailReciepts = new HashSet<DetailReciept>();
         }
 
@@ -34,12 +35,20 @@ namespace shop_api.Models
 
         public decimal? high { get; set; }
 
-        public decimal price { get; set; }
+        public decimal priceIn { get; set; }
+
+        public decimal priceOut { get; set; }
+
+        [StringLength(250)]
+        public string madein { get; set; }
 
         public int quantity { get; set; }
 
         [Column(TypeName = "text")]
         public string description { get; set; }
+
+        [StringLength(250)]
+        public string avatar { get; set; }
 
         [Column(TypeName = "text")]
         public string images { get; set; }
@@ -53,6 +62,9 @@ namespace shop_api.Models
         public DateTime updatedDate { get; set; }
 
         public virtual Category Category { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetailBill> DetailBills { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetailReciept> DetailReciepts { get; set; }

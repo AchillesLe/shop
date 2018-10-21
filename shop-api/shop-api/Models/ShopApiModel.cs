@@ -12,7 +12,9 @@ namespace shop_api.Models
         {
         }
 
+        public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<DetailBill> DetailBills { get; set; }
         public virtual DbSet<DetailReciept> DetailReciepts { get; set; }
         public virtual DbSet<Login> Logins { get; set; }
         public virtual DbSet<Product> Products { get; set; }
@@ -22,9 +24,26 @@ namespace shop_api.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Bill>()
+                .Property(e => e.codeBill)
+                .HasPrecision(15, 0);
+
+            modelBuilder.Entity<Bill>()
+                .Property(e => e.total)
+                .HasPrecision(15, 0);
+
+            modelBuilder.Entity<Bill>()
+                .HasMany(e => e.DetailBills)
+                .WithRequired(e => e.Bill)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Category>()
-                .Property(e => e.name)
+                .Property(e => e.avatar)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<DetailBill>()
+                .Property(e => e.price)
+                .HasPrecision(18, 0);
 
             modelBuilder.Entity<DetailReciept>()
                 .Property(e => e.price)
@@ -36,10 +55,6 @@ namespace shop_api.Models
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.code)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Product>()
-                .Property(e => e.name)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()
@@ -55,7 +70,11 @@ namespace shop_api.Models
                 .HasPrecision(6, 1);
 
             modelBuilder.Entity<Product>()
-                .Property(e => e.price)
+                .Property(e => e.priceIn)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.priceOut)
                 .HasPrecision(10, 0);
 
             modelBuilder.Entity<Product>()
@@ -63,8 +82,17 @@ namespace shop_api.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()
+                .Property(e => e.avatar)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
                 .Property(e => e.images)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.DetailBills)
+                .WithRequired(e => e.Product)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.DetailReciepts)
@@ -98,16 +126,34 @@ namespace shop_api.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
-                .Property(e => e.fullName)
+                .Property(e => e.fullname)
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
-                .Property(e => e.userName)
+                .Property(e => e.username)
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
                 .Property(e => e.password)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.phone)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.address)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.cmnd)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Bills)
+                .WithRequired(e => e.User)
+                .HasForeignKey(e => e.idUpdator)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Logins)

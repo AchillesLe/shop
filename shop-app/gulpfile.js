@@ -49,6 +49,18 @@ var VendorJsFiles = [
   "./assets/gentelella/vendors/pdfmake/build/pdfmake.min.js",
   "./assets/gentelella/vendors/pdfmake/build/vfs_fonts.js",
 
+  //form
+  "./assets/gentelella/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js",
+  "./assets/gentelella/vendors/jquery.hotkeys/jquery.hotkeys.js",
+  "./assets/gentelella/vendors/google-code-prettify/src/prettify.js",
+  "./assets/gentelella/vendors/jquery.tagsinput/src/jquery.tagsinput.js",
+  "./assets/gentelella/vendors/switchery/dist/switchery.min.js",
+  "./assets/gentelella/vendors/select2/dist/js/select2.full.min.js",
+  "./assets/gentelella/vendors/parsleyjs/dist/parsley.min.js",
+  "./assets/gentelella/vendors/autosize/dist/autosize.min.js",
+  "./assets/gentelella/vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js",
+  "./assets/gentelella/vendors/starrr/dist/starrr.js",
+
   //custom for library
   "./assets/gentelella/build/js/custom.min.js"
 ],
@@ -67,6 +79,13 @@ var VendorJsFiles = [
     "./assets/gentelella/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css",
     "./assets/gentelella/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css",
     "./assets/gentelella/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css",
+
+    //form
+    "./assets/gentelella/vendors/google-code-prettify/bin/prettify.min.css",
+    "./assets/gentelella/vendors/select2/dist/css/select2.min.css",
+    "./assets/gentelella/vendors/switchery/dist/switchery.min.css",
+    "./assets/gentelella/vendors/starrr/dist/starrr.css",
+    "./assets/gentelella/vendors/bootstrap-daterangepicker/daterangepicker.css",
 
     //custom for library
     "./assets/gentelella/build/css/custom.min.css"

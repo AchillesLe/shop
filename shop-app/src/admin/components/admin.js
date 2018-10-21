@@ -35,7 +35,6 @@ const HomeRoute = ({ component: Component, ...rest }) => (
 )
 
 class Admin extends Component {
-
     componentDidMount() {
         console.log('Admin Did Mount');
         $(document).ready(() => {
@@ -50,12 +49,28 @@ class Admin extends Component {
             }
 
             body.appendChild(script);
+
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../vendors/css/libs.css';
+
+            var currentLink = $('body').find('link[href="../vendors/css/libs.css"]');
+            if (currentLink) {
+                currentScript.remove();
+            }
+
+            head.appendChild(link);
+
+            //remove conflict css
+            $('style[type="text/css"]')[5].remove();
         })
     }
 
     render() {
         document.body.className = 'nav-md';
-
+        $('#root').addClass('container body');
+        
         return (
             <Switch>
                 <Route exact path={this.props.match.path} component={LogIn} />

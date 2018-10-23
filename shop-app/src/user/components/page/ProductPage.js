@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import bgHeader from './../../../assets/user/img/bg-img/breadcumb.jpg'
 import Products from './../product/Products'
 import SideBar from "../nav/SideBar";
-import {queryStringParser} from './../../common'
+import {queryStringParser} from './../../services'
 class ProductPage extends Component {
   constructor(props) {
     super(props);

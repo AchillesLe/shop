@@ -1,6 +1,7 @@
 import React from 'react'
 import {route} from './../../../config'
 import {Link} from 'react-router-dom'
+import { AddToCartBtn } from '../cart/AddToCartBtn';
 export const Product = ({ product, addToCart }) => (
     //  product = { id: 1, name: "A", price: 500, description: "Sản phẩm A",image:`/img/product-img/product-1.jpg` },
     
@@ -17,13 +18,7 @@ export const Product = ({ product, addToCart }) => (
             </Link>
             <p className="product-price">$80.00</p>
 
-            <div className="hover-content">
-                <div className="add-to-cart-btn">
-                    <button onClick={addToCart} className="btn essence-btn">
-                        Thêm vào giỏ
-                 </button>
-                </div>
-            </div>
+            <AddToCartBtn product={product}/>
         </div>
     </div>
 )

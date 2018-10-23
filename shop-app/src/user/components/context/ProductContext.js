@@ -10,7 +10,6 @@ export class ProducProvider extends Component {
   }
 
   componentDidMount() {
-    console.log('con')
     const products = [
       { id: 1, name: "A", price: 500, description: "Sản phẩm A",image:`${urlUpload}/img/product-img/product-1.jpg`,cateID:1 },
       { id: 2, name: "B", price: 500, description: "Sản phẩm B", image:`${urlUpload}/img/product-img/product-2.jpg`,cateID:2},
@@ -19,6 +18,7 @@ export class ProducProvider extends Component {
     ];
     this.setState({ products: products });
   }
+
   render(){
       return(
           <ProductContext.Provider value={{products:this.state.products}}>

@@ -11,8 +11,6 @@ export class CategoriesProvider extends Component{
                 {id:3,name:'Bán hàng',image:''},
                 {id:4,name:'Xếp hình',image:''},
                 {id:5,name:'Mô hình',image:''},
-
-
             ]
         }
     }

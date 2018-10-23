@@ -1,7 +1,8 @@
 import React, {Component} from  'react'
 import {urlUpload} from './../../../config'
-import {queryStringParser} from './../../common'
-import {withJS} from './../withJS'
+import {queryStringParser} from './../../services'
+import {withJS} from './../hoc/withJS'
+import {AddToCartBtn} from './../cart/AddToCartBtn'
 class ProductDetailPage extends Component{
     constructor(props){
         super(props)
@@ -27,12 +28,7 @@ class ProductDetailPage extends Component{
                     <p className="product-price"><span className="old-price">$65.00</span> $49.00</p>
                     <p className="product-desc">Mauris viverra cursus ante laoreet eleifend. Donec vel fringilla ante. Aenean finibus velit id urna vehicula, nec maximus est sollicitudin.</p>
 
-                    <form className="cart-form clearfix" method="post">
-                        <div className="cart-fav-box d-flex align-items-center">
-        
-                            <button type="submit" name="addtocart" value="5" className="btn essence-btn">Add to cart</button>
-                        </div>
-                    </form>
+                    <AddToCartBtn product={''} />
                 </div>
             </section>
         )

@@ -3,7 +3,7 @@ import Products from '../product/Products';
 import {Product} from '../product/Product';
 import {ProductConsumer,ProducProvider} from './../context/ProductContext'
 import Categories from './../category/Categories';
-import {withJS} from './../withJS'
+import {withJS} from './../hoc/withJS'
 import $ from 'jquery'
     // return (
     //   <React.Fragment>
@@ -34,6 +34,7 @@ class Home extends Component {
         <ProductConsumer>
         {
           ({products})=>{
+            
             this.setState({products:products})
           }
         }
@@ -42,9 +43,10 @@ class Home extends Component {
     )
   }
   renderProduct = (pros) => {
-    return pros.map((p)=> (<Product key={p.id.toString} product={p}/>))
+    return pros.map((p)=> (<Product key={p.id} product={p}/>))
   }
   render() {
+  
     return (
       <div>
       <Categories/>

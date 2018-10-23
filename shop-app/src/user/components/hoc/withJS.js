@@ -33,7 +33,6 @@ export const withJS = (Component)=>{
 
         render() {
             return <Component {...this.props}/>
-            
         }
     }
 }

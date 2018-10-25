@@ -20,6 +20,7 @@ import Category from './category/category';
 import Footer from './footer/footer';
 
 import LogIn from './log-in/log-in';
+import axios from 'axios';
 
 const Cookies = require('js-cookie');
 
@@ -39,6 +40,78 @@ const HomeRoute = ({ component: Component, ...rest }) => (
 class Admin extends Component {
     constructor() {
         super();
+        // $.ajax({
+        //     type: "GET",
+        //     dataType: "json",
+        //     url: "https://jsonplaceholder.typicode.com/todos/1",
+        //     success: function (data) {
+        //         console.log(data);
+        //     }
+        // });\
+        axios.get('http://localhost/BanHangAPI/api/category/getall')
+            .then(function (response) {
+                // handle success
+                console.log(response);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+        // axios.post('http://localhost/BanHangAPI/api/login', {
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     auth: {
+        //         username: 'admin',
+        //         password: '123'
+        //     }
+
+        // })
+        //     .then(function (response) {
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+        axios({
+            method: 'post',
+            url: 'http://localhost/BanHangAPI/api/login',
+            data: JSON.stringify({
+                'username': 'admin',
+                'password': '123'
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+        axios({
+            method: 'post',
+            url: 'http://localhost:52553/api/login',
+            data: JSON.stringify({
+                'username': 'admin',
+                'password': '123'
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+        axios.get('http://localhost:52553/api/category/getall')
+        .then(function (response) {
+            // handle success
+            console.log(response);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
     }
 
     componentDidMount() {
@@ -71,8 +144,8 @@ class Admin extends Component {
             });
 
             //remove conflict css
-            $('style[type="text/css"]').each(function() {
-                if($(this).text().includes('Bootstrap v4.1.0')) {
+            $('style[type="text/css"]').each(function () {
+                if ($(this).text().includes('Bootstrap v4.1.0')) {
                     console.log('_______________________');
                     console.log('remove conflict css');
                     console.log(this);

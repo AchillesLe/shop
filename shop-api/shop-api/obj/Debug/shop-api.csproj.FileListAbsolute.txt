@@ -202,3 +202,6 @@ F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CopyComplete
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\obj\Debug\shop-api.dll
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\obj\Debug\shop-api.pdb
+F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\System.Web.Cors.dll
+F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\System.Web.Http.Cors.dll
+F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\System.Web.Http.Cors.xml

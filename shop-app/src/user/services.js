@@ -9,7 +9,6 @@ export const queryStringParser = (query) => {
     }
     return params
 }
-
 export const callAPI = (method,url,data=null,responseType=null)=>{
     axios({
         method: method,

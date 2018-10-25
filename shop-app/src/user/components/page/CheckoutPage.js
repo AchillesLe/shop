@@ -1,12 +1,23 @@
 import React,{Component} from 'react'
-import { CartConsumer } from '../context/CartContext';
 import {getTotal} from './../cart/RightCart'
 import {withCartContext} from './../hoc/withCartContext'
+import {Input} from './../common/Input'
+import {validator} from './../common/Validator'
+import isEmpty from 'lodash/isEmpty'
 class CheckoutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      invalid: true,
+      validInputs: [],
+      errors:{
+        first_name:'',
+        last_name: "",
+        address: "",
+        city: "",
+        state: "",
+        phone: "",
+        email: ""
+      },
       total: 0,
       first_name: "",
       last_name: "",
@@ -17,8 +28,25 @@ class CheckoutPage extends Component {
       email: ""
     };
   }
-  handleChange = e =>{
-
+  handleChange = (e,validate) =>{
+    var name = e.target.name
+    var value = e.target.value
+    var errors = validator(value,name,validate)
+    console.log(errors)
+    var Inputs = this.state.validInputs
+    if (isEmpty(errors) && !Inputs.includes(name)) {
+      Inputs.push(name);
+      console.log(Inputs)
+    } else if (!isEmpty(errors) && Inputs.includes(name)) {
+      Inputs = Inputs.filter(input => input !== name);
+    }
+    this.setState((prevState)=>{
+      return  {
+        [name]: value,
+        errors:{...prevState.errors,[name]:errors[name]||''},
+        validInputs: Inputs
+      }
+    });
   }
   handleSubmit = e => {
     e.preventDefault();
@@ -32,7 +60,7 @@ class CheckoutPage extends Component {
   renderBill = cartItems => {
     return cartItems.map(item => {
       return (
-        <li>
+        <li key={item.id}>
           <span>{item.name}</span> <span>{item.quantity}</span>
           <span>{item.price} VNĐ</span>
         </li>
@@ -41,8 +69,9 @@ class CheckoutPage extends Component {
   };
   render() {
     const {
-      invalid,
       total,
+      errors,
+      validInputs,
       first_name,
       last_name,
       address,
@@ -51,8 +80,8 @@ class CheckoutPage extends Component {
       phone,
       email
     } = this.state;
-    return (
-      <div className="checkout_area section-padding-80">
+    console.log(validInputs)
+    return <div className="checkout_area section-padding-80">
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-6">
@@ -67,97 +96,52 @@ class CheckoutPage extends Component {
                       <label htmlFor="first_name">
                         Họ <span>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="first_name"
-                        name="first_name"
-                        value={first_name}
-                        onChange={this.handleChange}
-                        required
-                      />
+                      <Input type="text" className="form-control" id="first_name" name="first_name" value={first_name} handleChange={this.handleChange} validate={['required']}/>
+                      <span className="text-danger">{errors.first_name}</span>
                     </div>
                     <div className="col-md-6 mb-3">
                       <label htmlFor="last_name">
                         Tên <span>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="last_name"
-                        name="last_name"
-                        value={last_name}
-                        onChange={this.handleChange}
-                        required
-                      />
+                      <Input type="text" className="form-control" id="last_name" name="last_name" value={last_name} handleChange={this.handleChange} validate={['required']}/>
+                      <span className="text-danger">{errors.last_name}</span>
                     </div>
 
                     <div className="col-12 mb-3">
                       <label htmlFor="address">
                         Địa chỉ <span>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control mb-3"
-                        id="address"
-                        name="address"
-                        onChange={this.handleChange}
-                        value={address}
-                      />
+                      <Input type="text" className="form-control mb-3" id="address" name="address" handleChange={this.handleChange} value={address} validate={['required','address']}/>
+                     <span className="text-danger">{errors.address}</span>
                     </div>
 
                     <div className="col-12 mb-3">
                       <label htmlFor="city">
                         Tỉnh/Thành phố <span>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="city"
-                        name="city"
-                        onChange={this.handleChange}
-                        value={city}
-                      />
+                      <Input type="text" className="form-control" id="city" name="city" handleChange={this.handleChange} value={city} validate={['required']}/>
+                     <span className="text-danger">{errors.city}</span>
                     </div>
                     <div className="col-12 mb-3">
                       <label htmlFor="state">
                         Quận <span>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="state"
-                        name="state"
-                        onChange={this.handleChange}
-                        value={state}
-                      />
+                      <Input type="text" className="form-control" id="state" name="state" handleChange={this.handleChange} value={state} validate={['required']}/>
+                     <span className="text-danger">{errors.state}</span>
                     </div>
                     <div className="col-12 mb-3">
                       <label htmlFor="phone">
                         Số điện thoại <span>*</span>
                       </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="phone"
-                        name="phone"
-                        min="0"
-                        onChange={this.handleChange}
-                        value={phone}
-                      />
+                      <Input type="number" className="form-control" id="phone" name="phone" handleChange={this.handleChange} value={phone} validate={['required','number']}/>
+                     <span className="text-danger">{errors.phone}</span>
                     </div>
                     <div className="col-12 mb-4">
                       <label htmlFor="email">
                         Email <span>*</span>
                       </label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="email"
-                        name="email"
-                        onChange={this.handleChange}
-                        value={email}
-                      />
+                      <Input type="email" className="form-control" id="email" name="email" handleChange={this.handleChange} value={email} validate={['required','email']}/>
+                     <span className="text-danger">{errors.email}</span>
                     </div>
                   </div>
                 </form>
@@ -185,18 +169,14 @@ class CheckoutPage extends Component {
                   </li>
                 </ul>
 
-                <button
-                  disabled={total > 0 || invalid ? true : false}
-                  className="btn essence-btn"
-                >
+                <button disabled={total <= 0 || validInputs.length !== 7 ? true : false} className="btn essence-btn">
                   Đặt hàng
                 </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
 }
 export default withCartContext(CheckoutPage);

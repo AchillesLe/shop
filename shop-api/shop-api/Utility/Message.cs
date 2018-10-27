@@ -22,6 +22,10 @@ namespace shop_api.Utility
         public static string messageInsertSuccessfully= "Insert thành công !";
         public static string messageInsertFailed= "Insert thất bại !";
         public static string messageUpdateFailed = "Update thất bại !";
+        public static string messageUpdateSuccess = "Update thành công !";
         public static string messageDeleteFailed = "Delete thất bại !";
+        public static string messageAddReceiptSuccess = "Thêm receipt thành công !";
+        public static string messageAddReceiptfailed = "Thêm receipt thất bại !";
+        public static string messageAddInvalidParamter = "Parameter không hợp lệ !";
     }
 }

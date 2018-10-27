@@ -134,3 +134,6 @@ C:\Users\VU\source\repos\shop\shop-api\shop-api\bin\shop-api.dll.config
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.csprojAssemblyReference.cache
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CoreCompileInputs.cache
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CopyComplete
+E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Web.Cors.dll
+E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Web.Http.Cors.dll
+E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Web.Http.Cors.xml

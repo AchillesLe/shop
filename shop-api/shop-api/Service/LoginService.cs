@@ -47,7 +47,7 @@ namespace shop_api.Service
                 return null;
             }
         }
-        public bool CkechHasLogin(int idUser)
+        public bool CheckHasLogin(int idUser)
         {
             var user = context.Logins.Where(x=>x.idUser == idUser && x.expiredTime > DateTime.Now).FirstOrDefault();
             if (user != null)
@@ -77,6 +77,34 @@ namespace shop_api.Service
                 loginDTO.createdTime = reqlogin.createdTime;
                 loginDTO.token = token;
                 loginDTO.User = user;
+                return loginDTO;
+            }
+            catch (Exception ex)
+            {
+                return loginDTO;
+            }
+        }
+
+        public LoginDTO Update(UserDTO User)
+        {
+            LoginDTO loginDTO = null;
+            try
+            {
+                string token = BaseCode64.Base64Encode(User.iduser.ToString() + User.username + DateTime.Now);
+                var login = this.context.Logins.Where(x=>x.idUser == User.iduser && x.expiredTime > DateTime.Now).FirstOrDefault();
+                login.token = token;
+                login.expiredTime = DateTime.Now.AddMinutes(30);
+                this.context.Logins.Attach(login);
+                this.context.Entry(login).State = System.Data.Entity.EntityState.Modified;
+                this.context.SaveChanges();
+
+                loginDTO = new LoginDTO();
+                loginDTO.idLogin = login.idLogin;
+                loginDTO.idUser = login.idUser;
+                loginDTO.expiredTime = login.expiredTime;
+                loginDTO.createdTime = login.createdTime;
+                loginDTO.token = token;
+                loginDTO.User = User;
                 return loginDTO;
             }
             catch (Exception ex)

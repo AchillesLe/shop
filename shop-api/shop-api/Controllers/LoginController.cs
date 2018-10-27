@@ -7,6 +7,8 @@ using System.Web.Http;
 using shop_api.DTO;
 using shop_api.Service;
 using shop_api.DTO.RequestDTO;
+using System.Web.Http.Cors;
+
 namespace shop_api.Controllers
 {
     [RoutePrefix("api")]

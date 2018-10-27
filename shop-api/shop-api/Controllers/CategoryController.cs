@@ -8,6 +8,7 @@ using shop_api.Models;
 using shop_api.DTO;
 using shop_api.Service;
 using shop_api.Utility;
+using System.Web.Http.Cors;
 
 namespace shop_api.Controllers
 {

@@ -1,5 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
+import {ProductConsumer, ProducProvider} from './../context/ProductContext'
 const vendorJS = [
     './js/jquery/jquery-2.2.4.min.js',
     './js/popper.min.js',
@@ -10,6 +11,7 @@ const vendorJS = [
 ]
 export const withJS = (Component)=>{
     return class appendJS extends React.Component {
+
         removeScript = () =>{
             return vendorJS.map((script) => {
                 var currentScript = $('body').find('script[src="'+script+'"]');
@@ -28,11 +30,17 @@ export const withJS = (Component)=>{
                 this.removeScript();
                 this.renderScript();
             })
-            console.log('js')
+          
         }
 
         render() {
-            return <Component {...this.props}/>
+            return (
+                <ProducProvider>
+                    <ProductConsumer>
+                        {({products}) => <Component {...this.props} products={products}/>}
+                    </ProductConsumer>
+                </ProducProvider>
+            );
         }
     }
 }

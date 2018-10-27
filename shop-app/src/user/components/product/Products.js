@@ -26,7 +26,7 @@ class Products extends PureComponent{
                            
                             return result.map((p) =>(
                                 <div className={`${isProductPage?'col-12 col-sm-6 col-lg-4':''}`}>
-                                    <Product key={p.id.toString} product={p}/>
+                                    <Product key={p.id} product={p}/>
                                 </div>
                             )
                                     

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {urlUpload} from './../../../config'
-const ProductContext = React.createContext();
+export const ProductContext = React.createContext();
 export class ProducProvider extends Component {
   constructor(props) {
     super(props);

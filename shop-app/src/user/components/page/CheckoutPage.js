@@ -8,13 +8,11 @@ class CheckoutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      validInputs: [],
       errors:{
         first_name:'',
         last_name: "",
         address: "",
         city: "",
-        state: "",
         phone: "",
         email: ""
       },
@@ -23,7 +21,6 @@ class CheckoutPage extends Component {
       last_name: "",
       address: "",
       city: "",
-      state: "",
       phone: "",
       email: ""
     };
@@ -122,13 +119,7 @@ class CheckoutPage extends Component {
                       <Input type="text" className="form-control" id="city" name="city" handleChange={this.handleChange} value={city} validate={['required']}/>
                      <span className="text-danger">{errors.city}</span>
                     </div>
-                    <div className="col-12 mb-3">
-                      <label htmlFor="state">
-                        Quận <span>*</span>
-                      </label>
-                      <Input type="text" className="form-control" id="state" name="state" handleChange={this.handleChange} value={state} validate={['required']}/>
-                     <span className="text-danger">{errors.state}</span>
-                    </div>
+                    
                     <div className="col-12 mb-3">
                       <label htmlFor="phone">
                         Số điện thoại <span>*</span>
@@ -138,9 +129,9 @@ class CheckoutPage extends Component {
                     </div>
                     <div className="col-12 mb-4">
                       <label htmlFor="email">
-                        Email <span>*</span>
+                        Email <span></span>
                       </label>
-                      <Input type="email" className="form-control" id="email" name="email" handleChange={this.handleChange} value={email} validate={['required','email']}/>
+                      <Input type="email" className="form-control" id="email" name="email" handleChange={this.handleChange} value={email} validate={['email']}/>
                      <span className="text-danger">{errors.email}</span>
                     </div>
                   </div>

@@ -19,16 +19,46 @@ class Product extends Component {
         this.reload();
     }
 
-    componentDidUpdate() {
-        console.log('Product DidUpdate');
-        this.reload();
-    }
+    componentDidMount(){
+        console.log('Product componentDidMount');
+        $(document).ready(() => {
+            var body = document.getElementsByTagName('body')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = '/vendors/js/libs.js';
 
-    reload() {
-        if (Cookies.get('previousUrl') !== window.location.href) {
-            window.location.reload();
-            Cookies.set('previousUrl', window.location.href, { path: '/' });
-        }
+            var currentScript = $('body').find('script[src="../vendors/js/libs.js"]');
+            if (currentScript) {
+                currentScript.remove();
+            }
+
+            body.appendChild(script);
+
+            $(window).on('load', () => {
+                var head = document.getElementsByTagName('head')[0];
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = '/vendors/css/libs.css';
+
+                var currentLink = $('body').find('link[href="../vendors/css/libs.css"]');
+                if (currentLink) {
+                    currentLink.remove();
+                }
+
+                head.appendChild(link);
+            });
+
+            //remove conflict css
+            $('style[type="text/css"]').each(function () {
+                if ($(this).text().includes('Bootstrap v4.1.0')) {
+                    console.log('_______________________');
+                    console.log('remove conflict css');
+                    console.log(this);
+                    console.log('_______________________');
+                    $(this).remove();
+                }
+            });
+        })
     }
 
     render() {

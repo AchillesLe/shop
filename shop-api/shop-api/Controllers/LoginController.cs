@@ -7,6 +7,8 @@ using System.Web.Http;
 using shop_api.DTO;
 using shop_api.Service;
 using shop_api.DTO.RequestDTO;
+using System.Web.Http.Cors;
+
 namespace shop_api.Controllers
 {
     [RoutePrefix("api")]
@@ -26,17 +28,24 @@ namespace shop_api.Controllers
                 string password = requestLogin.password.Trim();
                 LoginDTO login = null;
                 UserDTO user = LoginService.GetAccountLogin(username, password);
-                if (LoginService.CkechHasLogin(user.iduser))
+                if (user!=null)
+                {
+                    if (LoginService.CheckHasLogin(user.iduser) == true)
+                    {
+                        login = LoginService.Update(user);
+                        return Request.CreateResponse(HttpStatusCode.OK, login);
+                    }
+                    else
+                    {
+                        login = LoginService.Create(user);
+                        return Request.CreateResponse(HttpStatusCode.OK, login);
+                    }
+                }
+                else
                 {
                     return Request.CreateResponse(HttpStatusCode.Forbidden, "Login fail !");
                 }
-                if (user != null)
-                {
-                    login = LoginService.Create(user);
-                    return Request.CreateResponse(HttpStatusCode.OK, login);
 
-                }
-                return Request.CreateResponse(HttpStatusCode.NotFound, login);
             }
             return Request.CreateResponse(HttpStatusCode.BadRequest);
         }

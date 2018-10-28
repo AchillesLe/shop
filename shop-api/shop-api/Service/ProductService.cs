@@ -10,34 +10,69 @@ namespace shop_api.Service
     public class ProductService
     {
         private ShopApiModel context = new ShopApiModel();
-        public List<ProductDTO> getAll(int page = 1)
+        public int Pagination = 9;
+        public int TotalPage = 0;
+        public ProductService()
         {
-            int skipRows = (page - 1) * 9;
+            TotalPage = TotalPageCount();
+        }
+        public List<ProductDTO> getAll(int? page = null)
+        {
+            int? skipRows = (page - 1) * Pagination;
             List<ProductDTO> listpros = new List<ProductDTO>();
             try
             {
-                listpros = context.Products.Where(x=>x.isDelete == 0).OrderBy(x=>x.idProduct).Skip(skipRows).Take(9).Select(x => new ProductDTO
+                if (page != null)
                 {
-                    idProduct = x.idProduct,
-                    name = x.name,
-                    code = x.code,
-                    avatar = x.avatar,
-                    images = x.images,
-                    idCategory = x.idCategory,
-                    categoryName = x.Category.name,
-                    idCreator = x.idCreator,
-                    creatorName = x.User.fullname,
-                    width = x.width,
-                    high = x.high,
-                    priceIn = x.priceIn,
-                    priceOut = x.priceOut,
-                    madein = x.madein,
-                    length = x.length,
-                    quantity = x.quantity,
-                    isDelete = x.isDelete,
-                    createdDate = x.createdDate,
-                    updatedDate = x.updatedDate
-                }).ToList();
+                    listpros = context.Products.Where(x => x.isDelete == 0).OrderBy(x => x.idProduct).Skip((int)skipRows).Take(9).Select(x => new ProductDTO
+                    {
+                        idProduct = x.idProduct,
+                        name = x.name,
+                        code = x.code,
+                        avatar = x.avatar,
+                        images = x.images,
+                        idCategory = x.idCategory,
+                        categoryName = x.Category.name,
+                        idCreator = x.idCreator,
+                        creatorName = x.User.fullname,
+                        width = x.width,
+                        high = x.high,
+                        priceIn = x.priceIn,
+                        priceOut = x.priceOut,
+                        madein = x.madein,
+                        length = x.length,
+                        quantity = x.quantity,
+                        isDelete = x.isDelete,
+                        createdDate = x.createdDate,
+                        updatedDate = x.updatedDate
+                    }).ToList();
+                }
+                else
+                {
+                    listpros = context.Products.Where(x => x.isDelete == 0).OrderBy(x => x.idProduct).Select(x => new ProductDTO 
+                    {
+                        idProduct = x.idProduct,
+                        name = x.name,
+                        code = x.code,
+                        avatar = x.avatar,
+                        images = x.images,
+                        idCategory = x.idCategory,
+                        categoryName = x.Category.name,
+                        idCreator = x.idCreator,
+                        creatorName = x.User.fullname,
+                        width = x.width,
+                        high = x.high,
+                        priceIn = x.priceIn,
+                        priceOut = x.priceOut,
+                        madein = x.madein,
+                        length = x.length,
+                        quantity = x.quantity,
+                        isDelete = x.isDelete,
+                        createdDate = x.createdDate,
+                        updatedDate = x.updatedDate
+                    }).ToList();
+                }
+                
                 return listpros;
             }
             catch (Exception ex)
@@ -171,6 +206,14 @@ namespace shop_api.Service
             {
                 return false;
             }
+        }
+
+        private int TotalPageCount()
+        {
+            int total = 0;
+            int totalRow = context.Products.Where(x => x.isDelete == 0).Count();
+            total = (totalRow + Pagination - 1) / Pagination;
+            return total;
         }
     }
 }

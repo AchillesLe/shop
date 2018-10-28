@@ -21,11 +21,12 @@ namespace shop_api.Controllers
         private ShopApiModel context = new ShopApiModel();
         UserService userService = new UserService();
         ProductService productService = new ProductService();
-        [HttpGet(), Route("get/page/{page}")]
-        public Object GetList(int page = 1)
+        [HttpGet(), Route("get/page/{page?}")]
+        public IHttpActionResult GetList(int? page = null)
         {
-            var listproduct =  productService.getAll(page);
-            return listproduct;
+            var listproduct = productService.getAll(page);
+            int totalpage = productService.TotalPage;
+            return Ok(new { total = totalpage, requestPage = page, list = listproduct });
         }
 
         [HttpGet(), Route("getdetails/{id_product}")]
@@ -53,8 +54,8 @@ namespace shop_api.Controllers
                 var pro_entity = new Product();
                 pro_entity.name = pro.name;
                 pro_entity.code = pro.code;
-                //pro_entity.avatar = pro.avatar;
-                //pro_entity.images = pro.images;
+                pro_entity.avatar = pro.avatar;
+                pro_entity.images = pro.images;
                 pro_entity.idCategory = pro.idCategory;
                 pro_entity.idCreator = logged_user.iduser;
                 pro_entity.width = pro.width;
@@ -73,8 +74,6 @@ namespace shop_api.Controllers
                 {
                     return Ok(newPro);
                 }
-                //context.Categories.Add(cat_entity);
-                //context.SaveChanges();
                 return Ok(Message.messageInsertFailed);
             }
             catch (Exception e) { return InternalServerError(); }

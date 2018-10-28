@@ -9,6 +9,8 @@ import './admin.css';
 
 //JS
 import $ from 'jquery';
+import axios from 'axios';
+import createBrowserHistory from 'history/createBrowserHistory';
 
 import LeftNav from './navs/left-nav/left-nav';
 import TopNav from './navs/top-nav/top-nav';
@@ -20,15 +22,15 @@ import Category from './category/category';
 import Footer from './footer/footer';
 
 import LogIn from './log-in/log-in';
-import axios from 'axios';
+import AdminContext from './admin.context';
 
 const Cookies = require('js-cookie');
 
 const HomeRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
         <div className="main_container">
-            <LeftNav></LeftNav>
-            <TopNav></TopNav>
+            <LeftNav {...{ history: props.history }}></LeftNav>
+            <TopNav {...{ history: props.history }}></TopNav>
 
             <Component {...props} />
 
@@ -40,79 +42,32 @@ const HomeRoute = ({ component: Component, ...rest }) => (
 class Admin extends Component {
     constructor() {
         super();
-        // $.ajax({
-        //     type: "GET",
-        //     dataType: "json",
-        //     url: "https://jsonplaceholder.typicode.com/todos/1",
-        //     success: function (data) {
-        //         console.log(data);
-        //     }
-        // });\
-        axios.get('http://localhost/BanHangAPI/api/category/getall')
-            .then(function (response) {
-                // handle success
-                console.log(response);
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-        // axios.post('http://localhost/BanHangAPI/api/login', {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     auth: {
-        //         username: 'admin',
-        //         password: '123'
-        //     }
 
-        // })
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
-        axios({
-            method: 'post',
-            url: 'http://localhost/BanHangAPI/api/login',
-            data: JSON.stringify({
-                'username': 'admin',
-                'password': '123'
-            }),
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-        }).then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
-        axios({
-            method: 'post',
-            url: 'http://localhost:52553/api/login',
-            data: JSON.stringify({
-                'username': 'admin',
-                'password': '123'
-            }),
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-        }).then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
-        axios.get('http://localhost:52553/api/category/getall')
-        .then(function (response) {
-            // handle success
-            console.log(response);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
+        if(Cookies.get('user')){
+            console.log(JSON.parse(Cookies.get('user')));
+            this.state = {
+                user: JSON.parse(Cookies.get('user')),
+                toggleNavs: false,
+                setUser: this.setUser,
+                reRenderNavs: this.reRenderNavs,
+                history: createBrowserHistory()
+            };
+        } else {
+            this.state = {
+                user: {},
+                toggleNavs: false,
+                setUser: this.setUser,
+                reRenderNavs: this.reRenderNavs,
+                history: createBrowserHistory()
+            };
+        }
+        console.log(Cookies.get('token'))
     }
+
+    setUser = user => {
+        this.setState({ user });
+    }
+
 
     componentDidMount() {
         console.log('Admin Did Mount');
@@ -159,15 +114,17 @@ class Admin extends Component {
     render() {
         document.body.className = 'nav-md';
         $('#root').addClass('container body');
+        let history = this.state.history;
 
         return (
-            <Switch>
-                <Route exact path={this.props.match.path} component={LogIn} />
-                <HomeRoute path={`${this.props.match.path}/home`} onChange={this.reload} component={Content} />
-                <HomeRoute path={`${this.props.match.path}/product`} onChange={this.reload} component={Product} />
-                <HomeRoute path={`${this.props.match.path}/category`} onChange={this.reload} component={Category} />
-            </Switch>
-
+            <AdminContext.Provider value={this.state}>
+                <Switch>
+                    <Route exact path={this.props.match.path} history={history} component={LogIn} />
+                    <HomeRoute path={`${this.props.match.path}/home`} history={history} component={Content} />
+                    <HomeRoute path={`${this.props.match.path}/product`} history={history} component={Product} />
+                    <HomeRoute path={`${this.props.match.path}/category`} history={history} component={Category} />
+                </Switch>
+            </AdminContext.Provider>
         )
     }
 }

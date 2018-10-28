@@ -36,6 +36,6 @@ namespace shop_api.Models
         public virtual User User { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetailBill> DetailBills { get; set; }
+        public virtual ICollection<DetailBill> detailBills { get; set; }
     }
 }

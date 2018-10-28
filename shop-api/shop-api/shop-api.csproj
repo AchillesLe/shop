@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BillController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
@@ -110,7 +111,9 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="DTO\DetailReceiptDTO.cs" />
+    <Compile Include="DTO\DetailBillDTO.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
+    <Compile Include="DTO\BillDTO.cs" />
     <Compile Include="DTO\ReceiptDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\RequestDTO\RequestCategory.cs" />

@@ -12,7 +12,7 @@ export const Product = ({ product}) => (
 
         <div className="product-description">
             <span>{product.categoryName}</span>
-            <Link to={`/${route.detail}?id=${product.idProduct}/`}>
+            <Link to={`/${route.detail}?id=${product.idProduct}`}>
                 <h6>{product.name}</h6>
             </Link>
             <p className="product-price">Giá: {currencyParser(product.priceOut)}</p>

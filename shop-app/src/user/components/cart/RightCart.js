@@ -38,7 +38,7 @@ export const RightCart = ()=>{
                                     <IconCart isAtRightCart/>
                                     <div className="cart-content d-flex">
                                         <div className="cart-list">
-                                            {cartItems.map((item)=>{return <CartItem removeItem={removeItem} cartItem={item} key={item.id} />})}
+                                            {cartItems.map((item)=>{return <CartItem removeItem={removeItem} cartItem={item} key={item.code} />})}
                                         </div>
                                         <div className="cart-amount-summary">
                                             <h2>Tổng giá trị đã mua</h2>

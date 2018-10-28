@@ -13,7 +13,7 @@ const path = [
   },
   {
     label: "Sản phẩm",
-    to: "/san-pham",
+    to: "/san-pham?page=1",
     activeOnlyWhenExact: false
   },
   {

@@ -5,14 +5,14 @@ import { CategoriesConsumer,CategoriesProvider } from '../context/CategoriesCont
 import {route} from './../../../config'
 const SideBarItem = ({ cate }) => (
   <li>
-    <Link to={`${route.product}?id=${cate.idCategory}`}>{cate.name}</Link>
+    <Link to={`${route.product}?id=${cate.idCategory}&page=1`}>{cate.name}</Link>
   </li>
 );
 class SideBar extends PureComponent{
     render(){
         return(
             <ul className="sub-menu collapse show" id="clothing">
-                <li><Link to={`/${route.product}`}>Tất cả</Link></li>            
+                <li><Link to={`/${route.product}?page=1`}>Tất cả</Link></li>            
              <CategoriesProvider>
                 <CategoriesConsumer>
                     {

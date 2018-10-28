@@ -6,34 +6,14 @@ class Products extends PureComponent{
         super(props)
     }
 
-    filterProduct = (products,cateID)=>{
-        if(!cateID){
-            return products
-        }
-        var result = products.filter(p => p.idCategory === parseInt(cateID));
-        return result
-    }
+
     render(){
-        const {isProductPage,cateID} =this.props;
-         return(
-            <ProducProvider>
-                <ProductConsumer>
-                    {
-                        ({products})=>{
-                            var result = this.filterProduct(products,cateID)
-                           
-                            return result.map((p) =>(
-                                <div className={`${isProductPage?'col-12 col-sm-6 col-lg-4':''}`}>
-                                    <Product key={p.code} product={p}/>
-                                </div>
-                            )
-                                    
-                            )
-                        }
-                    }
-                </ProductConsumer>
-            </ProducProvider>
-         )
+        const {isProductPage,products} =this.props;
+        return products.map((p) => (
+            <div className={`${isProductPage ? 'col-12 col-sm-6 col-lg-4' : ''}`}>
+                <Product key={p.code} product={p} />
+            </div>
+        ))
     }
 }
 

@@ -12,13 +12,13 @@ namespace shop_api.Controllers
     [RoutePrefix("api/bill")]
     public class BillController : ApiController
     {
-        BillService receiptService = new BillService();
+        BillService billService = new BillService();
         [HttpGet(), Route("getall")]
         public IHttpActionResult GetAll()
         {
             string token = Token.HandleToken(Request);
             if (token == "") return BadRequest(Message.messageNotValidToken);
-            return Ok(receiptService.GetAll());
+            return Ok(billService.GetAll());
         }
     }
 }

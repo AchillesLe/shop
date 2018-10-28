@@ -20,7 +20,7 @@ class Categories extends PureComponent{
                             <CategoriesConsumer>
                             {
                                 ({listCate})=>{
-                                    return listCate.map((cate,i) => { return i<3?(<Category key={i} category = {cate} />):''})
+                                    return listCate.map((cate,i) => { return i<3?(<Category key={cate.id} category = {cate} />):''})
                                 }
                             }
                             </CategoriesConsumer>

@@ -18,15 +18,16 @@ namespace shop_api.Service
         public List<ReceiptDTO> GetAllByStatus(int status)
         {
             var listReceipt = this.context.Receipts.Where(x => x.status == status).Select(
-                x=>new ReceiptDTO
+                x => new ReceiptDTO
                 {
                     idReceipt = x.idReceipt,
                     address = x.address,
                     description = x.description,
                     nameCustomer = x.nameCustomer,
                     phone = x.phone,
-                    total= x.total,
-                    detailReceipts = x.DetailReciepts.Where(a=>a.idReciept == x.idReceipt).Select(a=>new DetailReceiptDTO {
+                    total = x.total,
+                    detailReceipts = x.DetailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
+                    {
                         idDetail = a.idDetail,
                         idReciept = a.idReciept,
                         price = a.price,
@@ -53,8 +54,13 @@ namespace shop_api.Service
                         }
                     }).ToList(),
                     updatedDate = x.updatedDate,
-                    createdDate = x.createdDate
-                }).OrderBy(x=>x.idReceipt).ToList();
+                    createdDate = x.createdDate,
+                    Updator = new UserDTO
+                    {
+                        iduser = x.User.iduser,
+                        fullname = x.User.fullname,
+                    }
+                }).OrderBy(x => x.idReceipt).ToList();
             return listReceipt;
         }
         public List<ReceiptDTO> GetAll()
@@ -96,7 +102,12 @@ namespace shop_api.Service
                         }
                     }).ToList(),
                     updatedDate = x.updatedDate,
-                    createdDate = x.createdDate
+                    createdDate = x.createdDate,
+                    Updator = new UserDTO
+                    {
+                        iduser = x.User.iduser,
+                        fullname = x.User.fullname,
+                    }
                 }).OrderBy(x => x.idReceipt).ToList();
             return listReceipt;
         }
@@ -175,9 +186,9 @@ namespace shop_api.Service
             {
                 return false;
             }
-           
+
         }
-        public bool UpdateStatus(int id , int status , int iduser)
+        public bool UpdateStatus(int id, int status, int iduser)
         {
             try
             {

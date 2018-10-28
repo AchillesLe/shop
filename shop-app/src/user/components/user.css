@@ -2,3 +2,7 @@ body{
     background: whitesmoke;
     color: black
 }
+
+.user-component .light.left{
+    float: none;
+}

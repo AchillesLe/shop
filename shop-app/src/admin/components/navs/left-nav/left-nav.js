@@ -1,20 +1,79 @@
 import React, { Component } from 'react';
-import img from '../../../../assets/images/img.jpg';
+import ReactDOM from 'react-dom';
 
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
+import AdminContext from '../../admin.context';
 
 class LeftNav extends Component {
     constructor() {
         super();
-        this.state = {
-            active: false
-        }
     }
 
-    toggleMenu() {
-        this.setState({
-            active: !this.state.active
-        })
+    componentDidMount() {
+        console.log("LeftNav componentDidMount ");
+        var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
+        $BODY = $('body'),
+        $SIDEBAR_MENU = $('#sidebar-menu1'),
+        $SIDEBAR_FOOTER = $('.sidebar-footer'),
+        $LEFT_COL = $('.left_col'),
+        $RIGHT_COL = $('.right_col'),
+        $NAV_MENU = $('.nav_menu'),
+        $FOOTER = $('footer');
+
+        var setContentHeight = function () {
+            // reset height
+            $RIGHT_COL.css('min-height', $(window).height());
+        
+            var bodyHeight = $BODY.outerHeight(),
+                footerHeight = $BODY.hasClass('footer_fixed') ? -10 : $FOOTER.height(),
+                leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+                contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+        
+            // normalize content
+            contentHeight -= $NAV_MENU.height() + footerHeight;
+        
+            $RIGHT_COL.css('min-height', contentHeight);
+        };
+
+
+        $SIDEBAR_MENU.find('a').on('click', function (ev) {
+            console.log('clicked - sidebar_menu');
+            var $li = $(this).parent();
+
+            if ($li.is('.active')) {
+                $li.removeClass('active active-sm');
+                $('ul:first', $li).slideUp(function () {
+                    setContentHeight();
+                });
+            } else {
+                // prevent closing menu if we are on child menu
+                if (!$li.parent().is('.child_menu')) {
+                    $SIDEBAR_MENU.find('li').removeClass('active active-sm');
+                    $SIDEBAR_MENU.find('li ul').slideUp();
+                } else {
+                    if ($BODY.is(".nav-sm")) {
+                        $li.parent().find("li").removeClass("active active-sm");
+                        $li.parent().find("li ul").slideUp();
+                    }
+                }
+                $li.addClass('active');
+
+                $('ul:first', $li).slideDown(function () {
+                    setContentHeight();
+                });
+            }
+        });
+
+
+        // check active menu
+        $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
+
+        $SIDEBAR_MENU.find('a').filter(function () {
+            return this.href == CURRENT_URL;
+        }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
+            setContentHeight();
+        }).parent().addClass('active');
     }
 
     render() {
@@ -22,52 +81,30 @@ class LeftNav extends Component {
             <div className="col-md-3 left_col">
                 <div className="left_col scroll-view">
                     <div className="navbar nav_title" style={{ border: 0 }}>
-                        <Link to="/admin/home" className="site_title"><i className="fa fa-paw" /> <span>Gentelella Alela!</span></Link>
+                        <Link to="/admin/home" className="site_title"><i className="fa fa-gift" /> <span>Admin</span></Link>
                     </div>
                     <div className="clearfix" />
-                    {/* menu profile quick info */}
-                    <div className="profile clearfix">
-                        <div className="profile_pic">
-                            <img src={img} alt="..." className="img-circle profile_img" />
-                        </div>
-                        <div className="profile_info">
-                            <span>Welcome,</span>
-                            <h2>John Doe</h2>
-                        </div>
-                    </div>
-                    {/* /menu profile quick info */}
                     <br />
                     {/* sidebar menu */}
-                    <div id="sidebar-menu" className="main_menu_side hidden-print main_menu">
+                    <div id="sidebar-menu1" className="main_menu_side hidden-print main_menu">
                         <div className="menu_section">
-                            <h3>General</h3>
                             <ul className="nav side-menu">
-                                <li className={this.state.active ? "active" : ""} onClick={this.toggleMenu.bind(this)}><a><i className="fa fa-home" /> Product <span className="fa fa-chevron-down" /></a>
-                                    <ul className="nav child_menu" style={{ display: this.state.active ? 'block' : 'none' }}>
-                                        <li><Link to="/admin/product">View Details</Link></li>
-                                        <li><a href="index2.html">Statistics</a></li>
+                                <li><a ><i className="fa fa-archive" /> Product <span className="fa fa-chevron-down" /></a>
+                                    <ul className="nav child_menu">
+                                        <li><Link to="/admin/product">Overview</Link></li>
+                                        <li><Link to="/admin/product/create-new">Create New</Link></li>
+                                    </ul>
+                                </li>
+                                <li><a><i className="fa fa-list-alt" /> Category <span className="fa fa-chevron-down" /></a>
+                                    <ul className="nav child_menu">
+                                        <li><Link to="/admin/category">Overview</Link></li>
+                                        <li><Link to="/admin/category/create-new">Create New</Link></li>
                                     </ul>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     {/* /sidebar menu */}
-                    {/* /menu footer buttons */}
-                    <div className="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Settings">
-                            <span className="glyphicon glyphicon-cog" aria-hidden="true" />
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                            <span className="glyphicon glyphicon-fullscreen" aria-hidden="true" />
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                            <span className="glyphicon glyphicon-eye-close" aria-hidden="true" />
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                            <span className="glyphicon glyphicon-off" aria-hidden="true" />
-                        </a>
-                    </div>
-                    {/* /menu footer buttons */}
                 </div>
             </div>
         )

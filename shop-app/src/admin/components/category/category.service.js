@@ -7,8 +7,18 @@ export default class CategoryService {
 
     getCategory() {
         console.log('getCategory');
-        const a = this._http.get('/src/admin/components/category/category.json');
+        return this._http.get('/category/getall');
+    }
 
-        console.log(a);
+    addCategory(token, data = {}) {
+        console.log(token);
+        console.log(data);
+
+        return this._http.post('/category/add',data,{
+            headers: { 
+                'token' : token,
+                'Content-Type': 'application/json'
+            }
+        });
     }
 }

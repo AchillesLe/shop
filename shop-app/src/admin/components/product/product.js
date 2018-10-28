@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
+//CSS
+import './product.css';
 
 //JS
 import $ from 'jquery';
@@ -16,11 +20,19 @@ class Product extends Component {
 
     constructor() {
         super();
-        this.reload();
     }
 
-    componentDidMount(){
+    componentDidMount() {
         console.log('Product componentDidMount');
+        this.reloadLibs();
+    }
+
+    componentDidUpdate() {
+        console.log('Product componentDidUpdate');
+        this.reloadLibs();
+    }
+
+    reloadLibs(){
         $(document).ready(() => {
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
@@ -69,9 +81,9 @@ class Product extends Component {
                         <div>
                             <div className="page-title">
                                 <div className="title_left">
-                                    <a className="category__create-new">
-                                        <h3> Create New </h3>
-                                    </a>
+                                    <Link to="/admin/product/create-new" className="product__create-new">
+                                        <h3>Create New</h3>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="clearfix" />

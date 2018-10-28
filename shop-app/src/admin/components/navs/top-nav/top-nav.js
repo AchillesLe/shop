@@ -77,8 +77,12 @@ class TopNav extends Component {
         console.log(token);
         this._topNavService.logOut(token).then(res => {
             console.log(res.data);
-            callback({});
-            this.props.history.push('/admin');
+            if(res.status === 200){
+                callback({});
+                Cookies.remove('token');
+                Cookies.remove('user');
+                this.props.history.push('/admin');
+            }
         });
     }
 
@@ -108,70 +112,6 @@ class TopNav extends Component {
                                             </li>
                                             <li><a href="#">Help</a></li>
                                             <li><a href="#" onClick={this.logOut.bind(this, Object.keys(user).length === 0 ? "" : user.data.token, setUser.bind(this))}><i className="fa fa-sign-out pull-right" /> Log Out</a></li>
-                                        </ul>
-                                    </li>
-                                    <li role="presentation" className="dropdown">
-                                        <a className="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                            <i className="fa fa-envelope-o" />
-                                            <span className="badge bg-green">6</span>
-                                        </a>
-                                        <ul id="menu1" className="dropdown-menu list-unstyled msg_list" role="menu">
-                                            <li>
-                                                <a>
-                                                    <span className="image"><img src={img} alt="Profile" /></span>
-                                                    <span>
-                                                        <span>John Smith</span>
-                                                        <span className="time">3 mins ago</span>
-                                                    </span>
-                                                    <span className="message">
-                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a>
-                                                    <span className="image"><img src={img} alt="Profile" /></span>
-                                                    <span>
-                                                        <span>John Smith</span>
-                                                        <span className="time">3 mins ago</span>
-                                                    </span>
-                                                    <span className="message">
-                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a>
-                                                    <span className="image"><img src={img} alt="Profile" /></span>
-                                                    <span>
-                                                        <span>John Smith</span>
-                                                        <span className="time">3 mins ago</span>
-                                                    </span>
-                                                    <span className="message">
-                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a>
-                                                    <span className="image"><img src={img} alt="Profile" /></span>
-                                                    <span>
-                                                        <span>John Smith</span>
-                                                        <span className="time">3 mins ago</span>
-                                                    </span>
-                                                    <span className="message">
-                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
-                                            </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <div className="text-center">
-                                                    <a>
-                                                        <strong>See All Alerts</strong>
-                                                        <i className="fa fa-angle-right" />
-                                                    </a>
-                                                </div>
-                                            </li>
                                         </ul>
                                     </li>
                                 </ul>

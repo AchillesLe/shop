@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
     Route,
@@ -10,7 +11,6 @@ import './category.css';
 
 import $ from 'jquery';
 import categoryService from './category.service';
-const jsonData = require('./category.json');
 
 const Cookies = require('js-cookie');
 
@@ -18,7 +18,6 @@ class Category extends Component {
 
     constructor() {
         super();
-        this.reload();
         this.state = {
             category: [],
             createNew: {
@@ -39,8 +38,12 @@ class Category extends Component {
         })
     }
 
-    componentDidMount() {
-        console.log('Category componentDidMount');
+    componentDidUpdate() {
+        console.log('Category componentDidUpdate');
+        this.reloadLibs();
+    }
+
+    reloadLibs(){
         $(document).ready(() => {
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
@@ -94,11 +97,11 @@ class Category extends Component {
         })
     }
 
-    cancel(){
+    cancel() {
         this.props.history.push('/admin/category');
     }
 
-    resetForm(){
+    resetForm() {
         this.setState(state => {
             return {
                 ...state,
@@ -125,14 +128,14 @@ class Category extends Component {
                     }
                 }
             })
-            
+
             setTimeout(() => {
                 console.log(this.state);
             })
             this.props.history.push('/admin/category');
         }).catch((e) => {
             console.log(e.response);
-            if(e.response.status === 400) {
+            if (e.response.status === 400) {
                 this.props.history.push('/admin')
             }
         })
@@ -146,9 +149,9 @@ class Category extends Component {
                         <div>
                             <div className="page-title">
                                 <div className="title_left">
-                                    <a className="category__create-new">
-                                        <h3> Create New </h3>
-                                    </a>
+                                    <Link to="/admin/category/create-new" className="category__create-new">
+                                        <h3>Create New</h3>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="clearfix" />

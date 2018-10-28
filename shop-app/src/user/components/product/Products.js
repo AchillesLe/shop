@@ -5,14 +5,12 @@ class Products extends PureComponent{
     constructor(props){
         super(props)
     }
-    componentDidMount(){
-        console.log('p')
-    }
+
     filterProduct = (products,cateID)=>{
         if(!cateID){
             return products
         }
-        var result = products.filter(p => p.cateID === parseInt(cateID));
+        var result = products.filter(p => p.idCategory === parseInt(cateID));
         return result
     }
     render(){
@@ -26,7 +24,7 @@ class Products extends PureComponent{
                            
                             return result.map((p) =>(
                                 <div className={`${isProductPage?'col-12 col-sm-6 col-lg-4':''}`}>
-                                    <Product key={p.id} product={p}/>
+                                    <Product key={p.code} product={p}/>
                                 </div>
                             )
                                     

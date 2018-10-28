@@ -3,9 +3,11 @@ import {Link} from 'react-router-dom'
 import { CategoriesConsumer,CategoriesProvider } from '../context/CategoriesContext';
 
 import {route} from './../../../config'
-const SideBarItem = ({cate})=>(
-    <li><Link to={`${route.product}?id=${cate.id}`}>{cate.name}</Link></li>
-)
+const SideBarItem = ({ cate }) => (
+  <li>
+    <Link to={`${route.product}?id=${cate.idCategory}`}>{cate.name}</Link>
+  </li>
+);
 class SideBar extends PureComponent{
     render(){
         return(

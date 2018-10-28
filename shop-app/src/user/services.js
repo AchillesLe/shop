@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { domainServer } from './../config'
 export const queryStringParser = (query) => {
     query = query.toString().replace("?", "")
     var params=[]
@@ -9,12 +10,19 @@ export const queryStringParser = (query) => {
     }
     return params
 }
-export const callAPI = (method,url,data=null,responseType=null)=>{
-    axios({
+export const currencyParser = (num) =>{
+    var n =  num.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g,'$1,');
+    var cur = n.split(".")
+    return cur
+
+}
+export const callAPI = (method,endpoint,data=null,responseType=null)=>{
+    return axios({
         method: method,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        url: url,
+        url: `${domainServer}/${endpoint}`,
         data:data,
         responseType: responseType
+    }).catch(err=>{
+        console.log(err)
     });
 }

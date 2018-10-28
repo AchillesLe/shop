@@ -3,16 +3,17 @@ import {Link} from 'react-router-dom'
 import { IconCart } from './IconCart';
 import { CartConsumer } from '../context/CartContext';
 import {route,urlUpload} from './../../../config'
+import {currencyParser} from './../../services'
 const CartItem = ({ cartItem, removeItem}) =>(
     <div className="single-cart-item">
         <Link to={`/${route.detail}?id=${cartItem.id}/`} className="product-image">
             <img src={`${urlUpload}/img/product-img/product-1.jpg`} className="cart-thumb" alt=""/>
             <div className="cart-item-desc">
-            <span className="product-remove" onClick={()=>removeItem(cartItem.id)}><i className="fa fa-close" aria-hidden="true"></i></span>
-                <span className="badge">Mango</span>
+                <span className="product-remove" onClick={() => removeItem(cartItem.id)}><i className="fa fa-close" aria-hidden="true"></i></span>
+                <span className="badge">{cartItem.cateName}</span>
                 <h6>{cartItem.name}</h6>
-                <p className="size">{cartItem.quantity}</p>
-                <p className="price">{cartItem.price} VNĐ</p>
+                <p className="size">Số lượng: {cartItem.quantity}</p>
+                <p className="price">Giá: {currencyParser(cartItem.price)} VNĐ</p>
             </div>
         </Link>
     </div>
@@ -42,7 +43,7 @@ export const RightCart = ()=>{
                                         <div className="cart-amount-summary">
                                             <h2>Tổng giá trị đã mua</h2>
                                             <ul className="summary-table">
-                                                <li><span>Tổng cộng:</span> <span>{getTotal(cartItems)}</span></li>
+                                                <li><span>Tổng cộng:</span> <span>{currencyParser(getTotal(cartItems))}</span></li>
                                             </ul>
                                             <div className="checkout-btn mt-100">
                                                     

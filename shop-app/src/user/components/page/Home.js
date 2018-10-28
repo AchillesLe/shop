@@ -20,9 +20,12 @@ class Home extends Component {
     }
   }
   renderProduct = () => {
-    return JSON.parse(localStorage.getItem("hot-product")).map(p => (
-      <Product key={p.id} product={p} />
-    ));
+    if (localStorage.getItem("hot-product")){
+      return JSON.parse(localStorage.getItem("hot-product")).map(p => (
+        <Product key={p.id} product={p} />
+      ));
+    }
+
   };
   render() {
     console.log(this.state.products);

@@ -5,8 +5,7 @@ import SideBar from "../nav/SideBar";
 import {queryStringParser} from './../../services'
 import Pagination from "react-js-pagination";
 import { withJS } from './../hoc/withJS'
-import history from "./../../../history";
-
+import $ from "jquery";
 class ProductPage extends Component {
     constructor(props) {
         super(props);
@@ -29,9 +28,9 @@ class ProductPage extends Component {
         }  
     }
     handlePageChange = (pageNumber) => {
-        const { history } = this.props
-        console.log(this.props.match.path, this.props.location.search)
-        history.push("/"); 
+        const {history} = this.props
+        var queryString = this.props.location.search.replace(`page=${this.state.activePage}`,`page=${pageNumber}`)
+        history.push(`${this.props.match.path}${queryString}`); 
     }
     componentDidMount(){
         var queryString = queryStringParser(this.props.location.search)
@@ -49,22 +48,31 @@ class ProductPage extends Component {
     componentWillReceiveProps(nextProps){
         var queryString = queryStringParser(this.props.location.search)
         var queryStringNext = queryStringParser(nextProps.location.search);
+
         const activePage = queryString["page"];
-        const idCate = queryString["id"];
         const activePageNext = queryStringNext["page"];
+
+        const idCate = queryString["id"];
         const idCateNext = queryStringNext["id"];
         if (idCate !== idCateNext || activePageNext !== activePage || this.props.products !== nextProps.products) {
-          this.setState({
+            console.log(idCateNext)
+            this.setState({
+                activePage: activePageNext,
               totalItemsCount: idCateNext?nextProps.products.filter(p => p.idCategory === parseInt(idCateNext)).length:nextProps.products.length,
             productsPerPage: this.filterProduct(
               nextProps.products,
-              activePage,
+                activePageNext,
               idCateNext
             )
           });
         }
 
         
+    }
+    componentDidUpdate(){
+        $('html, body').animate({
+            scrollTop: 0
+        }, 500);
     }
   render() {
     const {activePage,itemsCounterPerPage,totalItemsCount,pageRangeDisplayed} = this.state

@@ -11,7 +11,7 @@ import User from './user/components/user';
 import history from "./history";
 class AppRouter extends React.Component {
     render() {
-        return <Router history={history}>
+        return <Router>
             <Switch>
               <Route path="/admin" component={Admin} />
               <Route path="/" component={User} />

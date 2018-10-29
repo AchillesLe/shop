@@ -1,14 +1,21 @@
 import React,{PureComponent} from 'react'
 import { CategoriesProvider, CategoriesConsumer } from '../context/CategoriesContext';
-const Category =({category})=>(
-    <div className="col-12 col-sm-6 col-md-4">
-        <div className="single_catagory_area d-flex align-items-center justify-content-center bg-img" style={{backgroundImage: `url(${category.image})`}}>
-            <div className="catagory-content">
-                <a href="#">{category.name}</a>
-            </div>
-        </div>
+import {Link} from 'react-router-dom';
+import {route} from './../../../config'
+const Category = ({ category }) => (
+  <div className="col-12 col-sm-6 col-md-4">
+    <div
+      className="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+      style={{ backgroundImage: `url(${category.image})` }}
+    >
+      <div className="catagory-content">
+                <Link to={`${route.product}?id=${category.idCategory}`}>
+          {category.name}
+        </Link>
+      </div>
     </div>
-)
+  </div>
+);
 class Categories extends PureComponent{
     render(){
         return(
@@ -20,7 +27,7 @@ class Categories extends PureComponent{
                             <CategoriesConsumer>
                             {
                                 ({listCate})=>{
-                                    return listCate.map((cate,i) => { return i<3?(<Category key={cate.id} category = {cate} />):''})
+                                    return listCate.map((cate, i) => { return i < 3 ? (<Category key={cate.idCategory} category = {cate} />):''})
                                 }
                             }
                             </CategoriesConsumer>

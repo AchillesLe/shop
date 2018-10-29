@@ -7,7 +7,8 @@ export const IconCart = ({isAtRightCart})=>{
         <CartConsumer>
             {
                 (value) =>{
-                    const {toggleCart,cartItems} = value
+                    const {cartItems} = value.state
+                    const { toggleCart} = value.actions
                     return(
                         <div className={`${isAtRightCart?'cart-button':'cart-area'}`}>
                             <a href="javascript:;" onClick={toggleCart} id="essenceCartBtn">

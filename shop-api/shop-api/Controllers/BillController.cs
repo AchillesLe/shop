@@ -20,5 +20,18 @@ namespace shop_api.Controllers
             if (token == "") return BadRequest(Message.messageNotValidToken);
             return Ok(billService.GetAll());
         }
+        [HttpGet(), Route("getbill/{id:int}")]
+        public IHttpActionResult GetbyId(int id)
+        {
+            if (id > 0)
+            {
+                string token = Token.HandleToken(Request);
+                if (token == "") return BadRequest(Message.messageNotValidToken);
+                return Ok(billService.GetById(id));
+            }
+            return BadRequest();
+        }
+
+
     }
 }

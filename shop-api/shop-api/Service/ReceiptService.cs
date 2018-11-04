@@ -179,7 +179,16 @@ namespace shop_api.Service
                     newDetail.quantity = detail.quantity;
                     context.DetailReciepts.Add(newDetail);
                     context.SaveChanges();
+                    // update product
+                    var product = context.Products.Where(x => x.idProduct == newDetail.idProduct).FirstOrDefault();
+                    if (product.quantity > newDetail.quantity)
+                    {
+                        product.quantity = product.quantity - newDetail.quantity;
+                        context.Products.Attach(product);
+                        context.Entry(product).State =  System.Data.Entity.EntityState.Modified;
+                    }
                 }
+                context.SaveChanges();
                 return true;
             }
             else
@@ -197,6 +206,17 @@ namespace shop_api.Service
                 this.context.Receipts.Attach(receipt);
                 this.context.Entry(receipt).State = System.Data.Entity.EntityState.Modified;
                 this.context.SaveChanges();
+                var listDetail = context.DetailReciepts.Where(x=>x.idReciept == id).ToList();
+                foreach (DetailReciept temp in listDetail)
+                {
+                    // update product
+                    var product = context.Products.Where(x => x.idProduct == temp.idProduct).FirstOrDefault();
+                    product.quantity = product.quantity + temp.quantity;
+                    context.Products.Attach(product);
+                    context.Entry(product).State = System.Data.Entity.EntityState.Modified;
+                }
+                this.context.SaveChanges();
+
                 return true;
             }
             catch (Exception ex)

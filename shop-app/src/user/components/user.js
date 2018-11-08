@@ -3,6 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import $ from 'jquery'
 import {route} from './../../config'
 import './user.css';
+import 'react-notifications/lib/notifications.css';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 import './../../assets/user/img/core-img/favicon.ico'
 import './../../assets/user/css/core-style.css'
 import './../../assets/user/style.css'

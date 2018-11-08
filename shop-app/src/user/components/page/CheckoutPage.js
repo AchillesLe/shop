@@ -4,6 +4,7 @@ import {withCartContext} from './../hoc/withCartContext'
 import {Input} from './../common/Input'
 import {validator} from './../common/Validator'
 import isEmpty from 'lodash/isEmpty'
+import {currencyParser} from './../../services'
 class CheckoutPage extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +17,7 @@ class CheckoutPage extends Component {
         phone: "",
         email: ""
       },
+      validInputs:[],
       total: 0,
       first_name: "",
       last_name: "",
@@ -59,7 +61,7 @@ class CheckoutPage extends Component {
       return (
         <li key={item.id}>
           <span>{item.name}</span> <span>{item.quantity}</span>
-          <span>{item.price} VNĐ</span>
+          <span>{currencyParser(item.price)} VNĐ</span>
         </li>
       );
     });
@@ -156,7 +158,7 @@ class CheckoutPage extends Component {
                     <span>Phí giao hàng</span> <span>Free</span>
                   </li>
                   <li>
-                    <span>Tổng cộng</span> <span>{total}</span>
+                    <span>Tổng cộng</span> <span>{currencyParser(total)}</span>
                   </li>
                 </ul>
 

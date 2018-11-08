@@ -10,7 +10,9 @@ export class CategoriesProvider extends Component{
         }
     }
     componentDidMount(){
-        callAPI('GET',`category/getall`).then(data=> this.setState({listCate:data.data}))
+        callAPI('GET',`category/getall`)
+        .then(data=> this.setState({listCate:data.data}))
+        .catch(ex=>{console.log(ex)})
     }
     render(){
         return(

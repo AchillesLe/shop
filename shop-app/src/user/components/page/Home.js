@@ -1,34 +1,22 @@
 import React, { Component } from "react";
 
-import {Product} from '../product/Product';
-
 import Categories from './../category/Categories';
 import {withJS} from './../hoc/withJS'
 
+import $ from 'jquery'
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      products: []
-    };
   }
 
-  componentWillReceiveProps(nextProps){
-    if(this.props.products !== nextProps.products){
-      localStorage.setItem('hot-product', JSON.stringify(nextProps.products))
-      this.setState({products: [...nextProps.products]})
+
+  componentWillUnmount(){
+    if(typeof $('popular-products-slides').data('owlCarousel') !== 'undefined') {
+      $('popular-products-slides').data('owlCarousel').destroy();
+      $('popular-products-slides').removeClass('owl-carousel');
     }
   }
-  renderProduct = () => {
-    if (localStorage.getItem("hot-product")){
-      return JSON.parse(localStorage.getItem("hot-product")).map(p => (
-        <Product key={p.id} product={p} />
-      ));
-    }
-
-  };
   render() {
-    console.log(this.state.products);
     return (
       <div>
         <Categories />
@@ -47,7 +35,7 @@ class Home extends Component {
             <div className="row">
               <div className="col-12">
                 <div className="popular-products-slides owl-carousel">
-                  {this.renderProduct()}
+                  {this.props.renderProduct()}
                 </div>
               </div>
             </div>

@@ -6,6 +6,7 @@ import {queryStringParser} from './../../services'
 import Pagination from "react-js-pagination";
 import { withJS } from './../hoc/withJS'
 import $ from "jquery";
+import orderBy from 'lodash/orderBy'
 class ProductPage extends Component {
     constructor(props) {
         super(props);
@@ -14,12 +15,27 @@ class ProductPage extends Component {
             itemsCounterPerPage: 10,
             totalItemsCount:0,
             pageRangeDisplayed:3,
-            productsPerPage:[]
+            productsPerPage:[],
+            sortKey:'newest'
         }
     }
     filterProduct = (products,page,idCate) => {
         const lastItemIndex = page * this.state.itemsCounterPerPage
         const firstItemIndex = lastItemIndex - this.state.itemsCounterPerPage
+        switch(this.state.sortKey){
+            case 'newest':
+                products = orderBy(products,'idProduct','desc')
+                console.log(products)
+                break;
+            case 'decrease':
+                products = orderBy(products,'priceOut','desc')
+                break;
+            case 'ascending':
+                products = orderBy(products,'priceOut','asc')
+                break;
+            default: products;
+        }
+        
         if (!idCate) {
           return products.slice(firstItemIndex, lastItemIndex);
         } else {
@@ -27,6 +43,7 @@ class ProductPage extends Component {
           return productsByCate.slice(firstItemIndex, lastItemIndex);
         }  
     }
+
     handlePageChange = (pageNumber) => {
         const {history} = this.props
         var queryString = this.props.location.search.replace(`page=${this.state.activePage}`,`page=${pageNumber}`)
@@ -36,7 +53,11 @@ class ProductPage extends Component {
         var queryString = queryStringParser(this.props.location.search)
         const activePage = queryString["page"];
         const idCate = queryString["id"];
-        console.log('did')
+        let _this = this;
+        $(document).on("click",".list li", function(){
+            var value = $(this).data('value')
+            _this.setState({sortKey:value})
+        })
         this.setState({
           activePage: activePage,
             totalItemsCount: idCate ? this.props.products.filter(p => p.idCategory === parseInt(idCate)).length : this.props.products.length,
@@ -58,24 +79,40 @@ class ProductPage extends Component {
             console.log(idCateNext)
             this.setState({
                 activePage: activePageNext,
-              totalItemsCount: idCateNext?nextProps.products.filter(p => p.idCategory === parseInt(idCateNext)).length:nextProps.products.length,
-            productsPerPage: this.filterProduct(
-              nextProps.products,
-                activePageNext,
-              idCateNext
-            )
-          });
+                totalItemsCount: idCateNext?nextProps.products.filter(p => p.idCategory === parseInt(idCateNext)).length:nextProps.products.length,
+                productsPerPage: this.filterProduct(
+                    nextProps.products,
+                    activePageNext,
+                    idCateNext
+                )
+            });
         }
-
-        
     }
-    componentDidUpdate(){
-        $('html, body').animate({
-            scrollTop: 0
-        }, 500);
+    componentDidUpdate(prevProps, prevState){
+        var queryString = queryStringParser(this.props.location.search)
+        var queryStringPrev = queryStringParser(prevProps.location.search);
+        const activePage = queryString["page"];
+        const activePagePrev = queryStringPrev["page"];
+       
+        const idCate = queryString["id"];
+        const idCatePrev = queryStringPrev["id"];
+        if(prevState.sortKey !== this.state.sortKey){
+            this.setState({               
+                productsPerPage: this.filterProduct(
+                    this.props.products,
+                    activePage,
+                    idCate
+                )
+            });
+        }
+        if(idCate !== idCatePrev || activePagePrev !== activePage || this.props.products !== prevProps.products){
+            $('html, body').animate({
+                scrollTop: 0
+            }, 500);
+        }
     }
   render() {
-    const {activePage,itemsCounterPerPage,totalItemsCount,pageRangeDisplayed} = this.state
+    const {activePage,itemsCounterPerPage,totalItemsCount,pageRangeDisplayed,sortKey} = this.state
     return (
       <React.Fragment>
          
@@ -112,6 +149,25 @@ class ProductPage extends Component {
 
                 <div className="col-12 col-md-8 col-lg-9">
                     <div className="shop_grid_product_area">
+                    <div className="row">
+                            <div className="col-12">
+                                <div className="product-topbar d-flex align-items-center justify-content-between">
+                                    <div className="total-products">
+                                        <p><span>{totalItemsCount}</span> Sản phẩm</p>
+                                    </div>
+                                    <div className="product-sorting d-flex">
+                                        <p>Sắp xếp:</p>
+                                    
+                                        <select id="sortByselect" defaultValue={sortKey}>
+                                            <option value="newest">Mới nhất</option>
+                                            <option value="decrease">Giá tăng dần</option>
+                                            <option value="ascending">Giá giảm dần</option>
+                                        </select>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div className="row">
                           <Products isProductPage products={this.state.productsPerPage}/>
                         </div>

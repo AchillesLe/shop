@@ -17,3 +17,7 @@ body {
     font-size: 12px;
     line-height: 50px;
 }
+.product-description h6{
+    font-weight: 700;
+    font-size: 1.5rem;
+}

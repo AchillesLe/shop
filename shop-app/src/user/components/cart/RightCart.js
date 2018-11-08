@@ -9,7 +9,7 @@ const CartItem = ({ cartItem, removeItem}) =>(
         <Link to={`/${route.detail}?id=${cartItem.id}/`} className="product-image">
             <img src={`${urlUpload}/img/product-img/product-1.jpg`} className="cart-thumb" alt=""/>
             <div className="cart-item-desc">
-                <span className="product-remove" onClick={() => removeItem(cartItem.id)}><i className="fa fa-close" aria-hidden="true"></i></span>
+                <span className="product-remove" onClick={(e) => removeItem(e,cartItem.id)}><i className="fa fa-close" aria-hidden="true"></i></span>
                 <span className="badge">{cartItem.cateName}</span>
                 <h6>{cartItem.name}</h6>
                 <p className="size">Số lượng: {cartItem.quantity}</p>

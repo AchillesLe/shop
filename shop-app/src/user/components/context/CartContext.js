@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import { timingSafeEqual } from 'crypto';
-
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 const CartContext = React.createContext()
 export class CartProvider extends Component{
     constructor(props){
@@ -23,7 +23,6 @@ export class CartProvider extends Component{
         this.setState({isToggleCart:!this.state.isToggleCart})
     }
     addToCart = (item)=>{
-
         var found=false;
         var updateCart = this.state.cartItems.map(cartItem =>{
             if(cartItem.name == item.name){
@@ -40,9 +39,10 @@ export class CartProvider extends Component{
 
         this.setState({cartItems : updateCart});
         localStorage.setItem("cart", JSON.stringify(updateCart));
-        
+        NotificationManager.success('Đã thêm vào giỏ hàng', '');
     }
-    removeItem = (id)=>{
+    removeItem = (e,id)=>{
+        e.preventDefault();
         var updateCart = this.state.cartItems.filter(item => item.id !== id)
         this.setState({cartItems: updateCart});
         localStorage.setItem("cart", JSON.stringify(updateCart));
@@ -51,6 +51,7 @@ export class CartProvider extends Component{
         return(
             <CartContext.Provider value={{ state: this.state, actions: { toggleCart: this.toggleCart, addToCart: this.addToCart, removeItem: this.removeItem}}}>
                 {this.props.children}
+                <NotificationContainer/>
             </CartContext.Provider>
         )
     }

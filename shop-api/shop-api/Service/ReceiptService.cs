@@ -74,7 +74,7 @@ namespace shop_api.Service
                     description = x.description,
                     nameCustomer = x.nameCustomer,
                     phone = x.phone,
-                    email = x.email,
+                    //email = x.email,
                     total = x.total,
                     detailReceipts = x.detailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
                     {
@@ -156,7 +156,7 @@ namespace shop_api.Service
                     createdDate = x.createdDate
                 }).OrderBy(x => x.idReceipt).FirstOrDefault();
             return Receipt;
-        }
+        }   
         public ReceiptDTO AddReceipt(RequestReceipt receipt)
         {
             Receipt newReceipt = new Receipt();

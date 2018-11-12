@@ -16,7 +16,6 @@ namespace shop_api.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int idBill { get; set; }
 
         public decimal codeBill { get; set; }

@@ -1,4 +1,6 @@
-﻿using shop_api.DTO;
+﻿using Newtonsoft.Json;
+using shop_api.DTO;
+using shop_api.DTO.RequestDTO;
 using shop_api.Models;
 using System;
 using System.Collections.Generic;
@@ -104,7 +106,48 @@ namespace shop_api.Service
             return Bill;
         }
 
+        public BillDTO AddBill(RequestBill bill, int iduser)
+        {
 
+            Bill newBill = new Bill();
+            newBill.codeBill = bill.codeBill;
+            newBill.idUpdator = iduser;
+            newBill.nameSupplier = bill.nameSupplier;
+            newBill.total = bill.total;
+            newBill.createdDate = DateTime.Now;
+            newBill.updatedDate = DateTime.Now;
+            context.Bills.Add(newBill);
+            context.SaveChanges();
+            if (newBill.idBill > 0)
+            {
+                List<RequestDetailBill> detailBills = JsonConvert.DeserializeObject<List<RequestDetailBill>>(bill.detailBills);
+                foreach (RequestDetailBill detail in detailBills)
+                {
+                    DetailBill newDetail = new DetailBill();
 
+                    newDetail.idBill = newBill.idBill;
+                    newDetail.idProduct = detail.idProduct;
+                    newDetail.price = detail.price;
+                    newDetail.quantity = detail.quantity;
+                    context.DetailBills.Add(newDetail);
+                    context.SaveChanges();
+                    // update product
+                    var product = context.Products.Where(x => x.idProduct == newDetail.idProduct).FirstOrDefault();
+                    if (product.quantity > newDetail.quantity)
+                    {
+                        product.quantity = product.quantity + newDetail.quantity;
+                        context.Products.Attach(product);
+                        context.Entry(product).State = System.Data.Entity.EntityState.Modified;
+                    }
+                }
+                context.SaveChanges();
+                return GetById(newBill.idBill);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace shop_api.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Receipt()
         {
-            DetailReciepts = new HashSet<DetailReciept>();
+            detailReciepts = new HashSet<DetailReciept>();
         }
 
         [Key]
@@ -25,6 +25,10 @@ namespace shop_api.Models
         [Required]
         [StringLength(250)]
         public string address { get; set; }
+
+        [Required]
+        [StringLength(250)]
+        public string email { get; set; }
 
         [Required]
         [StringLength(11)]
@@ -44,7 +48,7 @@ namespace shop_api.Models
         public DateTime updatedDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DetailReciept> DetailReciepts { get; set; }
+        public virtual ICollection<DetailReciept> detailReciepts { get; set; }
 
         public virtual User User { get; set; }
     }

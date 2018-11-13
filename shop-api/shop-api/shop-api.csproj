@@ -137,6 +137,7 @@
     <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\BillService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\ReceiptService.cs" />

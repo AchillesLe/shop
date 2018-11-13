@@ -10,7 +10,6 @@ namespace shop_api.Models
     public partial class DetailBill
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int idDetailBill { get; set; }
 
         public int idBill { get; set; }

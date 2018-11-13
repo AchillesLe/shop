@@ -134,11 +134,6 @@ C:\Users\VU\source\repos\shop\shop-api\shop-api\bin\shop-api.dll.config
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.csprojAssemblyReference.cache
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CoreCompileInputs.cache
 C:\Users\VU\source\repos\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CopyComplete
-<<<<<<< HEAD
-E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Web.Cors.dll
-E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Web.Http.Cors.dll
-E:\GoogleDrive\CACCONGNGHELAPTRINHHIENDAI\shop\shop-api\shop-api\bin\System.Web.Http.Cors.xml
-=======
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\shop-api.dll.config
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\shop-api.dll
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\shop-api.pdb
@@ -210,4 +205,74 @@ F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\System.Web.Cors.dll
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\System.Web.Http.Cors.dll
 F:\SGU\năm 5\Công nghệ lập trình hiện đại\Source code\shop\shop-api\shop-api\bin\System.Web.Http.Cors.xml
->>>>>>> f040488ccf65a5993aba8856385cb90983973729
+D:\PracticeDev\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CoreCompileInputs.cache
+D:\PracticeDev\shop\shop-api\shop-api\obj\Debug\shop-api.dll
+D:\PracticeDev\shop\shop-api\shop-api\obj\Debug\shop-api.pdb
+D:\PracticeDev\shop\shop-api\shop-api\bin\shop-api.dll.config
+D:\PracticeDev\shop\shop-api\shop-api\bin\shop-api.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\shop-api.pdb
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\csc.exe
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\csc.exe.config
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\csc.rsp
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\csi.exe
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\csi.exe.config
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\csi.rsp
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.Managed.Core.targets
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.AppContext.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Collections.Immutable.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Console.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.IO.Compression.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.IO.FileSystem.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.IO.Pipes.AccessControl.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.IO.Pipes.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Reflection.Metadata.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Security.AccessControl.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Security.Claims.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Security.Principal.Windows.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.ValueTuple.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Xml.XmlDocument.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Xml.XPath.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\vbc.exe
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\vbc.exe.config
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\vbc.rsp
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\VBCSCompiler.exe
+D:\PracticeDev\shop\shop-api\shop-api\bin\roslyn\VBCSCompiler.exe.config
+D:\PracticeDev\shop\shop-api\shop-api\bin\EntityFramework.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\EntityFramework.SqlServer.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\Newtonsoft.Json.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Net.Http.Formatting.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Web.Cors.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Web.Http.Cors.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Web.Http.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Web.Http.WebHost.dll
+D:\PracticeDev\shop\shop-api\shop-api\bin\EntityFramework.xml
+D:\PracticeDev\shop\shop-api\shop-api\bin\EntityFramework.SqlServer.xml
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Net.Http.Formatting.xml
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Web.Http.xml
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Web.Http.Cors.xml
+D:\PracticeDev\shop\shop-api\shop-api\bin\Newtonsoft.Json.xml
+D:\PracticeDev\shop\shop-api\shop-api\bin\System.Web.Http.WebHost.xml
+D:\PracticeDev\shop\shop-api\shop-api\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\PracticeDev\shop\shop-api\shop-api\obj\Debug\shop-api.csproj.CopyComplete
+D:\PracticeDev\shop\shop-api\shop-api\obj\Debug\shop-api.csprojAssemblyReference.cache

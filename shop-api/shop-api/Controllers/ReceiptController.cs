@@ -74,10 +74,10 @@ namespace shop_api.Controllers
                     List<RequestDetailReciept>  detailReceipts = JsonConvert.DeserializeObject<List<RequestDetailReciept>>(receipt.detailReceipts);
                     if (detailReceipts.Count > 0)
                     {
-                        
-                        if (receiptService.AddReceipt(receipt) == true)
+                        ReceiptDTO result = receiptService.AddReceipt(receipt);
+                        if ( result != null )
                         {
-                            return Ok(Message.messageAddReceiptSuccess);
+                            return Ok(new { message = Message.messageAddReceiptSuccess, data = result });
                         }
                     }
                 }

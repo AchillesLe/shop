@@ -33,7 +33,7 @@ namespace shop_api.Models
                 .HasPrecision(15, 0);
 
             modelBuilder.Entity<Bill>()
-                .HasMany(e => e.DetailBills)
+                .HasMany(e => e.detailBills)
                 .WithRequired(e => e.Bill)
                 .WillCascadeOnDelete(false);
 

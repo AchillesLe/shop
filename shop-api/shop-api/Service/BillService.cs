@@ -21,10 +21,11 @@ namespace shop_api.Service
                     codeBill = x.codeBill,
                     nameSupplier = x.nameSupplier,
                     total = x.total,
-                    detailBills = x.detailBills.Where(a => a.idBill == x.idBill).Select(a => new DetailBillDTO
+                    detailBills = context.DetailBills.Where(a => a.idBill == x.idBill).Select(a => new DetailBillDTO
                     {
                         idDetailBill = a.idDetailBill,
                         idBill = a.idBill,
+                        quantity = a.quantity,
                         price = a.price,
                         Product = new ProductDTO
                         {
@@ -68,11 +69,12 @@ namespace shop_api.Service
                     codeBill = x.codeBill,
                     nameSupplier = x.nameSupplier,
                     total = x.total,
-                    detailBills = x.detailBills.Where(a => a.idBill == x.idBill).Select(a => new DetailBillDTO
+                    detailBills = context.DetailBills.Where(a => a.idBill == x.idBill).Select(a => new DetailBillDTO
                     {
                         idDetailBill = a.idDetailBill,
                         idBill = a.idBill,
                         price = a.price,
+                        quantity = a.quantity,
                         Product = new ProductDTO
                         {
                             idProduct = a.Product.idProduct,

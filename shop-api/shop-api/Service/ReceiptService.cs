@@ -24,9 +24,10 @@ namespace shop_api.Service
                     address = x.address,
                     description = x.description,
                     nameCustomer = x.nameCustomer,
+                    email = x.email,
                     phone = x.phone,
                     total = x.total,
-                    detailReceipts = x.DetailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
+                    detailReceipts = x.detailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
                     {
                         idDetail = a.idDetail,
                         idReciept = a.idReciept,
@@ -73,8 +74,9 @@ namespace shop_api.Service
                     description = x.description,
                     nameCustomer = x.nameCustomer,
                     phone = x.phone,
+                    email = x.email,
                     total = x.total,
-                    detailReceipts = x.DetailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
+                    detailReceipts = x.detailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
                     {
                         idDetail = a.idDetail,
                         idReciept = a.idReciept,
@@ -118,11 +120,12 @@ namespace shop_api.Service
                 {
                     idReceipt = x.idReceipt,
                     address = x.address,
+                    email = x.email,
                     description = x.description,
                     nameCustomer = x.nameCustomer,
                     phone = x.phone,
                     total = x.total,
-                    detailReceipts = x.DetailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
+                    detailReceipts = x.detailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
                     {
                         idDetail = a.idDetail,
                         idReciept = a.idReciept,
@@ -153,8 +156,8 @@ namespace shop_api.Service
                     createdDate = x.createdDate
                 }).OrderBy(x => x.idReceipt).FirstOrDefault();
             return Receipt;
-        }
-        public bool AddReceipt(RequestReceipt receipt)
+        }   
+        public ReceiptDTO AddReceipt(RequestReceipt receipt)
         {
             Receipt newReceipt = new Receipt();
             newReceipt.address = receipt.address;
@@ -162,6 +165,7 @@ namespace shop_api.Service
             newReceipt.idUpdator = null;
             newReceipt.nameCustomer = receipt.nameCustomer;
             newReceipt.phone = receipt.phone;
+            newReceipt.email = receipt.email;
             newReceipt.total = receipt.total;
             newReceipt.createdDate = DateTime.Now;
             newReceipt.updatedDate = DateTime.Now;
@@ -179,12 +183,21 @@ namespace shop_api.Service
                     newDetail.quantity = detail.quantity;
                     context.DetailReciepts.Add(newDetail);
                     context.SaveChanges();
+                    // update product
+                    var product = context.Products.Where(x => x.idProduct == newDetail.idProduct).FirstOrDefault();
+                    if (product.quantity > newDetail.quantity)
+                    {
+                        product.quantity = product.quantity - newDetail.quantity;
+                        context.Products.Attach(product);
+                        context.Entry(product).State =  System.Data.Entity.EntityState.Modified;
+                    }
                 }
-                return true;
+                context.SaveChanges();
+                return GetById(newReceipt.idReceipt);
             }
             else
             {
-                return false;
+                return null;
             }
 
         }
@@ -197,6 +210,17 @@ namespace shop_api.Service
                 this.context.Receipts.Attach(receipt);
                 this.context.Entry(receipt).State = System.Data.Entity.EntityState.Modified;
                 this.context.SaveChanges();
+                var listDetail = context.DetailReciepts.Where(x=>x.idReciept == id).ToList();
+                foreach (DetailReciept temp in listDetail)
+                {
+                    // update product
+                    var product = context.Products.Where(x => x.idProduct == temp.idProduct).FirstOrDefault();
+                    product.quantity = product.quantity + temp.quantity;
+                    context.Products.Attach(product);
+                    context.Entry(product).State = System.Data.Entity.EntityState.Modified;
+                }
+                this.context.SaveChanges();
+
                 return true;
             }
             catch (Exception ex)

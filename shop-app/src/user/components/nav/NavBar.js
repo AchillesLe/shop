@@ -4,7 +4,7 @@ import {NavItem} from './NavItem';
 import logo from "./../../../assets/user/img/core-img/logo.png";
 import userIcon from "./../../../assets/user/img/core-img/user.svg";
 import {IconCart} from './../cart/IconCart'
-import { CartProvider } from "../context/CartContext";
+import {SearchForm} from './../common/SearchForm'
 const path = [
   {
     label: "Trang chủ",
@@ -64,14 +64,7 @@ class NavBar extends PureComponent {
           </nav>
 
           <div className="header-meta d-flex clearfix justify-content-end">
-            <div className="search-area">
-              <form action="#" method="post">
-                <input type="search" name="search" id="headerSearch" placeholder="Tìm đồ chơi" />
-                <button type="submit">
-                  <i className="fa fa-search" aria-hidden="true" />
-                </button>
-              </form>
-            </div>
+            <SearchForm/>
 
             <div className="user-login-info">
               <a href="#">

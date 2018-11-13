@@ -1,17 +1,19 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import Pagination from "react-js-pagination";
 import bgHeader from './../../../assets/user/img/bg-img/breadcumb.jpg'
 import Products from './../product/Products'
 import SideBar from "../nav/SideBar";
 import {queryStringParser} from './../../services'
-import Pagination from "react-js-pagination";
 import { withJS } from './../hoc/withJS'
 import $ from "jquery";
 import orderBy from 'lodash/orderBy'
+
 class ProductPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activePage:2,
+            activePage:1,
             itemsCounterPerPage: 10,
             totalItemsCount:0,
             pageRangeDisplayed:3,

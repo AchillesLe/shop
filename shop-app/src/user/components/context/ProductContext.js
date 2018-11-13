@@ -10,7 +10,8 @@ export class ProducProvider extends Component {
     super(props);
     this.state = {
       products: [],
-      totalPage:0
+      totalPage:0,
+      keyword:''
     };
   }
   renderProduct = () => {
@@ -35,11 +36,16 @@ export class ProducProvider extends Component {
       this.setState({ products: data.data.list, totalPage:data.data.total })
     ).catch(ex=>{console.log(ex)});
   }
-  
+  onChangeKeyword = (keyword)=>{
+    this.setState({keyword})
+  }
+  onSubmitKeyword = (e)=>{
+    e.preventDefault()
+    console.log(this.state.keyword)
+  }
   render(){
-
       return(
-          <ProductContext.Provider value={{products:this.state.products,renderProduct:this.renderProduct}}>
+          <ProductContext.Provider value={{keyword:this.state.keyword,products:this.state.products,renderProduct:this.renderProduct,onChangeKeyword:this.onChangeKeyword,onSubmitKeyword:this.onSubmitKeyword}}>
               {this.props.children}
           </ProductContext.Provider>
       )

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import {urlUpload} from './../../../config'
+import {route} from './../../../config'
 import { callAPI } from './../../services'
 import { optionsOwl as options } from "./../../../config";
 import OwlCarousel from 'react-owl-carousel';
 import {Product} from '../product/Product';
+import history from './../../../history';
 export const ProductContext = React.createContext();
 export class ProducProvider extends Component {
   constructor(props) {
@@ -37,11 +38,13 @@ export class ProducProvider extends Component {
     ).catch(ex=>{console.log(ex)});
   }
   onChangeKeyword = (keyword)=>{
+
     this.setState({keyword})
   }
   onSubmitKeyword = (e)=>{
-    e.preventDefault()
-    console.log(this.state.keyword)
+    e.preventDefault();
+    var keyword = this.state.keyword.replace(/ /g, '-')
+    history.push(`${route.product}?keyword=${keyword}&page=1`); 
   }
   render(){
       return(

@@ -17,7 +17,7 @@ import Home from './page/Home';
 import ProductPage from './page/ProductPage';
 import ProductDetailPage from './page/ProductDetailPage';
 import CheckoutPage from "./page/CheckoutPage";
-
+import ContactPage from "./page/ContactPage";
 import { RightCart } from './cart/RightCart';
 import { CartProvider } from './context/CartContext';
 
@@ -48,6 +48,7 @@ class User extends Component {
                 <HomeRoute path={`${this.props.match.path}${route.product}`} component={ProductPage}/>
                 <HomeRoute path={`${this.props.match.path}${route.detail}`} component={ProductDetailPage}/>
                 <HomeRoute path={`${this.props.match.path}${route.checkout}`} component={CheckoutPage} />
+                <HomeRoute path={`${this.props.match.path}${route.contact}`} component={ContactPage} />
             </Switch>
         )
     }

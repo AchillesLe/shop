@@ -4,7 +4,8 @@ export const domainServer = 'http://localhost:5000/api'
 export const route = {
     product:'san-pham',
     detail:'chi-tiet',
-    checkout:'dat-hang'
+    checkout:'dat-hang',
+    contact: 'lien-he',
 }
 export const optionsOwl = {
     items: 4,

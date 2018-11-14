@@ -18,16 +18,16 @@ class ProductPage extends Component {
             totalItemsCount:0,
             pageRangeDisplayed:3,
             productsPerPage:[],
-            sortKey:'newest'
+            sortKey:'newest',
+            keyword:'',
         }
     }
-    filterProduct = (products,page,idCate) => {
+    sortProduct = (products,page) => {
         const lastItemIndex = page * this.state.itemsCounterPerPage
         const firstItemIndex = lastItemIndex - this.state.itemsCounterPerPage
         switch(this.state.sortKey){
             case 'newest':
                 products = orderBy(products,'idProduct','desc')
-                console.log(products)
                 break;
             case 'decrease':
                 products = orderBy(products,'priceOut','desc')
@@ -37,73 +37,89 @@ class ProductPage extends Component {
                 break;
             default: products;
         }
-        
+        return products.slice(firstItemIndex, lastItemIndex);
+
+    }
+    filterProduct = (products,idCate='',keyword='')=>{
+        keyword = keyword.replace(/\-/g, ' ')
         if (!idCate) {
-          return products.slice(firstItemIndex, lastItemIndex);
+            if(keyword){
+                return products.filter(p=> p.name.toLowerCase().search(keyword.toLowerCase()) > -1)
+            }
+            return products
         } else {
-          var productsByCate = products.filter(p => p.idCategory === parseInt(idCate));
-          return productsByCate.slice(firstItemIndex, lastItemIndex);
+            return products.filter(p => p.idCategory === parseInt(idCate));
         }  
     }
-
     handlePageChange = (pageNumber) => {
         const {history} = this.props
         var queryString = this.props.location.search.replace(`page=${this.state.activePage}`,`page=${pageNumber}`)
         history.push(`${this.props.match.path}${queryString}`); 
     }
     componentDidMount(){
-        var queryString = queryStringParser(this.props.location.search)
+        var queryString = queryStringParser(decodeURI(this.props.location.search))
         const activePage = queryString["page"];
         const idCate = queryString["id"];
+        const keyword = queryString['keyword'];
+        console.log(this.props.location.search)
         let _this = this;
         $(document).on("click",".list li", function(){
             var value = $(this).data('value')
             _this.setState({sortKey:value})
         })
+        var products = this.filterProduct(this.props.products,idCate,keyword)
+        console.log(products)
         this.setState({
-          activePage: activePage,
-            totalItemsCount: idCate ? this.props.products.filter(p => p.idCategory === parseInt(idCate)).length : this.props.products.length,
-            productsPerPage: this.filterProduct(this.props.products, activePage,idCate)
+            activePage: activePage,
+            keyword:keyword,
+            totalItemsCount: products.length,
+            productsPerPage: this.sortProduct(products, activePage),
         });
 
     }
 
     componentWillReceiveProps(nextProps){
-        var queryString = queryStringParser(this.props.location.search)
-        var queryStringNext = queryStringParser(nextProps.location.search);
+        var queryString = queryStringParser(decodeURI(this.props.location.search))
+        var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
 
         const activePage = queryString["page"];
         const activePageNext = queryStringNext["page"];
 
         const idCate = queryString["id"];
         const idCateNext = queryStringNext["id"];
-        if (idCate !== idCateNext || activePageNext !== activePage || this.props.products !== nextProps.products) {
-            console.log(idCateNext)
+        const keyword = queryString['keyword'];
+        const keywordNew = queryStringNext['keyword'];
+        console.log(keyword,keywordNew)
+        if (idCate !== idCateNext || activePageNext !== activePage || this.props.products !== nextProps.products || keyword !== keywordNew) {
+            var products = this.filterProduct(nextProps.products,idCateNext,keywordNew)
+            console.log(products)
             this.setState({
                 activePage: activePageNext,
-                totalItemsCount: idCateNext?nextProps.products.filter(p => p.idCategory === parseInt(idCateNext)).length:nextProps.products.length,
-                productsPerPage: this.filterProduct(
-                    nextProps.products,
-                    activePageNext,
-                    idCateNext
+                totalItemsCount: products.length,
+                keyword:keywordNew,
+                productsPerPage: this.sortProduct(
+                    products,
+                    activePageNext
                 )
             });
         }
     }
     componentDidUpdate(prevProps, prevState){
-        var queryString = queryStringParser(this.props.location.search)
-        var queryStringPrev = queryStringParser(prevProps.location.search);
+        var queryString = queryStringParser(decodeURI(this.props.location.search))
+        var queryStringPrev = queryStringParser(decodeURI(prevProps.location.search));
         const activePage = queryString["page"];
         const activePagePrev = queryStringPrev["page"];
        
         const idCate = queryString["id"];
         const idCatePrev = queryStringPrev["id"];
+       
+        var products = this.filterProduct(this.props.products,idCate,queryStringPrev['keyword'])
+        console.log(products)
         if(prevState.sortKey !== this.state.sortKey){
             this.setState({               
-                productsPerPage: this.filterProduct(
-                    this.props.products,
-                    activePage,
-                    idCate
+                productsPerPage: this.sortProduct(
+                    products,
+                    activePage
                 )
             });
         }

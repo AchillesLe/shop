@@ -8,6 +8,7 @@ import {queryStringParser} from './../../services'
 import { withJS } from './../hoc/withJS'
 import $ from "jquery";
 import orderBy from 'lodash/orderBy'
+import { FilterPrice } from "../common/FilterPrice";
 
 class ProductPage extends Component {
     constructor(props) {
@@ -20,6 +21,8 @@ class ProductPage extends Component {
             productsPerPage:[],
             sortKey:'newest',
             keyword:'',
+            maxRange:2000000,
+            minRange:10000
         }
     }
     sortProduct = (products,page) => {
@@ -42,19 +45,33 @@ class ProductPage extends Component {
     }
     filterProduct = (products,idCate='',keyword='')=>{
         keyword = keyword.replace(/\-/g, ' ')
+        products = products.filter(p=>p.priceOut >= this.state.minRange && p.priceOut <= this.state.maxRange )
         if (!idCate) {
             if(keyword){
                 return products.filter(p=> p.name.toLowerCase().search(keyword.toLowerCase()) > -1)
             }
             return products
         } else {
-            return products.filter(p => p.idCategory === parseInt(idCate));
+            return products.filter(p => (p.idCategory === parseInt(idCate)));
         }  
     }
     handlePageChange = (pageNumber) => {
         const {history} = this.props
         var queryString = this.props.location.search.replace(`page=${this.state.activePage}`,`page=${pageNumber}`)
         history.push(`${this.props.match.path}${queryString}`); 
+    }
+    setRange = (range)=>{
+        this.setState((prevState)=>{
+            if(this.state.activePage != 1){
+                var queryString = this.props.location.search.replace(`page=${this.state.activePage}`,`page=1`)
+                this.props.history.push(`${this.props.match.path}${queryString}`); 
+            }else{
+                return {minRange:range[0],maxRange:range[1]}
+            }
+        })
+    }
+    handleRangeChange = (range)=>{
+        this.setRange(range);
     }
     componentDidMount(){
         var queryString = queryStringParser(decodeURI(this.props.location.search))
@@ -89,7 +106,7 @@ class ProductPage extends Component {
         const idCateNext = queryStringNext["id"];
         const keyword = queryString['keyword'];
         const keywordNew = queryStringNext['keyword'];
-        console.log(keyword,keywordNew)
+
         if (idCate !== idCateNext || activePageNext !== activePage || this.props.products !== nextProps.products || keyword !== keywordNew) {
             var products = this.filterProduct(nextProps.products,idCateNext,keywordNew)
             console.log(products)
@@ -97,6 +114,25 @@ class ProductPage extends Component {
                 activePage: activePageNext,
                 totalItemsCount: products.length,
                 keyword:keywordNew,
+                productsPerPage: this.sortProduct(
+                    products,
+                    activePageNext
+                )
+            });
+        }
+    }
+    componentWillUpdate(nextProps,nextState){
+
+        var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
+        const activePageNext = queryStringNext["page"];
+        const idCateNext = queryStringNext["id"];
+        
+        var products = this.filterProduct(nextProps.products,idCateNext,queryStringNext['keyword'])
+
+        if(nextState.sortKey !== this.state.sortKey || this.state.minRange !== nextState.minRange || this.state.maxRange !== nextState.maxRange){
+            this.setState({        
+                activePage: activePageNext,
+                totalItemsCount: products.length,       
                 productsPerPage: this.sortProduct(
                     products,
                     activePageNext
@@ -112,17 +148,6 @@ class ProductPage extends Component {
        
         const idCate = queryString["id"];
         const idCatePrev = queryStringPrev["id"];
-       
-        var products = this.filterProduct(this.props.products,idCate,queryStringPrev['keyword'])
-        console.log(products)
-        if(prevState.sortKey !== this.state.sortKey){
-            this.setState({               
-                productsPerPage: this.sortProduct(
-                    products,
-                    activePage
-                )
-            });
-        }
         if(idCate !== idCatePrev || activePagePrev !== activePage || this.props.products !== prevProps.products){
             $('html, body').animate({
                 scrollTop: 0
@@ -130,10 +155,9 @@ class ProductPage extends Component {
         }
     }
   render() {
-    const {activePage,itemsCounterPerPage,totalItemsCount,pageRangeDisplayed,sortKey} = this.state
+    const {activePage,itemsCounterPerPage,totalItemsCount,pageRangeDisplayed,sortKey,minRange,maxRange} = this.state
     return (
       <React.Fragment>
-         
       <section className="shop_grid_area section-padding-80">
        <div className="breadcumb_area bg-img" style={{backgroundImage: `url(${bgHeader})`}}>
             <div className="container h-100">
@@ -161,7 +185,7 @@ class ProductPage extends Component {
                                 </ul>
                             </div>
                         </div>
-                        
+                        <FilterPrice rangeChange={this.handleRangeChange} min={minRange} max={maxRange}/>
                     </div>
                 </div>
 

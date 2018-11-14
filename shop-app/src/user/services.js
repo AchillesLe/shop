@@ -13,7 +13,7 @@ export const queryStringParser = (query) => {
 export const currencyParser = (num) =>{
     var n =  num.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g,'$1,');
     var cur = n.split(".")
-    return cur
+    return cur[0]
 
 }
 export const callAPI = (method,endpoint,data=null,responseType=null)=>{

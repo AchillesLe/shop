@@ -84,7 +84,11 @@
     if ($.fn.niceSelect) {
         $('select').niceSelect();
     }
-
+    function currencyParser(num){
+        var n =  num.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g,'$1,');
+        var cur = n.split(".")
+        return cur[0]
+    }
     // :: Slider Range Price Active Code
     $('.slider-range-price').each(function () {
         var min = jQuery(this).data('min');
@@ -96,11 +100,12 @@
         var t = $(this);
         $(this).slider({
             range: true,
+            step: 10000,
             min: min,
             max: max,
             values: [value_min, value_max],
             slide: function (event, ui) {
-                var result = label_result + " " + unit + ui.values[0] + ' - ' + unit + ui.values[1];
+                var result = label_result + " " + unit + currencyParser(ui.values[0]) + ' - ' + unit + currencyParser(ui.values[1]);
                 console.log(t);
                 t.closest('.slider-range').find('.range-price').html(result);
             }

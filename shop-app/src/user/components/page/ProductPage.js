@@ -122,13 +122,10 @@ class ProductPage extends Component {
         }
     }
     componentWillUpdate(nextProps,nextState){
-
         var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
         const activePageNext = queryStringNext["page"];
         const idCateNext = queryStringNext["id"];
-        
         var products = this.filterProduct(nextProps.products,idCateNext,queryStringNext['keyword'])
-
         if(nextState.sortKey !== this.state.sortKey || this.state.minRange !== nextState.minRange || this.state.maxRange !== nextState.maxRange){
             this.setState({        
                 activePage: activePageNext,

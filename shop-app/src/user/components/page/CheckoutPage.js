@@ -10,32 +10,28 @@ class CheckoutPage extends Component {
     super(props);
     this.state = {
       errors:{
-        first_name:'',
-        last_name: "",
+        nameCustomer:'',
         address: "",
-        city: "",
         phone: "",
-        email: ""
+        email: "",
+        description:""
       },
-      validInputs:[],
+      validInputs:['description'],
       total: 0,
-      first_name: "",
-      last_name: "",
+      nameCustomer: "",
       address: "",
-      city: "",
       phone: "",
-      email: ""
+      email: "",
+      description:""
     };
   }
   handleChange = (e,validate) =>{
     var name = e.target.name
     var value = e.target.value
     var errors = validator(value,name,validate)
-    console.log(errors)
     var Inputs = this.state.validInputs
     if (isEmpty(errors) && !Inputs.includes(name)) {
       Inputs.push(name);
-      console.log(Inputs)
     } else if (!isEmpty(errors) && Inputs.includes(name)) {
       Inputs = Inputs.filter(input => input !== name);
     }
@@ -49,6 +45,17 @@ class CheckoutPage extends Component {
   }
   handleSubmit = e => {
     e.preventDefault();
+    const {nameCustomer,address,phone,email,description,total} =this.state
+    var receipt = {
+      nameCustomer,
+      address,
+      phone,
+      email,
+      description,
+      total,
+      detailReceipts:[...this.props.cartItems]
+    }
+    console.log(receipt)
   };
   componentDidMount(){
       this.setState({ total: getTotal(this.props.cartItems) })
@@ -60,8 +67,12 @@ class CheckoutPage extends Component {
     return cartItems.map(item => {
       return (
         <li key={item.id}>
-          <span>{item.name}</span> <span>{item.quantity}</span>
-          <span>{currencyParser(item.price)} VNĐ</span>
+          <ul className="d-flex justify-content-between w-100">
+            <li style={{borderBottom: 0}} className="d-flex justify-content-start col-3"><span>{item.name}</span></li>
+            <li style={{borderBottom: 0}} className="d-flex justify-content-end col-3"> <span>{item.quantity}</span></li>  
+            <li style={{borderBottom: 0}} className="d-flex justify-content-end col-3"> <span>{currencyParser(item.price)} VNĐ</span> </li>
+            <li style={{borderBottom: 0}} className="d-flex justify-content-end col-3"><span>{currencyParser(item.price * item.quantity)} VNĐ</span></li>
+          </ul>
         </li>
       );
     });
@@ -71,41 +82,32 @@ class CheckoutPage extends Component {
       total,
       errors,
       validInputs,
-      first_name,
-      last_name,
+      nameCustomer,
       address,
-      city,
-      state,
       phone,
+      description,
       email
     } = this.state;
-    console.log(validInputs)
     return <div className="checkout_area section-padding-80">
         <div className="container">
           <div className="row">
+          <form onSubmit={this.handleSubmit}>
             <div className="col-12 col-md-6">
               <div className="checkout_details_area mt-50 clearfix">
                 <div className="cart-page-heading mb-30">
                   <h5>Điền thông tin</h5>
                 </div>
 
-                <form onSubmit={this.handleSubmit}>
+               
                   <div className="row">
                     <div className="col-md-6 mb-3">
                       <label htmlFor="first_name">
-                        Họ <span>*</span>
+                        Họ tên <span>*</span>
                       </label>
-                      <Input type="text" className="form-control" id="first_name" name="first_name" value={first_name} handleChange={this.handleChange} validate={['required']}/>
-                      <span className="text-danger">{errors.first_name}</span>
+                      <Input type="text" className="form-control" id="nameCustomer" name="nameCustomer" value={nameCustomer} handleChange={this.handleChange} validate={['required']}/>
+                      <span className="text-danger">{errors.nameCustomer}</span>
                     </div>
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="last_name">
-                        Tên <span>*</span>
-                      </label>
-                      <Input type="text" className="form-control" id="last_name" name="last_name" value={last_name} handleChange={this.handleChange} validate={['required']}/>
-                      <span className="text-danger">{errors.last_name}</span>
-                    </div>
-
+                  
                     <div className="col-12 mb-3">
                       <label htmlFor="address">
                         Địa chỉ <span>*</span>
@@ -115,11 +117,11 @@ class CheckoutPage extends Component {
                     </div>
 
                     <div className="col-12 mb-3">
-                      <label htmlFor="city">
-                        Tỉnh/Thành phố <span>*</span>
+                      <label htmlFor="description">
+                        Ghi chú
                       </label>
-                      <Input type="text" className="form-control" id="city" name="city" handleChange={this.handleChange} value={city} validate={['required']}/>
-                     <span className="text-danger">{errors.city}</span>
+                      <Input type="text" className="form-control" id="description" name="description" handleChange={this.handleChange} value={description} validate={['']}/>
+                      <span className="text-danger">{errors.description}</span>
                     </div>
                     
                     <div className="col-12 mb-3">
@@ -137,36 +139,41 @@ class CheckoutPage extends Component {
                      <span className="text-danger">{errors.email}</span>
                     </div>
                   </div>
-                </form>
+               
               </div>
             </div>
 
             <div className="col-12 col-md-6 col-lg-5 ml-lg-auto">
               <div className="order-details-confirmation">
                 <div className="cart-page-heading">
-                  <h5>Hóa đơn đã đặt</h5>
+                  <h5>Giỏ hàng</h5>
                   <p>Chi tiết sản phẩm</p>
                 </div>
 
                 <ul className="order-details-form mb-4">
                   <li>
-                    <span>Sản phẩm</span>
-                    <span>Số lượng</span> <span>Giá</span>
+                    <ul className="d-flex justify-content-between w-100">
+                      <li style={{borderBottom: 0}} className="d-flex justify-content-start col-3"><span>Sản phẩm</span></li>
+                      <li style={{borderBottom: 0}} className="d-flex justify-content-end col-3"><span>Số lượng</span></li> 
+                      <li style={{borderBottom: 0}} className="d-flex justify-content-end col-3"><span>Đơn Giá</span></li>  
+                      <li style={{borderBottom: 0}} className="d-flex justify-content-end col-3"><span>Thành Tiền</span></li>
+                    </ul>
                   </li>
                   {this.renderBill(this.props.cartItems)}
                   <li>
                     <span>Phí giao hàng</span> <span>Free</span>
                   </li>
                   <li>
-                    <span>Tổng cộng</span> <span>{currencyParser(total)}</span>
+                    <span>Tổng cộng</span> <span>{currencyParser(total)} VNĐ</span>
                   </li>
                 </ul>
 
-                <button disabled={total <= 0 || validInputs.length !== 7 ? true : false} className="btn essence-btn">
+                <button type="submit" disabled={total <= 0 || validInputs.length !== 5 ? true : false} className="btn essence-btn">
                   Đặt hàng
                 </button>
               </div>
             </div>
+            </form>
           </div>
         </div>
       </div>;

@@ -33,7 +33,7 @@ export class CartProvider extends Component{
         })
         if(!found){
             updateCart.push({
-                id: item.idProduct,code:item.code, name: item.name, price: item.priceOut,avatar:item.avatar,width:item.width,height:item.high, cateName: item.categoryName,quantity:1
+                idProduct: item.idProduct,code:item.code, name: item.name, price: item.priceOut,avatar:item.avatar,width:item.width,height:item.high, cateName: item.categoryName,quantity:1
             })
         }
 

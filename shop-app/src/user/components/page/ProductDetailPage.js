@@ -1,28 +1,42 @@
 import React, { Component } from "react";
 
-import { urlUpload, optionsOwl as options } from "./../../../config";
+import { urlUpload} from "./../../../config";
 import { queryStringParser, currencyParser, callAPI } from "./../../services";
 import { withJS } from "./../hoc/withJS";
 import { AddToCartBtn } from "./../cart/AddToCartBtn";
-
+import $ from 'jquery'
 class ProductDetailPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: {}
+      product: {},
+      currentProps:null
     };
   }
+  componentWillMount(){
+    this.setState({currentProps:{...this.props}});
+  }
   componentDidMount() {
-    callAPI(
-      "get",
-      `/product/getdetails/${
-        queryStringParser(this.props.location.search)["id"]
-      }`
-    ).then(data => this.setState({ product: data.data }));
+    callAPI("get",`/product/getdetails/${queryStringParser(this.props.location.search)["id"]}`).then(data => this.setState({ product: data.data}));
+  }
+  componentWillReceiveProps(nextProps){
+    if(nextProps.location.search !== this.props.location.search){
+      callAPI("get",`/product/getdetails/${queryStringParser(nextProps.location.search)["id"]}`).then(data => this.setState({ product: data.data }));
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(prevState.product !== this.state.product){
+      $('html, body').animate({
+        scrollTop: 0
+      }, 500);
+      this.setState({currentProps:{...this.props}});
+    }    
   }
 
   render() {
-    const { product } = this.state;
+    const { product,currentProps } = this.state;
+    console.log(this.nextPr)
     return (
       <React.Fragment>
         <section className="single_product_details_area d-flex align-items-center mt-100">
@@ -74,7 +88,7 @@ class ProductDetailPage extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                {this.props.renderProduct()}
+                {currentProps.renderProduct(product)}
               </div>
             </div>
           </div>

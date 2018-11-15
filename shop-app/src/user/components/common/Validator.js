@@ -22,7 +22,6 @@ const isEmail = (value,name)=>{
     var emailPattern =  new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
     if(!emailPattern.test(value)){
         err = {...err,[name]:"Email không hợp lệ"};
-        console.log(err)
     }
     else{
        delete err[name]
@@ -39,7 +38,6 @@ const isAddress = (value, name) => {
 }
 export const validator=(value,name,typeValid)=>{
     typeValid.forEach((type)=>{
-        console.log(type)
         switch(type){
             case "required":
                 isRequired(value,name)
@@ -56,6 +54,5 @@ export const validator=(value,name,typeValid)=>{
             default: err;
         }
     })
-    console.log(err)
    return err;
 }

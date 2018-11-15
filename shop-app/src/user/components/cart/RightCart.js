@@ -6,14 +6,15 @@ import {route,urlUpload} from './../../../config'
 import {currencyParser} from './../../services'
 const CartItem = ({ cartItem, removeItem}) =>(
     <div className="single-cart-item">
-        <Link to={`/${route.detail}?id=${cartItem.id}/`} className="product-image">
+        <Link to={`/${route.detail}?id=${cartItem.idProduct}/`} className="product-image">
             <img src={`${urlUpload}/img/product-img/product-1.jpg`} className="cart-thumb" alt=""/>
             <div className="cart-item-desc">
                 <span className="product-remove" onClick={(e) => removeItem(e,cartItem.id)}><i className="fa fa-close" aria-hidden="true"></i></span>
                 <span className="badge">{cartItem.cateName}</span>
                 <h6>{cartItem.name}</h6>
                 <p className="size">Số lượng: {cartItem.quantity}</p>
-                <p className="price">Giá: {currencyParser(cartItem.price)} VNĐ</p>
+                <p className="price">Đơn Giá: {currencyParser(cartItem.price)} VNĐ</p>
+                <p className="price">Thành Tiền: {currencyParser(cartItem.price * cartItem.quantity)} VNĐ</p>
             </div>
         </Link>
     </div>

@@ -5,6 +5,7 @@ import { optionsOwl as options } from "./../../../config";
 import OwlCarousel from 'react-owl-carousel';
 import {Product} from '../product/Product';
 import history from './../../../history';
+import orderBy from 'lodash/orderBy'
 export const ProductContext = React.createContext();
 export class ProducProvider extends Component {
   constructor(props) {
@@ -14,13 +15,22 @@ export class ProducProvider extends Component {
       totalPage:0,
       keyword:''
     };
+    
   }
-  renderProduct = () => {
+  renderProduct = (withoutProd) => {
     if(this.state.products){
       if(this.state.products.length > 0){
-          var res =this.state.products.map(p => (
+          var products= [];
+          if(!withoutProd){
+            products = orderBy(this.state.products,'idProduct','desc')
+          }else{
+            products = this.state.products.filter(p=>p.idProduct !== withoutProd.idProduct && withoutProd.idCategory === p.idCategory)
+            console.log(products)
+          }
+          var res =products.map((p,i) => {
+            return i<10 ? (
               <Product key={p.idProduct} product={p} />
-            ));
+            ):''});
           return <OwlCarousel
                   className="owl-theme"
                   refreshClass="owl-refresh"

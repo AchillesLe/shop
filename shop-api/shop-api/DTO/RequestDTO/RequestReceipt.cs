@@ -14,7 +14,7 @@ namespace shop_api.DTO.RequestDTO
         public string phone { get; set; }
         public string description { get; set; }
         public decimal total { get; set; }
-        public string detailReceipts { get; set; }
+        public List<RequestDetailReciept> detailReceipts { get; set; }
         public int UpdatorID { get; set; }
         public DateTime createdDate { get; set; }
         public DateTime updatedDate { get; set; }

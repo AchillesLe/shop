@@ -20,10 +20,12 @@ namespace shop_api.Models
 
         [Required]
         [StringLength(250)]
+        [Column(TypeName = "NVARCHAR")]
         public string nameCustomer { get; set; }
 
         [Required]
         [StringLength(250)]
+        [Column(TypeName = "NVARCHAR")]
         public string address { get; set; }
 
         [Required]

@@ -173,7 +173,7 @@ namespace shop_api.Service
             context.SaveChanges();
             if (newReceipt.idReceipt > 0)
             {
-                List<RequestDetailReciept> detailReceipts = JsonConvert.DeserializeObject<List<RequestDetailReciept>>(receipt.detailReceipts);
+                List<RequestDetailReciept> detailReceipts = receipt.detailReceipts ;
                 foreach (RequestDetailReciept detail in detailReceipts)
                 {
                     DetailReciept newDetail = new DetailReciept();

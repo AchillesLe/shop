@@ -1,5 +1,4 @@
 import React,{Component} from 'react'
-import { timingSafeEqual } from 'crypto';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 const CartContext = React.createContext()
 export class CartProvider extends Component{
@@ -47,9 +46,13 @@ export class CartProvider extends Component{
         this.setState({cartItems: updateCart});
         localStorage.setItem("cart", JSON.stringify(updateCart));
     }
+    clearCart = ()=>{
+        this.setState({cartItems:[]})
+        localStorage.removeItem('cart');
+    }
     render(){
         return(
-            <CartContext.Provider value={{ state: this.state, actions: { toggleCart: this.toggleCart, addToCart: this.addToCart, removeItem: this.removeItem}}}>
+            <CartContext.Provider value={{ state: this.state, actions: { toggleCart: this.toggleCart, addToCart: this.addToCart, removeItem: this.removeItem, clearCart:this.clearCart}}}>
                 {this.props.children}
                 <NotificationContainer/>
             </CartContext.Provider>

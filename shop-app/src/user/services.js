@@ -1,5 +1,7 @@
+
 import axios from 'axios';
 import { domainServer } from './../config'
+import { NotificationManager} from 'react-notifications';
 export const queryStringParser = (query) => {
     query = query.toString().replace("?", "")
     var params=[]
@@ -16,13 +18,16 @@ export const currencyParser = (num) =>{
     return cur[0]
 
 }
-export const callAPI = (method,endpoint,data=null,responseType=null)=>{
+export const callAPI = (method,endpoint,data=null,headers={'Content-Type': 'application/json'})=>{
     return axios({
         method: method,
         url: `${domainServer}/${endpoint}`,
         data:data,
-        responseType: responseType
-    }).catch(err=>{
-        console.log(err)
+        headers: headers,
+    }).catch(error=>{
+        console.log(error)
+        if(error.response){
+            NotificationManager.error('Lỗi trong quá trình tạo đơn đặt hàng.', '');
+        }
     });
 }

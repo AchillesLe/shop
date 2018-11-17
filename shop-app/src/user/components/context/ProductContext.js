@@ -45,7 +45,7 @@ export class ProducProvider extends Component {
 
     callAPI("GET", `product/get/page`).then(data =>
       this.setState({ products: data.data.list, totalPage:data.data.total })
-    ).catch(ex=>{console.log(ex)});
+    );
   }
   onChangeKeyword = (keyword)=>{
 

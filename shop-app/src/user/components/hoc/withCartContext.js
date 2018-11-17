@@ -8,7 +8,8 @@ export const withCartContext = (Component)=>{
                 {
                     (value) => {
                         const { cartItems } = value.state
-                        return <Component {...props} cartItems={cartItems} />
+                        const { clearCart} = value.actions
+                        return <Component {...props} cartItems={cartItems} clearCart={clearCart} />
                     }
                 }
             </CartConsumer>

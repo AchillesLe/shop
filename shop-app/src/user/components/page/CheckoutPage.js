@@ -4,11 +4,13 @@ import {withCartContext} from './../hoc/withCartContext'
 import {Input} from './../common/Input'
 import {validator} from './../common/Validator'
 import isEmpty from 'lodash/isEmpty'
-import {currencyParser} from './../../services'
+import {currencyParser,callAPI} from './../../services'
+import {NotificationManager} from 'react-notifications';
 class CheckoutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading:false,
       errors:{
         nameCustomer:'',
         address: "",
@@ -49,13 +51,21 @@ class CheckoutPage extends Component {
     var receipt = {
       nameCustomer,
       address,
-      phone,
       email,
+      phone,
       description,
       total,
       detailReceipts:[...this.props.cartItems]
     }
-    console.log(receipt)
+    this.setState({isLoading:true})
+    callAPI('PUT','receipt/addreceipt',receipt)
+    .then(data=> {
+        if(data.status == 200){
+          NotificationManager.success(data.data.message, '')
+          this.props.clearCart()
+          this.setState({isLoading:false})
+        }
+      })
   };
   componentDidMount(){
       this.setState({ total: getTotal(this.props.cartItems) })
@@ -86,7 +96,8 @@ class CheckoutPage extends Component {
       address,
       phone,
       description,
-      email
+      email,
+      isLoading
     } = this.state;
     return <div className="checkout_area section-padding-80">
         <div className="container">
@@ -171,6 +182,7 @@ class CheckoutPage extends Component {
                 <button type="submit" disabled={total <= 0 || validInputs.length !== 5 ? true : false} className="btn essence-btn">
                   Đặt hàng
                 </button>
+                {isLoading && <p>Gửi đơn hàng...</p>}
               </div>
             </div>
             </form>

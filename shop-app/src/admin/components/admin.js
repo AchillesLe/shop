@@ -9,7 +9,6 @@ import './admin.css';
 
 //JS
 import $ from 'jquery';
-import axios from 'axios';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import LeftNav from './navs/left-nav/left-nav';

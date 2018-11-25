@@ -151,14 +151,30 @@ namespace shop_api.Service
                 return null;
             }
         }
-        public ProductDTO edit(Product product)
+        public ProductDTO edit(ProductDTO pro)
         {
             try
             {
-                context.Products.Attach(product);
-                context.Entry(product).State = System.Data.Entity.EntityState.Modified;
+                var pro_entity = context.Products.Where(x => x.idProduct == pro.idProduct).FirstOrDefault();
+                pro_entity.name = pro.name;
+                pro_entity.code = pro.code;
+                pro_entity.avatar = pro.avatar;
+                pro_entity.images = pro.images;
+                pro_entity.idCategory = pro.idCategory;
+                pro_entity.idCreator = pro.idCreator;
+                pro_entity.width = pro.width;
+                pro_entity.priceIn = pro.priceIn;
+                pro_entity.priceOut = pro.priceOut;
+                pro_entity.madein = pro.madein;
+                pro_entity.length = pro.length;
+                pro_entity.quantity = pro.quantity;
+                pro_entity.isDelete = 0;
+                pro_entity.idCreator = pro.idCreator;
+                pro_entity.updatedDate = DateTime.Now;
+                context.Products.Attach(pro_entity);
+                context.Entry(pro_entity).State = System.Data.Entity.EntityState.Modified;
                 context.SaveChanges();
-                ProductDTO modified_product = context.Products.Where(x => x.idProduct == product.idProduct)
+                ProductDTO modified_product = context.Products.Where(x => x.idProduct == pro.idProduct)
                      .Select(x => new ProductDTO
                      {
                          idProduct = x.idProduct,

@@ -120,7 +120,7 @@ namespace shop_api.Models
                 .HasPrecision(15, 0);
 
             modelBuilder.Entity<Receipt>()
-                .HasMany(e => e.DetailReciepts)
+                .HasMany(e => e.detailReciepts)
                 .WithRequired(e => e.Receipt)
                 .HasForeignKey(e => e.idReciept)
                 .WillCascadeOnDelete(false);

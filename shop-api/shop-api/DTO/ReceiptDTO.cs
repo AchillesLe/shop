@@ -10,6 +10,7 @@ namespace shop_api.DTO
         public int idReceipt { get; set; }
         public string nameCustomer { get; set; }
         public string address { get; set; }
+        public string email { get; set; }
         public string phone { get; set; }
         public string description { get; set; }
         public decimal total { get; set; }

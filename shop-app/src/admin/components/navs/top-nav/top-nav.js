@@ -103,15 +103,15 @@ class TopNav extends Component {
                                             <span className=" fa fa-angle-down" />
                                         </a>
                                         <ul className="dropdown-menu dropdown-usermenu pull-right">
-                                            <li><a href="#"> Profile</a></li>
+                                            <li><a href=""> Profile</a></li>
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <span className="badge bg-red pull-right">50%</span>
                                                     <span>Settings</span>
                                                 </a>
                                             </li>
-                                            <li><a href="#">Help</a></li>
-                                            <li><a href="#" onClick={this.logOut.bind(this, Object.keys(user).length === 0 ? "" : user.data.token, setUser.bind(this))}><i className="fa fa-sign-out pull-right" /> Log Out</a></li>
+                                            <li><a href="">Help</a></li>
+                                            <li><a href="" onClick={this.logOut.bind(this, Object.keys(user).length === 0 ? "" : user.data.token, setUser.bind(this))}><i className="fa fa-sign-out pull-right" /> Log Out</a></li>
                                         </ul>
                                     </li>
                                 </ul>

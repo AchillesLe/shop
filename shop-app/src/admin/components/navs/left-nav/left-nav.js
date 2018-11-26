@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import AdminContext from '../../admin.context';
 
 class LeftNav extends Component {
-    constructor() {
-        super();
-    }
 
     componentDidMount() {
         console.log("LeftNav componentDidMount ");
@@ -70,7 +65,7 @@ class LeftNav extends Component {
         $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
 
         $SIDEBAR_MENU.find('a').filter(function () {
-            return this.href == CURRENT_URL;
+            return this.href === CURRENT_URL;
         }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
             setContentHeight();
         }).parent().addClass('active');

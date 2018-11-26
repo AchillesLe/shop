@@ -228,5 +228,24 @@ namespace shop_api.Service
                 return false;
             }
         }
+
+        public List<ReceiptDTO> GetListByRangeDate(DateTime fromdate, DateTime todate)
+        {
+            var listReceipt = this.context.Receipts.Where(x => x.status == Status.OrderDone && x.updatedDate >= fromdate && x.updatedDate <= todate).Select(
+                x => new ReceiptDTO
+                {
+                    idReceipt = x.idReceipt,
+                    address = x.address,
+                    description = x.description,
+                    nameCustomer = x.nameCustomer,
+                    phone = x.phone,
+                    email = x.email,
+                    total = x.total,
+                    updatedDate = x.updatedDate,
+                    createdDate = x.createdDate
+                }).OrderBy(x => x.idReceipt).ToList();
+            return listReceipt;
+
+        }
     }
 }

@@ -78,7 +78,7 @@ namespace shop_api.Controllers
             }
             catch (Exception e) { return InternalServerError(); }
         }
-        [HttpPut, Route("edit/{id_pro}")]
+        [HttpPut, Route("update/{id_pro}")]
         public IHttpActionResult Edit(int id_pro,[FromBody] ProductDTO pro)
         {
 
@@ -93,25 +93,13 @@ namespace shop_api.Controllers
             {
                 return BadRequest(Message.messageNotValidToken);
             }
+            UserDTO logged_user = new UserDTO();
+            logged_user = userService.getUserByToken(token);
             try
             {
-                pro_entity.name = pro.name;
-                pro_entity.code = pro.code;
-                //pro_entity.avatar = pro.avatar;
-                //pro_entity.images = pro.images;
-                pro_entity.idCategory = pro.idCategory;
-
-                pro_entity.idCreator = pro.idCreator;
-                pro_entity.width = pro.width;
-                pro_entity.priceIn = pro.priceIn;
-                pro_entity.priceOut = pro.priceOut;
-                pro_entity.madein = pro.madein;
-                pro_entity.length = pro.length;
-                pro_entity.quantity = pro.quantity;
-                pro_entity.isDelete = 0;
-                pro_entity.updatedDate = DateTime.Now;
-
-                var updated_product = productService.edit(pro_entity);
+                pro.idProduct = id_pro;
+                pro.idCreator = logged_user.iduser;
+                var updated_product = productService.edit(pro);
                 if (updated_product != null)
                 {
                     return Ok(updated_product);

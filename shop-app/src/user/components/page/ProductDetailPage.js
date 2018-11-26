@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { NotificationManager} from 'react-notifications';
 import { urlUpload} from "./../../../config";
 import { queryStringParser, currencyParser, callAPI } from "./../../services";
 import { withJS } from "./../hoc/withJS";
@@ -10,18 +10,17 @@ class ProductDetailPage extends Component {
     super(props);
     this.state = {
       product: {},
-      currentProps:null
     };
   }
-  componentWillMount(){
-    this.setState({currentProps:{...this.props}});
-  }
   componentDidMount() {
-    callAPI("get",`/product/getdetails/${queryStringParser(this.props.location.search)["id"]}`).then(data => this.setState({ product: data.data}));
+    callAPI("get",`/product/getdetails/${queryStringParser(this.props.location.search)["id"]}`)
+    .then(data => this.setState({ product: data.data}))
+    .catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
   }
   componentWillReceiveProps(nextProps){
     if(nextProps.location.search !== this.props.location.search){
-      callAPI("get",`/product/getdetails/${queryStringParser(nextProps.location.search)["id"]}`).then(data => this.setState({ product: data.data }));
+      callAPI("get",`/product/getdetails/${queryStringParser(nextProps.location.search)["id"]}`)
+      .then(data => this.setState({product: data.data }))
     }
   }
 
@@ -30,13 +29,12 @@ class ProductDetailPage extends Component {
       $('html, body').animate({
         scrollTop: 0
       }, 500);
-      this.setState({currentProps:{...this.props}});
+      this.setState({product:this.state.product});
     }    
   }
 
-  render() {
-    const { product,currentProps } = this.state;
-    console.log(this.nextPr)
+   render() {
+    const { product } = this.state;
     return (
       <React.Fragment>
         <section className="single_product_details_area d-flex align-items-center mt-100">
@@ -88,7 +86,7 @@ class ProductDetailPage extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                {currentProps.renderProduct(product)}
+                {this.props.renderProduct(product)}
               </div>
             </div>
           </div>

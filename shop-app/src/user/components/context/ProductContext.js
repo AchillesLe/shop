@@ -6,6 +6,8 @@ import OwlCarousel from 'react-owl-carousel';
 import {Product} from '../product/Product';
 import history from './../../../history';
 import orderBy from 'lodash/orderBy'
+import { NotificationManager} from 'react-notifications';
+
 export const ProductContext = React.createContext();
 export class ProducProvider extends Component {
   constructor(props) {
@@ -42,13 +44,11 @@ export class ProducProvider extends Component {
     }
   };
   componentDidMount() {
-
     callAPI("GET", `product/get/page`).then(data =>
       this.setState({ products: data.data.list, totalPage:data.data.total })
-    );
+    ).catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
   }
   onChangeKeyword = (keyword)=>{
-
     this.setState({keyword})
   }
   onSubmitKeyword = (e)=>{

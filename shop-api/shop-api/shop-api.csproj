@@ -108,6 +108,7 @@
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="DTO\DetailReceiptDTO.cs" />
@@ -116,7 +117,9 @@
     <Compile Include="DTO\BillDTO.cs" />
     <Compile Include="DTO\ReceiptDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
+    <Compile Include="DTO\RequestDTO\RequestBill.cs" />
     <Compile Include="DTO\RequestDTO\RequestCategory.cs" />
+    <Compile Include="DTO\RequestDTO\RequestDetailBill.cs" />
     <Compile Include="DTO\RequestDTO\RequestDetailReciept.cs" />
     <Compile Include="DTO\RequestDTO\RequestLogin.cs" />
     <Compile Include="DTO\RequestDTO\RequestReceipt.cs" />
@@ -146,6 +149,8 @@
     <Compile Include="Utility\BaseCode64.cs" />
     <Compile Include="Utility\CustomMultipartFormDataStreamProvider.cs" />
     <Compile Include="Utility\Message.cs" />
+    <Compile Include="Utility\RegexUtilities.cs" />
+    <Compile Include="Utility\SendMail.cs" />
     <Compile Include="Utility\Status.cs" />
     <Compile Include="Utility\Token.cs" />
   </ItemGroup>

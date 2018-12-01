@@ -22,7 +22,7 @@ namespace shop_api.Models
         [StringLength(250)]
         public string name { get; set; }
 
-        [StringLength(250)]
+        [Column(TypeName = "text")]
         public string avatar { get; set; }
 
         public int isDelete { get; set; }

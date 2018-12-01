@@ -47,7 +47,7 @@ namespace shop_api.Models
         [Column(TypeName = "text")]
         public string description { get; set; }
 
-        [StringLength(250)]
+        [Column(TypeName = "text")]
         public string avatar { get; set; }
 
         [Column(TypeName = "text")]

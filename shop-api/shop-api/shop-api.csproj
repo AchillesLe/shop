@@ -123,6 +123,7 @@
     <Compile Include="DTO\RequestDTO\RequestDetailReciept.cs" />
     <Compile Include="DTO\RequestDTO\RequestLogin.cs" />
     <Compile Include="DTO\RequestDTO\RequestReceipt.cs" />
+    <Compile Include="DTO\RequestDTO\RequestStatistic.cs" />
     <Compile Include="DTO\RequestDTO\RequestStatus.cs" />
     <Compile Include="DTO\RequestDTO\RequestUser.cs" />
     <Compile Include="DTO\UserDTO.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Service\LoginService.cs" />
     <Compile Include="Service\ReceiptService.cs" />
     <Compile Include="Service\ProductService.cs" />
+    <Compile Include="Service\StatisticService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Utility\BaseCode64.cs" />
     <Compile Include="Utility\CustomMultipartFormDataStreamProvider.cs" />

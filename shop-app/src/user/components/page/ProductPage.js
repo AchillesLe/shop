@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import Pagination from "react-js-pagination";
 import bgHeader from './../../../assets/user/img/bg-img/breadcumb.jpg'
 import Products from './../product/Products'
@@ -62,7 +61,7 @@ class ProductPage extends Component {
     }
     setRange = (range)=>{
         this.setState((prevState)=>{
-            if(this.state.activePage != 1){
+            if(this.state.activePage !== 1){
                 var queryString = this.props.location.search.replace(`page=${this.state.activePage}`,`page=1`)
                 this.props.history.push(`${this.props.match.path}${queryString}`); 
             }else{

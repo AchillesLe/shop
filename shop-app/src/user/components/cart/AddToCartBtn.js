@@ -1,5 +1,5 @@
 import React from 'react';
-import { CartProvider, CartConsumer } from '../context/CartContext';
+import { CartConsumer } from '../context/CartContext';
 
 export const AddToCartBtn = ({product})=>{
     return (

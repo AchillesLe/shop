@@ -65,13 +65,7 @@ class NavBar extends PureComponent {
 
           <div className="header-meta d-flex clearfix justify-content-end">
             <SearchForm/>
-
-            <div className="user-login-info">
-              <a href="#">
-                <img src={userIcon} alt="" />
-              </a>
-            </div>
-              <IconCart/>
+            <IconCart/>
           </div>
         </div>
     </header>);

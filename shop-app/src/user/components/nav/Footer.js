@@ -1,5 +1,5 @@
 import React from "react";
-
+import {Link} from "react-router-dom"
 export const Footer = () => (
   <footer className="footer_area clearfix">
     <div className="container">
@@ -15,13 +15,13 @@ export const Footer = () => (
             <div className="footer_menu">
               <ul>
                 <li>
-                  <a href="shop.html">Shop</a>
+                  <Link to="/">Trang chủ</Link>  
                 </li>
                 <li>
-                  <a href="blog.html">Blog</a>
+                <Link to="/san-pham">Sản phẩm</Link>  
                 </li>
                 <li>
-                  <a href="contact.html">Contact</a>
+                <Link to="/lien-he">Liên hệ</Link>  
                 </li>
               </ul>
             </div>

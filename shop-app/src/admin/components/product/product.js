@@ -12,14 +12,15 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
+import {NotificationManager} from 'react-notifications';
 
 import productService from './product.service';
 import EditProduct from './editProduct';
 import AddProduct from './addProduct';
 
-import formatPrice from './../../../share/services/formatPrice';
+import defaultImage from "./../../../assets/images/app/default-placeholder.png";
 
-const jsonData = require('./product.json');
+import formatPrice from './../../../share/services/formatPrice';
 
 const moment = require('moment');
 
@@ -47,7 +48,7 @@ class Product extends Component {
             script.type = 'text/javascript';
             script.src = '/vendors/js/libs.js';
 
-            var currentScript = $('body').find('script[src="../vendors/js/libs.js"]');
+            var currentScript = $('body').find('script[src="/vendors/js/libs.js"]');
             if (currentScript) {
                 currentScript.remove();
             }
@@ -60,7 +61,7 @@ class Product extends Component {
                 link.rel = 'stylesheet';
                 link.href = '/vendors/css/libs.css';
 
-                var currentLink = $('body').find('link[href="../vendors/css/libs.css"]');
+                var currentLink = $('head link[href="/vendors/css/libs.css"]');
                 if (currentLink) {
                     currentLink.remove();
                 }
@@ -99,81 +100,39 @@ class Product extends Component {
         this.getProducts();
     }
 
-    updateName(e) {
-        const value = e.target.value;
-        this.setState(state => {
-            return {
-                ...state,
-                createNew: {
-                    ...state.createNew,
-                    name: value
-                }
-            }
-        })
-    }
-
-    cancel() {
-        this.props.history.push('/admin/product');
-    }
-
-    resetForm() {
-        this.setState(state => {
-            return {
-                ...state,
-                createNew: {
-                    name: ''
-                }
-            }
-        })
-    }
-
-    createProduct(e) {
-        e.preventDefault();
-
-        this._productService.addProduct(Cookies.get('token'), this.state.createNew).then((res, error) => {
-            console.log(res);
-            this.setState(state => {
-                return {
-                    ...state,
-                    products: [...state.products, res.data],
-                    createNew: {
-                        name: ''
-                    }
-                }
-            })
-
-            setTimeout(() => {
-                console.log(this.state);
-            })
-            this.props.history.push('/admin/product');
-        }).catch((e) => {
-            console.log(e.response);
-            if (e.response.status === 400) {
-                this.props.history.push('/admin')
-            }
-        })
-    }
-
     deleteProduct(idProduct, e) {
         e.preventDefault();
 
         this._productService.deleteProduct(Cookies.get('token'), idProduct).then((res, error) => {
             console.log(res);
+            if(res && res.status === 200) {
+                NotificationManager.success('Delete product success!', 'Success');
+            }
+
 
             this.setState(state => {
                 const indexPosition = state.products.findIndex(item => {
                     return item.idProduct.toString() === idProduct;
                 })
+
+                console.log(indexPosition);
                 state.products.splice(indexPosition, 1);
+                console.log(state.products);
                 return {
                     ...state,
                     products: state.products
                 }
             })
         }).catch((e) => {
-            console.log(e.response);
-            if (e.response.status === 400) {
-                this.props.history.push('/admin')
+            if(e && e.response) {
+                console.log(e.response);
+                if (e.response.status === 400) {
+                    NotificationManager.error('Unauthorized!', 'Error');
+                    this.props.history.push('/admin')
+                }
+            } else {
+                e && console.log(e);
+                NotificationManager.error('Something wrong!', 'Error');
             }
         })
     }
@@ -205,6 +164,7 @@ class Product extends Component {
                                             >
                                                 <thead>
                                                     <tr>
+                                                        <th>Avatar</th>
                                                         <th>Code</th>
                                                         <th>Name</th>
                                                         <th>Category</th>
@@ -219,6 +179,11 @@ class Product extends Component {
                                                     {this.state.products.map((item, i) => {
                                                         return [
                                                             <tr key={i}>
+                                                                <td>
+                                                                    <div className="cell-image">
+                                                                        <img alt="Avatar" src={item['avatar'] ? item['avatar'] : defaultImage}></img>
+                                                                    </div>
+                                                                </td>
                                                                 <td>{item['code']}</td>
                                                                 <td>{item['name']}</td>
                                                                 <td>{item['categoryName']}</td>

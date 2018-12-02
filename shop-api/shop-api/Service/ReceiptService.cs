@@ -173,6 +173,7 @@ namespace shop_api.Service
             context.Receipts.Add(newReceipt);
             context.SaveChanges();
             List<RequestDetailReciept> detailReceipts = receipt.detailReceipts;
+            List<DetailReciept> listdetail = new List<DetailReciept>();
             foreach (RequestDetailReciept detail in detailReceipts)
             {
                 DetailReciept newDetail = new DetailReciept();
@@ -184,13 +185,17 @@ namespace shop_api.Service
                 
                 if (product!=null && product.quantity > newDetail.quantity)
                 {
-                    
                     product.quantity = product.quantity - newDetail.quantity;
                     context.Products.Attach(product);
                     context.Entry(product).State = System.Data.Entity.EntityState.Modified;
                 }
                 else
                 {
+                    var details = listdetail.Where(x => x.idReciept == newReceipt.idReceipt).ToList();
+                    if (details.Count > 0)
+                    {
+                        context.DetailReciepts.RemoveRange(details);
+                    }
                     context.Receipts.Remove(newReceipt);
                     context.SaveChanges();
                     if (product == null)
@@ -206,6 +211,7 @@ namespace shop_api.Service
                 }
                 newDetail.idReciept = newReceipt.idReceipt;
                 context.DetailReciepts.Add(newDetail);
+                listdetail.Add(newDetail);
             }
             context.SaveChanges();
             ReceiptDTO reciept = GetById(newReceipt.idReceipt);

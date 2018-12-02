@@ -1,26 +1,64 @@
 import React, { Component } from "react";
-import {urlUpload} from './../../../config'
-const ProductContext = React.createContext();
+import {route} from './../../../config'
+import { callAPI } from './../../services'
+import { optionsOwl as options } from "./../../../config";
+import OwlCarousel from 'react-owl-carousel';
+import {Product} from '../product/Product';
+import history from './../../../history';
+import orderBy from 'lodash/orderBy'
+import { NotificationManager} from 'react-notifications';
+
+export const ProductContext = React.createContext();
 export class ProducProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
+      totalPage:0,
+      keyword:''
     };
+    
   }
-
+  renderProduct = (withoutProd) => {
+    if(this.state.products){
+      if(this.state.products.length > 0){
+          var products= [];
+          if(!withoutProd){
+            products = orderBy(this.state.products,'idProduct','desc')
+          }else{
+            products = this.state.products.filter(p=>p.idProduct !== withoutProd.idProduct && withoutProd.idCategory === p.idCategory)
+            console.log(products)
+          }
+          var res =products.map((p,i) => {
+            return i<10 ? (
+              <Product key={p.idProduct} product={p} />
+            ):''});
+          return <OwlCarousel
+                  className="owl-theme"
+                  refreshClass="owl-refresh"
+                  {...options} 
+                  >
+                  {res}
+              </OwlCarousel>
+        }
+    }
+  };
   componentDidMount() {
-    const products = [
-      { id: 1, name: "A", price: 500, description: "Sản phẩm A",image:`${urlUpload}/img/product-img/product-1.jpg` },
-      { id: 2, name: "B", price: 500, description: "Sản phẩm B", image:`${urlUpload}/img/product-img/product-2.jpg`},
-      { id: 3, name: "C", price: 500, description: "Sản phẩm C",image:`${urlUpload}/img/product-img/product-3.jpg`},
-      { id: 4, name: "D", price: 500, description: "Sản phẩm D",image:`${urlUpload}/img/product-img/product-4.jpg`}
-    ];
-    this.setState({ products: products });
+    callAPI("GET", `product/get/page`).then(data =>
+      this.setState({ products: data.data.list, totalPage:data.data.total })
+    ).catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
+  }
+  onChangeKeyword = (keyword)=>{
+    this.setState({keyword})
+  }
+  onSubmitKeyword = (e)=>{
+    e.preventDefault();
+    var keyword = this.state.keyword.replace(/ /g, '-')
+    history.push(`${route.product}?keyword=${keyword}&page=1`); 
   }
   render(){
       return(
-          <ProductContext.Provider value={{products:this.state.products}}>
+          <ProductContext.Provider value={{keyword:this.state.keyword,products:this.state.products,renderProduct:this.renderProduct,onChangeKeyword:this.onChangeKeyword,onSubmitKeyword:this.onSubmitKeyword}}>
               {this.props.children}
           </ProductContext.Provider>
       )

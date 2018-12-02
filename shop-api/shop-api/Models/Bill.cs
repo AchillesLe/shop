@@ -12,11 +12,10 @@ namespace shop_api.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Bill()
         {
-            DetailBills = new HashSet<DetailBill>();
+            detailBills = new HashSet<DetailBill>();
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int idBill { get; set; }
 
         public decimal codeBill { get; set; }

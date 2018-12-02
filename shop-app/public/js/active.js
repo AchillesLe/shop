@@ -10,30 +10,7 @@
 
     // :: Sliders Active Code
     if ($.fn.owlCarousel) {
-        $('.popular-products-slides').owlCarousel({
-            items: 4,
-            margin: 30,
-            loop: true,
-            nav: false,
-            dots: false,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            smartSpeed: 1000,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                576: {
-                    items: 2
-                },
-                768: {
-                    items: 3
-                },
-                992: {
-                    items: 4
-                }
-            }
-        });
+
         $('.product_thumbnail_slides').owlCarousel({
             items: 1,
             margin: 0,
@@ -45,6 +22,30 @@
             autoplayTimeout: 5000,
             smartSpeed: 1000
         });
+                $('.popular-products-slides').owlCarousel({
+                    items: 4,
+                    margin: 30,
+                    loop: true,
+                    nav: false,
+                    dots: false,
+                    autoplay: true,
+                    autoplayTimeout: 5000,
+                    smartSpeed: 1000,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        576: {
+                            items: 2
+                        },
+                        768: {
+                            items: 3
+                        },
+                        992: {
+                            items: 4
+                        }
+                    }
+                });
     }
 
     // :: Header Cart Active Code
@@ -69,13 +70,6 @@
     });
 
     // :: ScrollUp Active Code
-    if ($.fn.scrollUp) {
-        $.scrollUp({
-            scrollSpeed: 1000,
-            easingType: 'easeInOutQuart',
-            scrollText: '<i class="fa fa-angle-up" aria-hidden="true"></i>'
-        });
-    }
 
     // :: Sticky Active Code
     $window.on('scroll', function () {
@@ -90,7 +84,11 @@
     if ($.fn.niceSelect) {
         $('select').niceSelect();
     }
-
+    function currencyParser(num){
+        var n =  num.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g,'$1,');
+        var cur = n.split(".")
+        return cur[0]
+    }
     // :: Slider Range Price Active Code
     $('.slider-range-price').each(function () {
         var min = jQuery(this).data('min');
@@ -102,11 +100,12 @@
         var t = $(this);
         $(this).slider({
             range: true,
+            step: 10000,
             min: min,
             max: max,
             values: [value_min, value_max],
             slide: function (event, ui) {
-                var result = label_result + " " + unit + ui.values[0] + ' - ' + unit + ui.values[1];
+                var result = label_result + " " + unit + currencyParser(ui.values[0]) + ' - ' + unit + currencyParser(ui.values[1]);
                 console.log(t);
                 t.closest('.slider-range').find('.range-price').html(result);
             }

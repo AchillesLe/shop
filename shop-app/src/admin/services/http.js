@@ -9,12 +9,18 @@ export default class HTTP {
     }
 
     get(url = '', config = {}) {
-        console.log('get');
         return this.instance.get(url, config)
     }
 
     post(url = '', data = {}, config = {}) {
-        console.log('post');
         return this.instance.post(url, data, config)
+    }
+
+    put(url = '', data = {}, config = {}) {
+        return this.instance.put(url, data, config)
+    }
+
+    delete(url = '', config = {}) {
+        return this.instance.delete(url, config)
     }
 }

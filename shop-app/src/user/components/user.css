@@ -1,8 +1,26 @@
-body{
+body {
     background: whitesmoke;
     color: black
 }
 
-.user-component .light.left{
+.user-component .light.left {
     float: none;
+}
+
+.user-component footer {
+    margin: 0
+}
+
+.checkout-btn .btn {
+    font-weight: 600;
+    padding: 0;
+    font-size: 12px;
+    line-height: 50px;
+}
+.product-description h6{
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+.widget.price{
+    color: #000;
 }

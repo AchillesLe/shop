@@ -9,8 +9,8 @@ import './admin.css';
 
 //JS
 import $ from 'jquery';
-import axios from 'axios';
 import createBrowserHistory from 'history/createBrowserHistory';
+import {NotificationContainer} from 'react-notifications';
 
 import LeftNav from './navs/left-nav/left-nav';
 import TopNav from './navs/top-nav/top-nav';
@@ -77,7 +77,7 @@ class Admin extends Component {
             script.type = 'text/javascript';
             script.src = '/vendors/js/libs.js';
 
-            var currentScript = $('body').find('script[src="../vendors/js/libs.js"]');
+            var currentScript = $('body').find('script[src="/vendors/js/libs.js"]');
             if (currentScript) {
                 currentScript.remove();
             }
@@ -90,7 +90,7 @@ class Admin extends Component {
                 link.rel = 'stylesheet';
                 link.href = '/vendors/css/libs.css';
 
-                var currentLink = $('body').find('link[href="../vendors/css/libs.css"]');
+                var currentLink = $('head link[href="/vendors/css/libs.css"]');
                 if (currentLink) {
                     currentLink.remove();
                 }
@@ -118,6 +118,7 @@ class Admin extends Component {
 
         return (
             <AdminContext.Provider value={this.state}>
+                <NotificationContainer/>
                 <Switch>
                     <Route exact path={this.props.match.path} history={history} component={LogIn} />
                     <HomeRoute path={`${this.props.match.path}/home`} history={history} component={Content} />

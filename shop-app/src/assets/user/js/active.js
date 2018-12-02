@@ -39,7 +39,7 @@
             margin: 0,
             loop: true,
             nav: true,
-            navText: ["<img src='img/core-img/long-arrow-left.svg' alt=''>", "<img src='img/core-img/long-arrow-right.svg' alt=''>"],
+            navText: ["<img src='../img/core-img/long-arrow-left.svg' alt=''>", "<img src='../img/core-img/long-arrow-right.svg' alt=''>"],
             dots: false,
             autoplay: true,
             autoplayTimeout: 5000,
@@ -69,13 +69,6 @@
     });
 
     // :: ScrollUp Active Code
-    if ($.fn.scrollUp) {
-        $.scrollUp({
-            scrollSpeed: 1000,
-            easingType: 'easeInOutQuart',
-            scrollText: '<i class="fa fa-angle-up" aria-hidden="true"></i>'
-        });
-    }
 
     // :: Sticky Active Code
     $window.on('scroll', function () {

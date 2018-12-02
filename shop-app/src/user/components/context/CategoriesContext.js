@@ -1,22 +1,19 @@
 import React,{Component} from 'react'
+import {callAPI} from './../../services'
 
 const CategoriesContext = React.createContext();
 export class CategoriesProvider extends Component{
     constructor(props){
         super(props)
         this.state = {
-           listCate:[
-                {id:1,name:'Trí tuệ',image:''},
-                {id:2,name:'Nhập vai',image:''},
-                {id:3,name:'Bán hàng',image:''},
-                {id:4,name:'Xếp hình',image:''},
-                {id:5,name:'Mô hình',image:''},
-
-
-            ]
+           listCate:[]
         }
     }
-
+    componentDidMount(){
+        callAPI('GET',`category/getall`)
+        .then(data=> this.setState({listCate:data.data}))
+        .catch(ex=>{console.log(ex)})
+    }
     render(){
         return(
             <CategoriesContext.Provider value={{listCate:this.state.listCate}}>

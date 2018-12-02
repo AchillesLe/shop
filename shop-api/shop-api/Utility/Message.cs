@@ -27,5 +27,6 @@ namespace shop_api.Utility
         public static string messageAddReceiptSuccess = "Thêm receipt thành công !";
         public static string messageAddReceiptfailed = "Thêm receipt thất bại !";
         public static string messageAddInvalidParamter = "Parameter không hợp lệ !";
+        public static string messageDateInCorrectFormat = "Định dạng ngày không hợp lệ ! Ex hợp lệ: yyyy-MM-dd";
     }
 }

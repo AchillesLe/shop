@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 //CSS
 import './category.css';
 
+import {NotificationManager} from 'react-notifications';
+
 import categoryService from './category.service';
 
 const Cookies = require('js-cookie');
@@ -57,12 +59,21 @@ class AddCategory extends Component {
 
         this._categoryService.addCategory(Cookies.get('token'), { name: this.state.category.name }).then((res, error) => {
             console.log(res);
+            if(res && res.status === 200) {
+                NotificationManager.success('Add category success!', 'Success');
+            }
 
             this.props.history.push('/admin/category');
         }).catch((e) => {
-            console.log(e.response);
-            if (e.response.status === 400) {
-                this.props.history.push('/admin')
+            if(e && e.response) {
+                console.log(e.response);
+                if (e.response.status === 400) {
+                    NotificationManager.error('Unauthorized!', 'Error');
+                    this.props.history.push('/admin')
+                }
+            } else {
+                e && console.log(e);
+                NotificationManager.error('Something wrong!', 'Error');
             }
         })
     }

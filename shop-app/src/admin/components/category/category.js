@@ -10,6 +10,8 @@ import {
 import './category.css';
 
 import $ from 'jquery';
+import {NotificationManager} from 'react-notifications';
+
 import categoryService from './category.service';
 import EditCategory from './editCategory';
 import AddCategory from './addCategory';
@@ -22,12 +24,6 @@ class Category extends Component {
         super();
         this.state = {
             category: [],
-            createNew: {
-                name: ''
-            },
-            edit: {
-                name: ''
-            }
         }
         this._categoryService = new categoryService();
     }
@@ -55,7 +51,7 @@ class Category extends Component {
             script.type = 'text/javascript';
             script.src = '/vendors/js/libs.js';
 
-            var currentScript = $('body').find('script[src="../vendors/js/libs.js"]');
+            var currentScript = $('body').find('script[src="/vendors/js/libs.js"]');
             if (currentScript) {
                 currentScript.remove();
             }
@@ -68,7 +64,7 @@ class Category extends Component {
                 link.rel = 'stylesheet';
                 link.href = '/vendors/css/libs.css';
 
-                var currentLink = $('body').find('link[href="../vendors/css/libs.css"]');
+                var currentLink = $('head link[href="/vendors/css/libs.css"]');
                 if (currentLink) {
                     currentLink.remove();
                 }
@@ -107,66 +103,14 @@ class Category extends Component {
         this.getCategories()
     }
 
-    updateName(e) {
-        const value = e.target.value;
-        this.setState(state => {
-            return {
-                ...state,
-                createNew: {
-                    ...state.createNew,
-                    name: value
-                }
-            }
-        })
-    }
-
-    cancel() {
-        this.props.history.push('/admin/category');
-    }
-
-    resetForm() {
-        this.setState(state => {
-            return {
-                ...state,
-                createNew: {
-                    name: ''
-                }
-            }
-        })
-    }
-
-    createCategory(e) {
-        e.preventDefault();
-
-        this._categoryService.addCategory(Cookies.get('token'), this.state.createNew).then((res, error) => {
-            console.log(res);
-            this.setState(state => {
-                return {
-                    ...state,
-                    category: [...state.category, res.data],
-                    createNew: {
-                        name: ''
-                    }
-                }
-            })
-
-            setTimeout(() => {
-                console.log(this.state);
-            })
-            this.props.history.push('/admin/category');
-        }).catch((e) => {
-            console.log(e.response);
-            if (e.response.status === 400) {
-                this.props.history.push('/admin')
-            }
-        })
-    }
-
     deleteCategory(idCategory, e) {
         e.preventDefault();
 
         this._categoryService.deleteCategory(Cookies.get('token'), idCategory).then((res, error) => {
             console.log(res);
+            if(res && res.status === 200) {
+                NotificationManager.success('Delete category success!', 'Success');
+            }
 
             this.setState(state => {
                 const indexPosition = state.category.findIndex(item => {
@@ -179,9 +123,15 @@ class Category extends Component {
                 }
             })
         }).catch((e) => {
-            console.log(e.response);
-            if (e.response.status === 400) {
-                this.props.history.push('/admin')
+            if(e && e.response) {
+                console.log(e.response);
+                if (e.response.status === 400) {
+                    NotificationManager.error('Unauthorized!', 'Error');
+                    this.props.history.push('/admin')
+                }
+            } else {
+                e && console.log(e);
+                NotificationManager.error('Something wrong!', 'Error');
             }
         })
     }

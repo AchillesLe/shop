@@ -1,6 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
-import {ProductConsumer, ProducProvider} from './../context/ProductContext'
+import {ProductConsumer} from './../context/ProductContext'
 const vendorJS = [
 
     './js/jquery/jquery-2.2.4.min.js',
@@ -36,11 +36,11 @@ export const withJS = (Component)=>{
 
         render() {
             return (
-                <ProducProvider>
+              
                     <ProductConsumer>
                         {({products,renderProduct}) => <Component {...this.props} renderProduct={renderProduct} products={products}/>}
                     </ProductConsumer>
-                </ProducProvider>
+      
             );
         }
     }

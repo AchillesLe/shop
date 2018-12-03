@@ -4,9 +4,9 @@ import { IconCart } from './IconCart';
 import { CartConsumer } from '../context/CartContext';
 import {route,urlUpload} from './../../../config'
 import {currencyParser} from './../../services'
-import {ProductConsumer, ProducProvider} from './../context/ProductContext'
+import {ProductConsumer} from './../context/ProductContext'
 const CartItem = ({ cartItem, removeItem}) =>(
-    <ProducProvider>
+
         <ProductConsumer>
             {
                 ({updateQuantityItemInList})=>{
@@ -27,7 +27,6 @@ const CartItem = ({ cartItem, removeItem}) =>(
                 }
             }
             </ProductConsumer>
-    </ProducProvider>
 )
 export const getTotal = (cartItems)=>{
     return cartItems.reduce((total,item)=>{

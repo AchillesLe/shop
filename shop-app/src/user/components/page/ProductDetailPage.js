@@ -52,15 +52,11 @@ class ProductDetailPage extends Component {
           <div className="single_product_thumb clearfix">
             <div className="product_thumbnail_slides owl-carousel">
               <img
-                src={`${urlUpload}/img/product-img/product-big-1.jpg`}
+                src={product.avatar}
                 alt=""
               />
               <img
-                src={`${urlUpload}/img/product-img/product-big-2.jpg`}
-                alt=""
-              />
-              <img
-                src={`${urlUpload}/img/product-img/product-big-3.jpg`}
+                src={product.images}
                 alt=""
               />
             </div>

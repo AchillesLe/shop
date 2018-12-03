@@ -20,12 +20,14 @@ import CheckoutPage from "./page/CheckoutPage";
 import ContactPage from "./page/ContactPage";
 import { RightCart } from './cart/RightCart';
 import { CartProvider } from './context/CartContext';
+import { ProducProvider } from './context/ProductContext';
 
 
 const HomeRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => (
+    <ProducProvider>
       <CartProvider>
         <NavBar />
         <RightCart/>
@@ -33,6 +35,7 @@ const HomeRoute = ({ component: Component, ...rest }) => (
         <Footer />
         <GoTop/>
       </CartProvider>
+    </ProducProvider>
     )}
   />
 );

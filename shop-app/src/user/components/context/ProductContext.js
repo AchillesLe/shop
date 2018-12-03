@@ -27,7 +27,6 @@ export class ProducProvider extends Component {
             products = orderBy(this.state.products,'idProduct','desc')
           }else{
             products = this.state.products.filter(p=>p.idProduct !== withoutProd.idProduct && withoutProd.idCategory === p.idCategory)
-            console.log(products)
           }
           var res =products.map((p,i) => {
             return i<10 ? (
@@ -56,9 +55,20 @@ export class ProducProvider extends Component {
     var keyword = this.state.keyword.replace(/ /g, '-')
     history.push(`${route.product}?keyword=${keyword}&page=1`); 
   }
+  updateQuantityItemInList = (item,typeChange)=>{
+    var findItem = this.state.products.find(p=> p.idProduct === item.idProduct)
+    if(findItem){
+      if(typeChange==='minus'){
+        findItem.quantity -= 1;
+      }else if(typeChange === 'plus'){
+        findItem.quantity += item.quantity;
+      }
+      this.setState((prevState)=> { return {products:[...prevState.products]}})
+    }
+  }
   render(){
       return(
-          <ProductContext.Provider value={{keyword:this.state.keyword,products:this.state.products,renderProduct:this.renderProduct,onChangeKeyword:this.onChangeKeyword,onSubmitKeyword:this.onSubmitKeyword}}>
+          <ProductContext.Provider value={{keyword:this.state.keyword,products:this.state.products,renderProduct:this.renderProduct,onChangeKeyword:this.onChangeKeyword,onSubmitKeyword:this.onSubmitKeyword,updateQuantityItemInList:this.updateQuantityItemInList}}>
               {this.props.children}
           </ProductContext.Provider>
       )

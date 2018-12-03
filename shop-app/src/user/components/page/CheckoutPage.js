@@ -60,12 +60,15 @@ class CheckoutPage extends Component {
     this.setState({isLoading:true})
     callAPI('PUT','receipt/addreceipt',receipt)
     .then(data=> {
+      if(data){
         if(data.status === 200){
           NotificationManager.success(data.data.message, '')
           this.props.clearCart()
-          this.setState({isLoading:false})
         }
-      })
+      }
+    }).then(() =>{
+      this.setState({isLoading:false})
+    });  
   };
   componentDidMount(){
       this.setState({ total: getTotal(this.props.cartItems) })

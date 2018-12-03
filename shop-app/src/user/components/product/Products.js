@@ -5,8 +5,6 @@ class Products extends PureComponent{
     constructor(props){
         super(props)
     }
-
-
     render(){
         const {isProductPage,products} =this.props;
         return products.map((p) => (

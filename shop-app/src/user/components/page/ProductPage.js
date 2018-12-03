@@ -56,7 +56,7 @@ class ProductPage extends Component {
     }
     handlePageChange = (pageNumber) => {
         const {history} = this.props
-        var queryString = this.props.location.search.replace(`page=${this.state.activePage}`,`page=${pageNumber}`)
+        var queryString = this.props.location.search.search('page=')>-1?this.props.location.search.replace(`page=${this.state.activePage}`,`page=${pageNumber}`):`?page=${pageNumber}`
         history.push(`${this.props.match.path}${queryString}`); 
     }
     setRange = (range)=>{
@@ -74,17 +74,15 @@ class ProductPage extends Component {
     }
     componentDidMount(){
         var queryString = queryStringParser(decodeURI(this.props.location.search))
-        const activePage = queryString["page"];
+        const activePage = queryString["page"]||1;
         const idCate = queryString["id"];
         const keyword = queryString['keyword'];
-        console.log(this.props.location.search)
         let _this = this;
         $(document).on("click",".list li", function(){
             var value = $(this).data('value')
             _this.setState({sortKey:value})
         })
         var products = this.filterProduct(this.props.products,idCate,keyword)
-        console.log(products)
         this.setState({
             activePage: activePage,
             keyword:keyword,
@@ -98,8 +96,8 @@ class ProductPage extends Component {
         var queryString = queryStringParser(decodeURI(this.props.location.search))
         var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
 
-        const activePage = queryString["page"];
-        const activePageNext = queryStringNext["page"];
+        const activePage = queryString["page"]||1;
+        const activePageNext = queryStringNext["page"]||1;
 
         const idCate = queryString["id"];
         const idCateNext = queryStringNext["id"];
@@ -108,7 +106,6 @@ class ProductPage extends Component {
 
         if (idCate !== idCateNext || activePageNext !== activePage || this.props.products !== nextProps.products || keyword !== keywordNew) {
             var products = this.filterProduct(nextProps.products,idCateNext,keywordNew)
-            console.log(products)
             this.setState({
                 activePage: activePageNext,
                 totalItemsCount: products.length,
@@ -139,8 +136,8 @@ class ProductPage extends Component {
     componentDidUpdate(prevProps, prevState){
         var queryString = queryStringParser(decodeURI(this.props.location.search))
         var queryStringPrev = queryStringParser(decodeURI(prevProps.location.search));
-        const activePage = queryString["page"];
-        const activePagePrev = queryStringPrev["page"];
+        const activePage = queryString["page"]||1;
+        const activePagePrev = queryStringPrev["page"]||1;
        
         const idCate = queryString["id"];
         const idCatePrev = queryStringPrev["id"];

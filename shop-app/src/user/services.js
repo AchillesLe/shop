@@ -8,7 +8,7 @@ export const queryStringParser = (query) => {
     var queries = query.split('&');
     for (var i = 0; i < queries.length; i++) {
         var temp = queries[i].split('=');//a[0] = key, a[1]=value 
-        params[temp[0]] = temp[1];// query ?key=value => params[key] = value 
+        params[temp[0]] = temp[1].replace("/", "");// query ?key=value => params[key] = value 
     }
     return params
 }
@@ -25,9 +25,10 @@ export const callAPI = (method,endpoint,data=null,headers={'Content-Type': 'appl
         data:data,
         headers: headers,
     }).catch(error=>{
-        console.log(error)
+        console.log(error.response)
         if(error.response){
-            NotificationManager.error('Lỗi trong quá trình tạo đơn đặt hàng.', '');
+            console.log(error.response)
+            NotificationManager.error(error.response.data.Message, '');
         }
     });
 }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Redirect} from "react-router-dom";
 import { NotificationManager} from 'react-notifications';
 import { urlUpload} from "./../../../config";
 import { queryStringParser, currencyParser, callAPI } from "./../../services";
@@ -13,15 +14,25 @@ class ProductDetailPage extends Component {
     };
   }
   componentDidMount() {
-    callAPI("get",`/product/getdetails/${queryStringParser(this.props.location.search)["id"]}`)
-    .then(data => this.setState({ product: data.data}))
-    .catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
+    // callAPI("get",`/product/getdetails/${queryStringParser(this.props.location.search)["id"]}`)
+    // .then(data => this.setState({ product: data.data}))
+    // .catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
+    console.log(this.props.products)
+    if(this.props.products){
+      var product =  this.props.products.find(p=>p.idProduct === queryStringParser(this.props.location.search)["id"])
+      if(product){
+        this.setState({product})
+      }
+    }
   }
   componentWillReceiveProps(nextProps){
-    if(nextProps.location.search !== this.props.location.search){
-      callAPI("get",`/product/getdetails/${queryStringParser(nextProps.location.search)["id"]}`)
-      .then(data => this.setState({product: data.data }))
-    }
+    console.log(nextProps.products)
+      if(nextProps.products.length >0){
+        var product = nextProps.products.find(p=>{ return p.idProduct == queryStringParser(nextProps.location.search)["id"]})
+        if(product){
+          this.setState({product})
+        }
+      }
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -35,7 +46,7 @@ class ProductDetailPage extends Component {
 
    render() {
     const { product } = this.state;
-    return (
+    return product?(
       <React.Fragment>
         <section className="single_product_details_area d-flex align-items-center mt-100">
           <div className="single_product_thumb clearfix">
@@ -68,8 +79,8 @@ class ProductDetailPage extends Component {
             </p>
             <p>Xuất sứ: {product.madein}</p>
             <p className="product-desc">{product.description}</p>
-
-            <AddToCartBtn product={product} />
+            <p>Còn: {product.quantity} sản phẩm</p>
+            {product.quantity >0?<AddToCartBtn product={product} />:""}
           </div>
         </section>
         <section className="new_arrivals_area section-padding-80 clearfix">
@@ -92,7 +103,7 @@ class ProductDetailPage extends Component {
           </div>
         </section>
       </React.Fragment>
-    );
+    ):<Redirect to="/san-pham"/>;
   }
 }
 

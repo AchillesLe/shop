@@ -15,6 +15,7 @@ namespace shop_api.Controllers
     public class StatisticsController : ApiController
     {
         StatisticService statisticService = new StatisticService();
+        UserService userService = new UserService();
         [HttpGet(),Route("getByRangeDate")]
         public IHttpActionResult GetstatisticByRangeDate([FromUri] RequestStatistic requestDateRage )
         {
@@ -26,7 +27,11 @@ namespace shop_api.Controllers
                 {
                     return BadRequest(Message.messageNotValidToken);
                 }
-
+                var user = userService.getUserByToken(token);
+                if (user.role == 0)
+                {
+                    return Content(HttpStatusCode.Forbidden, Message.messageNoEnoughRole);
+                }
                 DateTime FromDate = DateTime.ParseExact(requestDateRage.dateFrom, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
                 DateTime ToDate = DateTime.ParseExact(requestDateRage.dateTo, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
                 var data = statisticService.getRevenueByRangeDate(FromDate, ToDate);

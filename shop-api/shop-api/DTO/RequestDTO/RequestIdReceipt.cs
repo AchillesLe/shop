@@ -5,8 +5,8 @@ using System.Web;
 
 namespace shop_api.DTO.RequestDTO
 {
-    public class RequestStatus
+    public class RequestIdReceipt
     {
-        public int status { get; set; }
+        public int idReceipt { get; set; }
     }
 }

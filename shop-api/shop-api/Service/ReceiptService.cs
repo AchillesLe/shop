@@ -157,8 +157,9 @@ namespace shop_api.Service
                 }).OrderBy(x => x.idReceipt).FirstOrDefault();
             return Receipt;
         }   
-        public ReceiptDTO AddReceipt(RequestReceipt receipt)
+        public Dictionary<string, ReceiptDTO>  AddReceipt(RequestReceipt receipt)
         {
+            Dictionary<string, ReceiptDTO> data = new Dictionary<string, ReceiptDTO>();
             Receipt newReceipt = new Receipt();
             newReceipt.address = receipt.address;
             newReceipt.description = receipt.description;
@@ -171,34 +172,51 @@ namespace shop_api.Service
             newReceipt.updatedDate = DateTime.Now;
             context.Receipts.Add(newReceipt);
             context.SaveChanges();
-            if (newReceipt.idReceipt > 0)
+            List<RequestDetailReciept> detailReceipts = receipt.detailReceipts;
+            List<DetailReciept> listdetail = new List<DetailReciept>();
+            foreach (RequestDetailReciept detail in detailReceipts)
             {
-                List<RequestDetailReciept> detailReceipts = receipt.detailReceipts ;
-                foreach (RequestDetailReciept detail in detailReceipts)
+                DetailReciept newDetail = new DetailReciept();
+                newDetail.idProduct = detail.idProduct;
+                newDetail.price = detail.price;
+                newDetail.quantity = detail.quantity;
+                // update product
+                var product = context.Products.Where(x => x.idProduct == newDetail.idProduct).FirstOrDefault();
+                
+                if (product!=null && product.quantity > newDetail.quantity)
                 {
-                    DetailReciept newDetail = new DetailReciept();
-                    newDetail.idReciept = newReceipt.idReceipt;
-                    newDetail.idProduct = detail.idProduct;
-                    newDetail.price = detail.price;
-                    newDetail.quantity = detail.quantity;
-                    context.DetailReciepts.Add(newDetail);
-                    context.SaveChanges();
-                    // update product
-                    var product = context.Products.Where(x => x.idProduct == newDetail.idProduct).FirstOrDefault();
-                    if (product.quantity > newDetail.quantity)
-                    {
-                        product.quantity = product.quantity - newDetail.quantity;
-                        context.Products.Attach(product);
-                        context.Entry(product).State =  System.Data.Entity.EntityState.Modified;
-                    }
+                    product.quantity = product.quantity - newDetail.quantity;
+                    context.Products.Attach(product);
+                    context.Entry(product).State = System.Data.Entity.EntityState.Modified;
                 }
-                context.SaveChanges();
-                return GetById(newReceipt.idReceipt);
+                else
+                {
+                    var details = listdetail.Where(x => x.idReciept == newReceipt.idReceipt).ToList();
+                    if (details.Count > 0)
+                    {
+                        context.DetailReciepts.RemoveRange(details);
+                    }
+                    context.Receipts.Remove(newReceipt);
+                    context.SaveChanges();
+                    if (product == null)
+                    {
+                        data.Add(" Sảm phẩm có mã " + newDetail.idProduct + " không tồn tại !", null);
+                    }
+                    else
+                    {
+                        data.Add(product.name + " Không đủ số lượng !", null);
+                    }
+                    
+                    return data;
+                }
+                newDetail.idReciept = newReceipt.idReceipt;
+                context.DetailReciepts.Add(newDetail);
+                listdetail.Add(newDetail);
             }
-            else
-            {
-                return null;
-            }
+            context.SaveChanges();
+            ReceiptDTO reciept = GetById(newReceipt.idReceipt);
+            data.Add("", reciept);
+            return data;
 
         }
         public bool UpdateStatus(int id, int status, int iduser)

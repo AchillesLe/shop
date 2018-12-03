@@ -156,6 +156,7 @@ namespace shop_api.Service
             try
             {
                 var pro_entity = context.Products.Where(x => x.idProduct == pro.idProduct).FirstOrDefault();
+                if (pro_entity == null) return null;
                 pro_entity.name = pro.name;
                 pro_entity.code = pro.code;
                 pro_entity.avatar = pro.avatar;
@@ -165,6 +166,7 @@ namespace shop_api.Service
                 pro_entity.width = pro.width;
                 pro_entity.priceIn = pro.priceIn;
                 pro_entity.priceOut = pro.priceOut;
+                pro_entity.description = pro.description;
                 pro_entity.madein = pro.madein;
                 pro_entity.length = pro.length;
                 pro_entity.quantity = pro.quantity;
@@ -192,6 +194,7 @@ namespace shop_api.Service
                          priceOut = x.priceOut,
                          madein = x.madein,
                          length = x.length,
+                         description = x.description,
                          quantity = x.quantity,
                          isDelete = x.isDelete,
                          createdDate = x.createdDate,

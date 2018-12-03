@@ -75,7 +75,7 @@ namespace shop_api.Controllers
                 {
                     return Ok(newPro);
                 }
-                return Ok(Message.messageInsertFailed);
+                return BadRequest(Message.messageInsertFailed);
             }
             catch (Exception e) { return InternalServerError(); }
         }

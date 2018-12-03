@@ -20,6 +20,13 @@ namespace shop_api.Controllers
         {
             try
             {
+                var headers = Request.Headers;
+                string token = Token.HandleToken(Request);
+                if (token == String.Empty)
+                {
+                    return BadRequest(Message.messageNotValidToken);
+                }
+
                 DateTime FromDate = DateTime.ParseExact(requestDateRage.dateFrom, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
                 DateTime ToDate = DateTime.ParseExact(requestDateRage.dateTo, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
                 var data = statisticService.getRevenueByRangeDate(FromDate, ToDate);

@@ -25,3 +25,8 @@ body.nav-md{
     float: left;
     border-left: 1px solid #999;
 }
+
+.cell-image{
+    width: 150px;
+    height: 150px;
+}

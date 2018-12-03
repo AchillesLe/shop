@@ -96,6 +96,11 @@ class LeftNav extends Component {
                                         <li><Link to="/admin/category/create-new">Create New</Link></li>
                                     </ul>
                                 </li>
+                                <li><a><i className="fa fa-area-chart" /> Thống kê <span className="fa fa-chevron-down" /></a>
+                                    <ul className="nav child_menu">
+                                        <li><Link to="/admin/statistic">Thống kê doanh thu</Link></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>

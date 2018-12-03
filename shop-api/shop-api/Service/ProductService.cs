@@ -24,7 +24,7 @@ namespace shop_api.Service
             {
                 if (page != null)
                 {
-                    listpros = context.Products.Where(x => x.isDelete == 0).OrderBy(x => x.idProduct).Skip((int)skipRows).Take(9).Select(x => new ProductDTO
+                    listpros = context.Products.Where(x => x.isDelete == 0).OrderByDescending(x => x.idProduct).Skip((int)skipRows).Take(9).Select(x => new ProductDTO
                     {
                         idProduct = x.idProduct,
                         name = x.name,

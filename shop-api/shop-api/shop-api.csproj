@@ -121,6 +121,7 @@
     <Compile Include="DTO\RequestDTO\RequestCategory.cs" />
     <Compile Include="DTO\RequestDTO\RequestDetailBill.cs" />
     <Compile Include="DTO\RequestDTO\RequestDetailReciept.cs" />
+    <Compile Include="DTO\RequestDTO\RequestIdReceipt.cs" />
     <Compile Include="DTO\RequestDTO\RequestLogin.cs" />
     <Compile Include="DTO\RequestDTO\RequestReceipt.cs" />
     <Compile Include="DTO\RequestDTO\RequestStatistic.cs" />

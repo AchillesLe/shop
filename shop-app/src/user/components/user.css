@@ -27,7 +27,7 @@ body {
 .single-product-wrapper .product-img {
     width: 255px;
     height: 255px;
-}
+} 
 .single-product-wrapper .product-img img{
     position: absolute;
     top:50%;

@@ -19,7 +19,7 @@ const CartItem = ({ cartItem, removeItem}) =>(
                                     <h6>{cartItem.name}</h6>
                                     <p className="size">Số lượng: {cartItem.quantity}</p>
                                     <p className="price">Đơn Giá: {currencyParser(cartItem.price)} VNĐ</p>
-                                    <p className="price">Thành Tiền: {currencyParser(cartItem.price * cartItem.quantity)} VNĐ</p>
+                                    <p className="text-white">Thành Tiền: {currencyParser(cartItem.price * cartItem.quantity)} VNĐ</p>
                                 </div>
                             </Link>
                         </div>
@@ -53,7 +53,7 @@ export const RightCart = ()=>{
                                         <div className="cart-amount-summary">
                                             <h2>Tổng giá trị đã mua</h2>
                                             <ul className="summary-table">
-                                                <li><span>Tổng cộng:</span> <span>{currencyParser(getTotal(cartItems))}</span></li>
+                                                <li><span>Tổng cộng:</span> <span>{currencyParser(getTotal(cartItems))} VNĐ</span></li>
                                             </ul>
                                             <div className="checkout-btn mt-100">
                                                     

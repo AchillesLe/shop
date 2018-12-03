@@ -139,7 +139,7 @@ body += string.Format("</div>");
         }
 
         [HttpPost(), Route("updatestatusconfirmed")]
-        public IHttpActionResult UpdateStatusConfirmed([FromBody] RequestStatus Receipt)
+        public IHttpActionResult UpdateStatusConfirmed([FromBody] RequestIdReceipt Receipt)
         {
             
             if (Receipt!=null && Receipt.idReceipt > 0)
@@ -162,7 +162,7 @@ body += string.Format("</div>");
             return BadRequest(Message.messageAddInvalidParamter);
         }
         [HttpPost(), Route("updatestatuscancel")]
-        public IHttpActionResult UpdateStatusCancel([FromBody] RequestStatus Receipt)
+        public IHttpActionResult UpdateStatusCancel([FromBody] RequestIdReceipt Receipt)
         {
             if (Receipt != null && Receipt.idReceipt > 0)
             {
@@ -184,7 +184,7 @@ body += string.Format("</div>");
             return BadRequest();
         }
         [HttpPost(), Route("updatestatusdone")]
-        public IHttpActionResult UpdateStatusDone([FromBody] RequestStatus Receipt)
+        public IHttpActionResult UpdateStatusDone([FromBody] RequestIdReceipt Receipt)
         {
             if (Receipt != null && Receipt.idReceipt > 0)
             {
@@ -204,6 +204,33 @@ body += string.Format("</div>");
                 }
             }
             return BadRequest();
+        }
+        [HttpPost(), Route("updatestatus/{id:int}")]
+        public IHttpActionResult UpdateStatus([FromUri] int id , [FromBody] RequestStatus req)
+        {
+            try
+            {
+                if ( id > 0 && req.status >= 1 && req.status <= 3)
+                {
+                    string token = Token.HandleToken(Request);
+                    if (token == "") return BadRequest(Message.messageNotValidToken);
+                    UserDTO user = Token.getUser(token);
+                    if (user != null)
+                    {
+
+                        if ( receiptService.UpdateStatus( id, req.status, user.iduser) )
+                        {
+                            return Ok(Message.messageUpdateRecieptSuccess);
+                        }
+                        return Ok(Message.messageUpdateRecieptFailed);
+                    }
+                }
+                return BadRequest(Message.messageIdOrStatusInvalid);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -126,7 +126,7 @@ namespace shop_api.Controllers
                 context.SaveChanges();
                 return Ok("Delete Completed");
             }
-            catch (Exception e) { return BadRequest("Insert Error" + e.Message); }
+            catch (Exception e) { return BadRequest("The category is in use! Can not delete."); }
         }
     }
 }

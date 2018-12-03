@@ -18,6 +18,7 @@ import TopNav from './navs/top-nav/top-nav';
 import Content from './content/content';
 import Product from './product/product';
 import Category from './category/category';
+import Statistic from './statistic/statistic';
 
 import Footer from './footer/footer';
 
@@ -124,6 +125,7 @@ class Admin extends Component {
                     <HomeRoute path={`${this.props.match.path}/home`} history={history} component={Content} />
                     <HomeRoute path={`${this.props.match.path}/product`} history={history} component={Product} />
                     <HomeRoute path={`${this.props.match.path}/category`} history={history} component={Category} />
+                    <HomeRoute path={`${this.props.match.path}/statistic`} history={history} component={Statistic} />
                 </Switch>
             </AdminContext.Provider>
         )

@@ -9,13 +9,12 @@ class Home extends Component {
     super(props);
   }
 
-
-  componentWillUnmount(){
-    if(typeof $('popular-products-slides').data('owlCarousel') !== 'undefined') {
-      $('popular-products-slides').data('owlCarousel').destroy();
-      $('popular-products-slides').removeClass('owl-carousel');
-    }
-  }
+  // componentWillUnmount(){
+  //   if(typeof $('popular-products-slides').data('owlCarousel') !== 'undefined') {
+  //     $('popular-products-slides').data('owlCarousel').destroy();
+  //     $('popular-products-slides').removeClass('owl-carousel');
+  //   }
+  // }
   render() {
     return (
       <div>
@@ -34,9 +33,9 @@ class Home extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                <div className="popular-products-slides owl-carousel">
-                  {this.props.renderProduct()}
-                </div>
+                
+                {this.props.renderProduct()}
+                
               </div>
             </div>
           </div>

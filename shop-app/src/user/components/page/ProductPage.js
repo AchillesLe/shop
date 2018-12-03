@@ -14,7 +14,7 @@ class ProductPage extends Component {
         super(props);
         this.state = {
             activePage:1,
-            itemsCounterPerPage: 10,
+            itemsCounterPerPage: 12,
             totalItemsCount:0,
             pageRangeDisplayed:3,
             productsPerPage:[],
@@ -64,12 +64,12 @@ class ProductPage extends Component {
             if(this.state.activePage !== 1){
                 var queryString = this.props.location.search.replace(`page=${this.state.activePage}`,`page=1`)
                 this.props.history.push(`${this.props.match.path}${queryString}`); 
-            }else{
-                return {minRange:range[0],maxRange:range[1]}
             }
+            return {minRange:range[0],maxRange:range[1]}
         })
     }
     handleRangeChange = (range)=>{
+        console.log(range)
         this.setRange(range);
     }
     componentDidMount(){

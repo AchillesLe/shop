@@ -18,8 +18,9 @@ class ProductDetailPage extends Component {
     // .then(data => this.setState({ product: data.data}))
     // .catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
     console.log(this.props.products)
-    if(this.props.products){
-      var product =  this.props.products.find(p=>p.idProduct === queryStringParser(this.props.location.search)["id"])
+    if(this.props.products.length>0){
+      var product =  this.props.products.find(p=>p.idProduct === parseInt(queryStringParser(this.props.location.search)["id"]))
+      console.log(product, queryStringParser(this.props.location.search)["id"])
       if(product){
         this.setState({product})
       }
@@ -29,6 +30,7 @@ class ProductDetailPage extends Component {
     console.log(nextProps.products)
       if(nextProps.products.length >0){
         var product = nextProps.products.find(p=>{ return p.idProduct == queryStringParser(nextProps.location.search)["id"]})
+        console.log(product)
         if(product){
           this.setState({product})
         }

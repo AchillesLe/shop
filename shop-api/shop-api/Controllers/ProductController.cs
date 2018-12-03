@@ -65,6 +65,7 @@ namespace shop_api.Controllers
                 pro_entity.madein = pro.madein;
                 pro_entity.length = pro.length;
                 pro_entity.quantity = pro.quantity;
+                pro_entity.description = pro.description;
                 pro_entity.isDelete = 0;
                 pro_entity.createdDate = DateTime.Now;
                 pro_entity.updatedDate = DateTime.Now;

@@ -62,7 +62,7 @@ class CheckoutPage extends Component {
     .then(data=> {
       if(data){
         if(data.status === 200){
-          NotificationManager.success(data.data.message, '')
+          NotificationManager.success(data.data.message, 'Thành công')
           this.props.clearCart()
         }
       }

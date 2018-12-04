@@ -28,7 +28,7 @@ export const callAPI = (method,endpoint,data=null,headers={'Content-Type': 'appl
         console.log(error.response)
         if(error.response){
             console.log(error.response)
-            NotificationManager.error(error.response.data.Message, '');
+            NotificationManager.error(error.response.data.Message, 'Lỗi');
         }
     });
 }

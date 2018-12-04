@@ -43,7 +43,7 @@ export class CartProvider extends Component{
                 this.setState({cartItems : updateCart});
                 localStorage.setItem("cart", JSON.stringify(updateCart));
                 updateQuantityItemInList(item,'minus')
-                NotificationManager.success('Đã thêm vào giỏ hàng', '');
+                NotificationManager.success('Đã thêm vào giỏ hàng', 'Thành công');
             }else{
                 NotificationManager.error('Sản phẩm tạm thời hết hàng', '');
             }

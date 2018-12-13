@@ -23,6 +23,7 @@ namespace shop_api.Models
 
         [Required]
         [StringLength(250)]
+        [Column(TypeName = "NVARCHAR")]
         public string fullname { get; set; }
 
         [StringLength(50)]
@@ -37,6 +38,7 @@ namespace shop_api.Models
         public string phone { get; set; }
 
         [StringLength(250)]
+        [Column(TypeName = "NVARCHAR")]
         public string address { get; set; }
 
         [StringLength(10)]

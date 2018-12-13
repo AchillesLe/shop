@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using shop_api.Models;
+using shop_api.DTO.RequestDTO;
+
 namespace shop_api.Service
 {
     public class UserService
@@ -115,19 +117,20 @@ namespace shop_api.Service
             }
         }
         // Không update username
-        public UserDTO update(User requser)
+        public UserDTO update(RequestUser requser)
         {
             UserDTO userdto = new UserDTO();
             try
             {
                 User user = context.Users.Where(x => x.iduser == requser.iduser).FirstOrDefault();
-                if (user!=null)
+                if (user != null)
                 {
                     user.fullname = requser.fullname;
                     user.password = requser.password;
                     user.phone = requser.phone;
                     user.address = requser.address;
                     user.cmnd = requser.cmnd;
+                    user.role = requser.role;
                     user.password = requser.password;
                     user.updatedDate = DateTime.Now;
     
@@ -149,8 +152,10 @@ namespace shop_api.Service
                             phone = x.phone,
                             isDelete = x.isDelete
                         }).FirstOrDefault();
+                    return userdto;
                 }
-                return userdto;
+
+                return null;
             }
             catch (Exception ex)
             {
@@ -177,7 +182,6 @@ namespace shop_api.Service
                 return false;
             }
         }
-
         public bool  CheckUserName(string username)
         {
             var checkuser = context.Users.Where(x=>x.username == username).FirstOrDefault();

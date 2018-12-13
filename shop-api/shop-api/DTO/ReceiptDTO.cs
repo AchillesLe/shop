@@ -15,7 +15,8 @@ namespace shop_api.DTO
         public string description { get; set; }
         public decimal total { get; set; }
         public List<DetailReceiptDTO> detailReceipts { get; set; }
-        public UserDTO Updator { get; set; }
+        public string Updator { get; set; }
+        public int status { get; set; }
         public DateTime createdDate { get; set; }
         public DateTime updatedDate { get; set; }
         

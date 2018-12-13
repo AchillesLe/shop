@@ -27,6 +27,8 @@ namespace shop_api.Service
                     email = x.email,
                     phone = x.phone,
                     total = x.total,
+                    status = x.status,
+                    Updator = x.User != null ? x.User.fullname : "",
                     detailReceipts = x.detailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
                     {
                         idDetail = a.idDetail,
@@ -55,12 +57,7 @@ namespace shop_api.Service
                         }
                     }).ToList(),
                     updatedDate = x.updatedDate,
-                    createdDate = x.createdDate,
-                    Updator = new UserDTO
-                    {
-                        iduser = x.User.iduser,
-                        fullname = x.User.fullname,
-                    }
+                    createdDate = x.createdDate
                 }).OrderBy(x => x.idReceipt).ToList();
             return listReceipt;
         }
@@ -76,6 +73,8 @@ namespace shop_api.Service
                     phone = x.phone,
                     email = x.email,
                     total = x.total,
+                    status = x.status,
+                    Updator = x.User != null ? x.User.fullname : "",
                     detailReceipts = x.detailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
                     {
                         idDetail = a.idDetail,
@@ -98,18 +97,10 @@ namespace shop_api.Service
                             description = a.Product.description,
                             priceOut = a.Product.priceOut,
                             updatedDate = a.Product.updatedDate,
-                            createdDate = a.Product.createdDate,
-                            creatorName = a.Product.User.fullname,
-                            idCreator = a.Product.idCreator
                         }
                     }).ToList(),
                     updatedDate = x.updatedDate,
                     createdDate = x.createdDate,
-                    Updator = new UserDTO
-                    {
-                        iduser = x.User.iduser,
-                        fullname = x.User.fullname,
-                    }
                 }).OrderBy(x => x.idReceipt).ToList();
             return listReceipt;
         }
@@ -125,6 +116,8 @@ namespace shop_api.Service
                     nameCustomer = x.nameCustomer,
                     phone = x.phone,
                     total = x.total,
+                    status = x.status,
+                    Updator = x.User != null ? x.User.fullname : "",
                     detailReceipts = x.detailReciepts.Where(a => a.idReciept == x.idReceipt).Select(a => new DetailReceiptDTO
                     {
                         idDetail = a.idDetail,

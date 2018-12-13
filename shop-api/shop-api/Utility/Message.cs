@@ -31,5 +31,7 @@ namespace shop_api.Utility
         public static string messageAddInvalidParamter = "Parameter không hợp lệ !";
         public static string messageDateInCorrectFormat = "Định dạng ngày không hợp lệ ! Ex hợp lệ: yyyy-MM-dd";
         public static string messageIdOrStatusInvalid = "id hoặc status không hợp lệ !";
+        public static string messageIdNotFoundUser = "User không tồn tại !";
+
     }
 }

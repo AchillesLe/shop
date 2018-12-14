@@ -53,7 +53,7 @@ namespace shop_api.Controllers
             return BadRequest(Message.messageRequireInvalid);
         }
 
-        [HttpPut(), Route("create")]
+        [HttpPost(), Route("add")]
         public IHttpActionResult CreateUser([FromBody]RequestUser requser)
         {
             try
@@ -74,6 +74,7 @@ namespace shop_api.Controllers
                         user.password = requser.password;
                         user.address = requser.address;
                         user.cmnd = requser.cmnd;
+                        user.role = 0;
                         user.phone = requser.phone;
                         user.updatedDate = DateTime.Now;
                         user.createdDate = DateTime.Now;
@@ -106,7 +107,7 @@ namespace shop_api.Controllers
             }
 
         }
-        [HttpPost(), Route("update/{id:int}")]
+        [HttpPut(), Route("update/{id:int}")]
         public IHttpActionResult UpdateUser([FromUri]int id,[FromBody]RequestUser requser)
         {
             try
@@ -121,24 +122,17 @@ namespace shop_api.Controllers
                     UserDTO whoReq = Token.getUser(token);
                     if (whoReq != null && whoReq.role == 1)
                     {
-                        User user = new User();
-                        user.iduser = id;
-                        user.fullname = requser.fullname;
-                        user.username = requser.username;
-                        user.password = requser.password;
-                        user.address = requser.address;
-                        user.cmnd = requser.cmnd;
-                        user.phone = requser.phone;
                         if (userService.CheckCMND(id, requser.cmnd))
                         {
                             return BadRequest(Message.messageCMNDExist);
                         }
-                        UserDTO userdto = userService.update(user);
+                        requser.iduser = id;
+                        UserDTO userdto = userService.update(requser);
                         if (userdto != null)
                         {
                             return Ok(userdto);
                         }
-                        return InternalServerError();
+                        return BadRequest(Message.messageIdNotFoundUser);
                     }
                     else
                     {

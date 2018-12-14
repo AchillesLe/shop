@@ -15,8 +15,5 @@ namespace shop_api.DTO.RequestDTO
         public string phone { get; set; }
         public string address { get; set; }
         public string cmnd { get; set; }
-        public int isDelete { get; set; }
-        public DateTime createdDate { get; set; }
-        public DateTime updatedDate { get; set; }
     }
 }

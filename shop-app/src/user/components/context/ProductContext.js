@@ -43,9 +43,19 @@ export class ProducProvider extends Component {
     }
   };
   componentDidMount() {
-    callAPI("GET", `product/get/page`).then(data =>
+    callAPI("GET", `product/get/page`).then(data =>{
+      if(localStorage.getItem('cart') && JSON.parse(localStorage.getItem('cart')).length >0 ){
+        var cart = JSON.parse(localStorage.getItem('cart'));
+        data.data.list.forEach(pro => {
+          var itemInCart = cart.find(item => {return pro.idProduct === item.idProduct})
+          if(itemInCart){
+            pro.quantity -= itemInCart.quantity
+          }
+        });
+      }
       this.setState({ products: data.data.list, totalPage:data.data.total })
-    ).catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
+
+    }).catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
   }
   onChangeKeyword = (keyword)=>{
     this.setState({keyword})

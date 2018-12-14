@@ -34,3 +34,12 @@ body {
     left: 50%;
     transform: translate(-50%,-50%)
 }
+.single_product_thumb{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.single_product_thumb img{
+    width: 50%;
+}

@@ -12,7 +12,7 @@ const CartItem = ({ cartItem, removeItem}) =>(
                 ({updateQuantityItemInList})=>{
                     return(<div className="single-cart-item">
                             <Link to={`/${route.detail}?id=${cartItem.idProduct}/`} className="product-image">
-                                <img src={`${urlUpload}/img/product-img/product-1.jpg`} className="cart-thumb" alt=""/>
+                                <img src={`${cartItem.avatar}`} className="cart-thumb" alt=""/>
                                 <div className="cart-item-desc">
                                     <span className="product-remove" onClick={(e) => removeItem(e,cartItem,updateQuantityItemInList)}><i className="fa fa-close" aria-hidden="true"></i></span>
                                     <span className="badge">{cartItem.cateName}</span>

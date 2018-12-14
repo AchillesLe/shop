@@ -11,23 +11,18 @@ class ProductDetailPage extends Component {
     super(props);
     this.state = {
       product: {},
+      quantityInCart:0,
     };
   }
   componentDidMount() {
-    // callAPI("get",`/product/getdetails/${queryStringParser(this.props.location.search)["id"]}`)
-    // .then(data => this.setState({ product: data.data}))
-    // .catch(err=> {if(err){NotificationManager.error('Lỗi trong quá trình truyền dữ liệu', '');}});
-    console.log(this.props.products)
     if(this.props.products.length>0){
       var product =  this.props.products.find(p=>p.idProduct === parseInt(queryStringParser(this.props.location.search)["id"]))
-      console.log(product, queryStringParser(this.props.location.search)["id"])
       if(product){
-        this.setState({product})
+        this.setState({product:product})
       }
     }
   }
   componentWillReceiveProps(nextProps){
-    console.log(nextProps.products)
       if(nextProps.products.length >0){
         var product = nextProps.products.find(p=>{ return p.idProduct == queryStringParser(nextProps.location.search)["id"]})
         console.log(product)
@@ -47,28 +42,19 @@ class ProductDetailPage extends Component {
   }
 
    render() {
-    const { product } = this.state;
+    const { product,quantityInCart } = this.state;
     return product?(
       <React.Fragment>
         <section className="single_product_details_area d-flex align-items-center mt-100">
           <div className="single_product_thumb clearfix">
-            <div className="product_thumbnail_slides owl-carousel">
               <img
                 src={product.avatar}
                 alt=""
               />
-              <img
-                src={product.images}
-                alt=""
-              />
-            </div>
           </div>
-
           <div className="single_product_desc clearfix">
             <span>{product.categoryName}</span>
-
             <h2>{product.name}</h2>
-
             <p className="product-price">
               Giá: {product.priceOut ? currencyParser(product.priceOut) : 0} VNĐ
             </p>
@@ -77,7 +63,7 @@ class ProductDetailPage extends Component {
             </p>
             <p>Xuất sứ: {product.madein}</p>
             <p className="product-desc">{product.description}</p>
-            <p>Còn: {product.quantity} sản phẩm</p>
+            <p>Còn: {product.quantity } sản phẩm</p>
             {product.quantity >0?<AddToCartBtn product={product} />:""}
           </div>
         </section>

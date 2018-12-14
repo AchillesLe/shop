@@ -8,7 +8,7 @@ import { withJS } from './../hoc/withJS'
 import $ from "jquery";
 import orderBy from 'lodash/orderBy'
 import { FilterPrice } from "../common/FilterPrice";
-
+import {route} from './../../../config'
 class ProductPage extends Component {
     constructor(props) {
         super(props);
@@ -73,79 +73,100 @@ class ProductPage extends Component {
         this.setRange(range);
     }
     componentDidMount(){
-        var queryString = queryStringParser(decodeURI(this.props.location.search))
-        const activePage = queryString["page"]||1;
-        const idCate = queryString["id"];
-        const keyword = queryString['keyword'];
-        let _this = this;
-        $(document).on("click",".list li", function(){
-            var value = $(this).data('value')
-            _this.setState({sortKey:value})
-        })
-        var products = this.filterProduct(this.props.products,idCate,keyword)
-        this.setState({
-            activePage: activePage,
-            keyword:keyword,
-            totalItemsCount: products.length,
-            productsPerPage: this.sortProduct(products, activePage),
-        });
-
+        try{
+            var queryString = queryStringParser(decodeURI(this.props.location.search))
+            const activePage = queryString["page"]||1;
+            const idCate = queryString["id"];
+            const keyword = queryString['keyword'];
+            let _this = this;
+            $(document).on("click",".list li", function(){
+                var value = $(this).data('value')
+                _this.setState({sortKey:value})
+            })
+            var products = this.filterProduct(this.props.products,idCate,keyword)
+            this.setState({
+                activePage: activePage,
+                keyword:keyword,
+                totalItemsCount: products.length,
+                productsPerPage: this.sortProduct(products, activePage),
+            });
+        }catch(ex){
+            const {history} = this.props
+            history.push(`${route.product}?page=1`); 
+        }
     }
 
     componentWillReceiveProps(nextProps){
-        var queryString = queryStringParser(decodeURI(this.props.location.search))
-        var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
+        try{
+            var queryString = queryStringParser(decodeURI(this.props.location.search))
+            var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
 
-        const activePage = queryString["page"]||1;
-        const activePageNext = queryStringNext["page"]||1;
+            const activePage = queryString["page"]||1;
+            const activePageNext = queryStringNext["page"]||1;
 
-        const idCate = queryString["id"];
-        const idCateNext = queryStringNext["id"];
-        const keyword = queryString['keyword'];
-        const keywordNew = queryStringNext['keyword'];
+            const idCate = queryString["id"];
+            const idCateNext = queryStringNext["id"];
+            const keyword = queryString['keyword'];
+            const keywordNew = queryStringNext['keyword'];
 
-        if (idCate !== idCateNext || activePageNext !== activePage || this.props.products !== nextProps.products || keyword !== keywordNew) {
-            var products = this.filterProduct(nextProps.products,idCateNext,keywordNew)
-            this.setState({
-                activePage: activePageNext,
-                totalItemsCount: products.length,
-                keyword:keywordNew,
-                productsPerPage: this.sortProduct(
-                    products,
-                    activePageNext
-                )
-            });
+            if (idCate !== idCateNext || activePageNext !== activePage || this.props.products !== nextProps.products || keyword !== keywordNew) {
+                var products = this.filterProduct(nextProps.products,idCateNext,keywordNew)
+                this.setState({
+                    activePage: activePageNext,
+                    totalItemsCount: products.length,
+                    keyword:keywordNew,
+                    productsPerPage: this.sortProduct(
+                        products,
+                        activePageNext
+                    )
+                });
+            }
+        }catch(ex){
+            const {history} = this.props
+            history.push(`${route.product}?page=1`); 
         }
     }
     componentWillUpdate(nextProps,nextState){
-        var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
-        const activePageNext = queryStringNext["page"];
-        const idCateNext = queryStringNext["id"];
-        var products = this.filterProduct(nextProps.products,idCateNext,queryStringNext['keyword'])
-        if(nextState.sortKey !== this.state.sortKey || this.state.minRange !== nextState.minRange || this.state.maxRange !== nextState.maxRange){
-            this.setState({        
-                activePage: activePageNext,
-                totalItemsCount: products.length,       
-                productsPerPage: this.sortProduct(
-                    products,
-                    activePageNext
-                )
-            });
+        try{
+            var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
+            const activePageNext = queryStringNext["page"];
+            const idCateNext = queryStringNext["id"];
+            var products = this.filterProduct(nextProps.products,idCateNext,queryStringNext['keyword'])
+            if(nextState.sortKey !== this.state.sortKey || this.state.minRange !== nextState.minRange || this.state.maxRange !== nextState.maxRange){
+                this.setState({        
+                    activePage: activePageNext,
+                    totalItemsCount: products.length,       
+                    productsPerPage: this.sortProduct(
+                        products,
+                        activePageNext
+                    )
+                });
+            }
+        }catch(e){
+            const {history} = this.props
+            history.push(`${route.product}?page=1`); 
         }
+
     }
     componentDidUpdate(prevProps, prevState){
-        var queryString = queryStringParser(decodeURI(this.props.location.search))
-        var queryStringPrev = queryStringParser(decodeURI(prevProps.location.search));
-        const activePage = queryString["page"]||1;
-        const activePagePrev = queryStringPrev["page"]||1;
-       
-        const idCate = queryString["id"];
-        const idCatePrev = queryStringPrev["id"];
-        if(idCate !== idCatePrev || activePagePrev !== activePage || this.props.products !== prevProps.products){
-            $('html, body').animate({
-                scrollTop: 0
-            }, 500);
+        try{
+            var queryString = queryStringParser(decodeURI(this.props.location.search))
+            var queryStringPrev = queryStringParser(decodeURI(prevProps.location.search));
+            const activePage = queryString["page"]||1;
+            const activePagePrev = queryStringPrev["page"]||1;
+           
+            const idCate = queryString["id"];
+            const idCatePrev = queryStringPrev["id"];
+            if(idCate !== idCatePrev || activePagePrev !== activePage){
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 500);
+            }
+        }catch(e){
+            const {history} = this.props
+            history.push(`${route.product}?page=1`); 
         }
+
     }
   render() {
     const {activePage,itemsCounterPerPage,totalItemsCount,pageRangeDisplayed,sortKey,minRange,maxRange} = this.state

@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import DateTimePicker from "react-datetime-picker";
 import { NotificationManager } from "react-notifications";
 import {Link} from 'react-router-dom';
+
 import statisticService from "./statistic.service";
+
+import ReceiptDetails from '../receipt/receiptDetails';
+
 import {ExportExcel} from './exportExcel'
 import formatPrice from "./../../../share/services/formatPrice";
 import $ from 'jquery'
@@ -23,6 +27,8 @@ class Statistic extends Component {
       this.reloadLibs()
   }
   reloadLibs() {
+    console.log('Statistic reloadLibs');
+
     $(document).ready(() => {
         var body = document.getElementsByTagName('body')[0];
         var script = document.createElement('script');
@@ -121,7 +127,7 @@ class Statistic extends Component {
             <div className="col-md-12 col-sm-12 col-xs-12">
               <div className="x_panel">
                 <div className="x_title">
-                  <h2>Thống kê doanh thu</h2>
+                  <h2>Revenue Statistics</h2>
                   <div className="clearfix" />
                 </div>
                 <div className="x_content">
@@ -132,7 +138,7 @@ class Statistic extends Component {
                         className="control-label col-md-3 col-sm-3 col-xs-12"
                         htmlFor="name"
                       >
-                        Từ ngày <span className="required">*</span>
+                        From <span className="required">*</span>
                       </label>
                       <DateTimePicker
                         onChange={this.onChangeDateFrom}
@@ -144,7 +150,7 @@ class Statistic extends Component {
                         className="control-label col-md-3 col-sm-3 col-xs-12"
                         htmlFor="name"
                       >
-                        Đến ngày <span className="required">*</span>
+                        To <span className="required">*</span>
                       </label>
                       <DateTimePicker
                         onChange={this.onChangeDateTo}
@@ -189,7 +195,7 @@ class Statistic extends Component {
                                     )}
                                 </td>
                                 <td>
-                                    <Link to="" className="btn btn-primary"                               >
+                                    <Link to={"/admin/receipt/details/" + item['idReceipt'].toString()} className="btn btn-primary"                               >
                                     View Detail
                                     </Link>
                                 </td>
@@ -198,8 +204,8 @@ class Statistic extends Component {
                         })}
                       </tbody>
                     </table>
-                    <ExportExcel data={receipts}/>
                     <p className="text-right">Total: {formatPrice(total) + " VND"}</p>
+                    <ExportExcel data={receipts}/>
                   </div>):''}
                   <div className="clearfix" />
                 </div>

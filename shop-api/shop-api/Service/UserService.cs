@@ -118,7 +118,7 @@ namespace shop_api.Service
             }
         }
         // Không update username
-        public UserDTO update(RequestUser requser)
+        public UserDTO update(RequestUser requser,int role)
         {
             UserDTO userdto = new UserDTO();
             try
@@ -131,7 +131,10 @@ namespace shop_api.Service
                     user.phone = requser.phone;
                     user.address = requser.address;
                     user.cmnd = requser.cmnd;
-                    user.role = requser.role;
+                    if (role == 1)
+                    {
+                        user.role = requser.role;
+                    }
                     user.password = requser.password;
                     user.updatedDate = DateTime.Now;
     

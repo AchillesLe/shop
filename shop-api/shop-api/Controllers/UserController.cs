@@ -127,24 +127,18 @@ namespace shop_api.Controllers
                         return BadRequest(Message.messageNotValidToken);
                     }
                     UserDTO whoReq = Token.getUser(token);
-                    if (whoReq != null && whoReq.role == 1)
+
+                    if (userService.CheckCMND(id, requser.cmnd))
                     {
-                        if (userService.CheckCMND(id, requser.cmnd))
-                        {
-                            return BadRequest(Message.messageCMNDExist);
-                        }
-                        requser.iduser = id;
-                        UserDTO userdto = userService.update(requser);
-                        if (userdto != null)
-                        {
-                            return Ok(userdto);
-                        }
-                        return BadRequest(Message.messageIdNotFoundUser);
+                        return BadRequest(Message.messageCMNDExist);
                     }
-                    else
+                    requser.iduser = id;
+                    UserDTO userdto = userService.update(requser, whoReq.role);
+                    if (userdto != null)
                     {
-                        return BadRequest(Message.messageNoEnoughRole);
+                        return Ok(userdto);
                     }
+                    return BadRequest(Message.messageIdNotFoundUser);
                 }
                 return BadRequest();
             }

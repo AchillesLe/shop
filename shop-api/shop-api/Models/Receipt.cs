@@ -28,7 +28,6 @@ namespace shop_api.Models
         [Column(TypeName = "NVARCHAR")]
         public string address { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string email { get; set; }
 

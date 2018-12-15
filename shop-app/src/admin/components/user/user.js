@@ -12,7 +12,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 import userService from './user.service';
 import EditUser from './editUser';
@@ -107,7 +107,7 @@ class User extends Component {
 
         this._userService.deleteUser(Cookies.get('token'), idUser).then((res, error) => {
             console.log(res);
-            if(res && res.status === 200) {
+            if (res && res.status === 200) {
                 NotificationManager.success('Delete user success!', 'Success');
             }
 
@@ -125,25 +125,25 @@ class User extends Component {
                 }
             })
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
                 if (e.response.status === 400) {
                     if (e.response.data && e.response.data.Message) {
-                        if(e.response.data.Message === "Username đã tồn tại !") {
+                        if (e.response.data.Message === "Username đã tồn tại !") {
                             NotificationManager.error("Username already existed!", 'Error');
-                        } else if(e.response.data.Message === "CMND đã tồn tại !"){
+                        } else if (e.response.data.Message === "CMND đã tồn tại !") {
                             NotificationManager.error("Identity Card already existed!", 'Error');
                         } else {
-                            NotificationManager.error(e.response.data.Message, 'Error');
+                            NotificationManager.error('Delete user fail!', 'Error');
                         }
                     } else {
-                        NotificationManager.error('Something wrong!', 'Error');
+                        NotificationManager.error('Delete user fail!', 'Error');
                         // this.props.history.push('/admin')
                     }
                 }
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }
@@ -161,7 +161,10 @@ class User extends Component {
             console.log(user.data.User);
         })();
 
-        !isAdmin && this.props.history.push('/admin');
+        !isAdmin && (() => {
+            NotificationManager.error("Don't have permission to access this page!", "Error");
+            this.props.history.goBack();
+        })();
 
         return (
             <Switch>
@@ -201,7 +204,7 @@ class User extends Component {
                                                 <tbody>
                                                     {this.state.users.map((item, i) => {
                                                         return [
-                                                            <tr key={i}>
+                                                            <tr key={"user" + i.toString()}>
                                                                 <td>{item['iduser']}</td>
                                                                 <td>{item['fullname']}</td>
                                                                 <td>{item['username']}</td>
@@ -227,7 +230,7 @@ class User extends Component {
                     </div>
 
                 )} />
-                
+
                 <Route path={`${this.props.match.path}/create-new`} render={props => <AddUser {...props} unmount={this.updateUsers.bind(this)}></AddUser>} />
                 <Route path={`${this.props.match.path}/edit/:id`} render={props => <EditUser {...props} unmount={this.updateUsers.bind(this)}></EditUser>} />
             </Switch>

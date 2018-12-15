@@ -10,7 +10,7 @@ import {
 import './category.css';
 
 import $ from 'jquery';
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 import categoryService from './category.service';
 import EditCategory from './editCategory';
@@ -110,7 +110,7 @@ class Category extends Component {
 
         this._categoryService.deleteCategory(Cookies.get('token'), idCategory).then((res, error) => {
             console.log(res);
-            if(res && res.status === 200) {
+            if (res && res.status === 200) {
                 NotificationManager.success('Delete category success!', 'Success');
             }
 
@@ -125,25 +125,20 @@ class Category extends Component {
                 }
             })
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
                 if (e.response.status === 400) {
                     if (e.response.data && e.response.data.Message) {
-                        if(e.response.data.Message === "Username đã tồn tại !") {
-                            NotificationManager.error("Username already existed!", 'Error');
-                        } else if(e.response.data.Message === "CMND đã tồn tại !"){
-                            NotificationManager.error("Identity Card already existed!", 'Error');
-                        } else {
-                            NotificationManager.error(e.response.data.Message, 'Error');
-                        }
+                        NotificationManager.error('The category is in use! Can not delete.', 'Error');
                     } else {
-                        NotificationManager.error('Something wrong!', 'Error');
-                        // this.props.history.push('/admin')
+                        NotificationManager.error('Delete category fail!', 'Error');
                     }
+                } else {
+                    NotificationManager.error('Delete category fail!', 'Error');
                 }
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }
@@ -182,7 +177,7 @@ class Category extends Component {
                                                 <tbody>
                                                     {this.state.category.map((item, i) => {
                                                         return (
-                                                            <tr key={i}>
+                                                            <tr key={"category" + i.toString()}>
                                                                 <td>{item['idCategory']}</td>
                                                                 <td>{item['name']}</td>
                                                                 <td>

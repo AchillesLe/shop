@@ -115,7 +115,7 @@ class Receipt extends Component {
 
         this._receiptService.changeReceiptStatus(Cookies.get('token'), data, idReceipt).then((res, error) => {
             console.log(res);
-            if (res && res.status === 200) {
+            if (res && res.status === 200 && res.data !== "Cập nhật trạng thái đơn hàng thất bại !") {
                 NotificationManager.success('Change status success!', 'Success');
 
                 this.setState(state => {
@@ -128,27 +128,29 @@ class Receipt extends Component {
                         ...state
                     }
                 })
+            } else {
+                NotificationManager.error('Change status fail!', 'Error');
             }
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
                 if (e.response.status === 400) {
                     if (e.response.data && e.response.data.Message) {
-                        if(e.response.data.Message === "Username đã tồn tại !") {
+                        if (e.response.data.Message === "Username đã tồn tại !") {
                             NotificationManager.error("Username already existed!", 'Error');
-                        } else if(e.response.data.Message === "CMND đã tồn tại !"){
+                        } else if (e.response.data.Message === "CMND đã tồn tại !") {
                             NotificationManager.error("Identity Card already existed!", 'Error');
                         } else {
-                            NotificationManager.error(e.response.data.Message, 'Error');
+                            NotificationManager.error('Change status fail!', 'Error');
                         }
                     } else {
-                        NotificationManager.error('Something wrong!', 'Error');
+                        NotificationManager.error('Change status fail!', 'Error');
                         // this.props.history.push('/admin')
                     }
                 }
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }
@@ -212,7 +214,7 @@ class Receipt extends Component {
                                             </h2>
                                             <div className="colLine"></div>
                                             <div className="col-md-4 col-sm-4 col-xs-12">
-                                                <Form style={{paddingTop: '8px'}} onChange={this.chooseStatusFormChange.bind(this)}>
+                                                <Form style={{ paddingTop: '8px' }} onChange={this.chooseStatusFormChange.bind(this)}>
                                                     <Select field="status" className="form-control" initialValue="-1">
                                                         <Option key="-1" value="-1">
                                                             Choose status...
@@ -256,8 +258,8 @@ class Receipt extends Component {
                                                     {
                                                         !this.state.receipts || (this.state.receipts && Object.keys(this.state.receipts).length === 0) ? <tr></tr> :
                                                             this.state.receipts.map((item, i) => {
-                                                                return item['status'].toString() !== this.state.selectedStatus && this.state.selectedStatus !== '-1' ? <tr key={i}></tr> : (
-                                                                    <tr key={i}>
+                                                                return item['status'].toString() !== this.state.selectedStatus && this.state.selectedStatus !== '-1' ? <tr key={"receipt" + i.toString()}></tr> : (
+                                                                    <tr key={"receipt" + i.toString()}>
                                                                         <td>{item['idReceipt']}</td>
                                                                         <td>{item['nameCustomer']}</td>
                                                                         <td>{item['address']}</td>
@@ -284,7 +286,7 @@ class Receipt extends Component {
                                                                         </td>
                                                                         <td>{item['detailReceipts'].length + " Products"}</td>
                                                                         <td>
-                                                                            <button className="btn btn-primary" onClick={this.state.status[i] ? this.changeReceiptStatus.bind(this, item['idReceipt'].toString(), this.state.status[i].status) : this.fakeClick.bind(this)}>Save Status</button>
+                                                                            <button disabled={item['status'] === 2 || item['status'] === 3} className="btn btn-primary" onClick={this.state.status[i] ? this.changeReceiptStatus.bind(this, item['idReceipt'].toString(), this.state.status[i].status) : this.fakeClick.bind(this)}>Save Status</button>
                                                                             <Link to={"/admin/receipt/details/" + item['idReceipt'].toString()} className="btn btn-primary">View Details</Link>
                                                                         </td>
                                                                     </tr>

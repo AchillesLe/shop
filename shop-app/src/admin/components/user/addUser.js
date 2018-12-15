@@ -71,15 +71,17 @@ class AddUser extends Component {
                             NotificationManager.error("Username already existed!", 'Error');
                         } else if(e.response.data.Message === "CMND đã tồn tại !"){
                             NotificationManager.error("Identity Card already existed!", 'Error');
+                        } else {
+                            NotificationManager.error('Add user fail!', 'Error');
                         }
                     } else {
-                        NotificationManager.error('Unauthorized!', 'Error');
+                        NotificationManager.error('Add user fail!', 'Error');
                         // this.props.history.push('/admin')
                     }
                 }
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }

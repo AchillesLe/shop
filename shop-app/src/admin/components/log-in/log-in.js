@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import LogInService from './log-in.service';
 import AdminContext from '../admin.context';
+
+import { NotificationManager } from 'react-notifications';
+
 const Cookies = require('js-cookie');
 
 class LogIn extends Component {
@@ -17,7 +20,7 @@ class LogIn extends Component {
         this._logInService = new LogInService();
     }
 
-    componentDidMount(){
+    componentDidMount() {
         if (Cookies.get('user')) {
             this.props.history.push('/admin/product');
         }
@@ -53,11 +56,24 @@ class LogIn extends Component {
         e.preventDefault();
 
         this._logInService.logIn(this.state.userInfo).then((res) => {
-            console.log(res.data.token);
-            callback(res);
-            Cookies.set('token', res.data.token, { expires: 0.02 });
-            Cookies.set('user', res, { expires: 0.02 });
-            this.props.history.push('/admin/product');
+            if (res && res.status === 200) {
+                console.log(res.data.token);
+                callback(res);
+                Cookies.set('token', res.data.token, { expires: 0.02 });
+                Cookies.set('user', res, { expires: 0.02 });
+
+                NotificationManager.success('Login success!', 'Success');
+
+                this.props.history.push('/admin/product');
+            }
+        }).catch((e) => {
+            if (e && e.response) {
+                console.log(e.response);
+                NotificationManager.error('Login fail!', 'Error');
+            } else {
+                e && console.log(e);
+                NotificationManager.error('Something\' wrong!', 'Error');
+            }
         });
 
     }

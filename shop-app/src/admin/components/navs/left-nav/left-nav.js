@@ -114,14 +114,19 @@ class LeftNav extends Component {
                                         <i className="fa fa-file" /> Receipt
                                     </Link>
                                 </li>
-                                <li>
-                                    <a>
-                                        <i className="fa fa-area-chart" />Statistics <span className="fa fa-chevron-down" />
-                                    </a>
-                                    <ul className="nav child_menu">
-                                        <li><Link to="/admin/statistic">Revenue Statistics</Link></li>
-                                    </ul>
-                                </li>
+                                {
+                                    isAdmin && (
+                                        <li>
+                                            <a>
+                                                <i className="fa fa-area-chart" />Statistics <span className="fa fa-chevron-down" />
+                                            </a>
+                                            <ul className="nav child_menu">
+                                                <li><Link to="/admin/statistic">Revenue Statistics</Link></li>
+                                            </ul>
+                                        </li>
+                                    )
+                                }
+
                                 {isAdmin &&
                                     (<li><a><i className="fa fa-user" /> User <span className="fa fa-chevron-down" /></a>
                                         <ul className="nav child_menu">

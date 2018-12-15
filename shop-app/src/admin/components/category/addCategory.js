@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 //CSS
 import './category.css';
 
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 import categoryService from './category.service';
 
@@ -20,7 +20,7 @@ class AddCategory extends Component {
         this._categoryService = new categoryService();
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         console.log('AddCategory componentWillUnmount');
         this.props.unmount()
     }
@@ -59,31 +59,18 @@ class AddCategory extends Component {
 
         this._categoryService.addCategory(Cookies.get('token'), { name: this.state.category.name }).then((res, error) => {
             console.log(res);
-            if(res && res.status === 200) {
+            if (res && res.status === 200) {
                 NotificationManager.success('Add category success!', 'Success');
             }
 
             this.props.history.push('/admin/category');
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
-                if (e.response.status === 400) {
-                    if (e.response.data && e.response.data.Message) {
-                        if(e.response.data.Message === "Username đã tồn tại !") {
-                            NotificationManager.error("Username already existed!", 'Error');
-                        } else if(e.response.data.Message === "CMND đã tồn tại !"){
-                            NotificationManager.error("Identity Card already existed!", 'Error');
-                        } else {
-                            NotificationManager.error(e.response.data.Message, 'Error');
-                        }
-                    } else {
-                        NotificationManager.error('Something wrong!', 'Error');
-                        // this.props.history.push('/admin')
-                    }
-                }
+                NotificationManager.error('Add category fail!', 'Error');
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }

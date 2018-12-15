@@ -127,25 +127,12 @@ class EditProduct extends Component {
 
             this.props.history.push('/admin/product');
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
-                if (e.response.status === 400) {
-                    if (e.response.data && e.response.data.Message) {
-                        if(e.response.data.Message === "Username đã tồn tại !") {
-                            NotificationManager.error("Username already existed!", 'Error');
-                        } else if(e.response.data.Message === "CMND đã tồn tại !"){
-                            NotificationManager.error("Identity Card already existed!", 'Error');
-                        } else {
-                            NotificationManager.error(e.response.data.Message, 'Error');
-                        }
-                    } else {
-                        NotificationManager.error('Something wrong!', 'Error');
-                        // this.props.history.push('/admin')
-                    }
-                }
+                NotificationManager.error('Edit product fail!', 'Error');
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }

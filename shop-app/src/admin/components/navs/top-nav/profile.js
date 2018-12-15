@@ -65,15 +65,16 @@ class Profile extends Component {
                             NotificationManager.error("Don't have permission!", 'Error');
                         } else if (e.response.data.Message === "CMND đã tồn tại !") {
                             NotificationManager.error("Identity Card already existed!", 'Error');
+                        } else {
+                            NotificationManager.error('Save fail!', 'Error');
                         }
                     } else {
-                        NotificationManager.error('Something wrong!', 'Error');
-                        // this.props.history.push('/admin')
+                        NotificationManager.error('Save fail!', 'Error');
                     }
                 }
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }

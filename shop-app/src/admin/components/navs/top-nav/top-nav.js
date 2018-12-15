@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import img from '../../../../assets/images/img.jpg';
 import AdminContext from '../../admin.context';
@@ -98,19 +98,12 @@ class TopNav extends Component {
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li className={this.state.user.isActive ? "open" : ""}>
-                                        <a onClick={this.toggleUser.bind(this)} className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <a style={{cursor: "pointer"}} onClick={this.toggleUser.bind(this)} className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <img src={img} alt="Profile" /><span>{Object.keys(user).length === 0 ? "" : user.data.User.fullname}   </span>
                                             <span className=" fa fa-angle-down" />
                                         </a>
                                         <ul className="dropdown-menu dropdown-usermenu pull-right">
-                                            <li><a href=""> Profile</a></li>
-                                            <li>
-                                                <a href="">
-                                                    <span className="badge bg-red pull-right">50%</span>
-                                                    <span>Settings</span>
-                                                </a>
-                                            </li>
-                                            <li><a href="">Help</a></li>
+                                            <li><Link to={"/admin/profile/" + user.data.User.iduser}> Profile</Link></li>
                                             <li><a href="" onClick={this.logOut.bind(this, Object.keys(user).length === 0 ? "" : user.data.token, setUser.bind(this))}><i className="fa fa-sign-out pull-right" /> Log Out</a></li>
                                         </ul>
                                     </li>

@@ -109,8 +109,18 @@ class AddProduct extends Component {
             if(e && e.response) {
                 console.log(e.response);
                 if (e.response.status === 400) {
-                    NotificationManager.error('Unauthorized!', 'Error');
-                    this.props.history.push('/admin')
+                    if (e.response.data && e.response.data.Message) {
+                        if(e.response.data.Message === "Username đã tồn tại !") {
+                            NotificationManager.error("Username already existed!", 'Error');
+                        } else if(e.response.data.Message === "CMND đã tồn tại !"){
+                            NotificationManager.error("Identity Card already existed!", 'Error');
+                        } else {
+                            NotificationManager.error(e.response.data.Message, 'Error');
+                        }
+                    } else {
+                        NotificationManager.error('Something wrong!', 'Error');
+                        // this.props.history.push('/admin')
+                    }
                 }
             } else {
                 e && console.log(e);

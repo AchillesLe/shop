@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -88,11 +89,8 @@ namespace shop_api.Controllers
                             return BadRequest(Message.messageCMNDExist);
                         }
                         UserDTO userdto = userService.create(user);
-                        if (userdto != null)
-                        {
-                            return Ok(userdto);
-                        }
-                        return InternalServerError();
+
+                        return Ok(userdto);
                     }
                     else
                     {
@@ -101,9 +99,18 @@ namespace shop_api.Controllers
                 }
                 return BadRequest(Message.messageNotValidRequest);
             }
-            catch (Exception ex)
+            catch (DbEntityValidationException ex)
             {
-                return InternalServerError();
+                string message = "";
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        message += string.Format(" field: \'{0}\', Error: \'{1}\'",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                return BadRequest(message);
             }
 
         }

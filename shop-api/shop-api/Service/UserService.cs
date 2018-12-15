@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using shop_api.Models;
 using shop_api.DTO.RequestDTO;
+using System.Data.Entity.Validation;
 
 namespace shop_api.Service
 {
@@ -111,9 +112,9 @@ namespace shop_api.Service
 
                 return userdto;
             }
-            catch (Exception  ex)
+            catch (DbEntityValidationException ex)
             {
-                return null;
+                throw ex;
             }
         }
         // Không update username

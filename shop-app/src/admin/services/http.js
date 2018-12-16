@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class HTTP {
     constructor() {
         this.instance = axios.create({
-            baseURL: 'http://localhost:5000/api/',
+            baseURL: 'http://localhost/BanHangAPI/api/',
             //timeout: 1000,
         });
     }

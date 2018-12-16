@@ -1,51 +1,48 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
+//CSS
+import './user.css';
+
+//JS
+import $ from 'jquery';
 
 import {
     Route,
     Switch
 } from 'react-router-dom';
-
-//CSS
-import './category.css';
-
-import $ from 'jquery';
 import { NotificationManager } from 'react-notifications';
 
-import categoryService from './category.service';
-import EditCategory from './editCategory';
-import AddCategory from './addCategory';
+import userService from './user.service';
+import EditUser from './editUser';
+import AddUser from './addUser';
+
+import defaultImage from "./../../../assets/images/app/default-placeholder.png";
+
+import formatPrice from './../../../share/services/formatPrice';
+
+const moment = require('moment');
 
 const Cookies = require('js-cookie');
 
-class Category extends Component {
+class User extends Component {
 
     constructor() {
         super();
         this.state = {
-            category: [],
+            users: []
         }
-        this._categoryService = new categoryService();
+        this._userService = new userService();
     }
 
     componentDidMount() {
-        console.log('Category componentDidMount');
-        this.getCategories();
-        console.log(this.state.category);
+        console.log('User componentDidMount');
+        this.getUsers();
     }
 
-    // componentDidUpdate() {
-    //     console.log('Category componentDidUpdate');
-    //     if ($('.dataTables_length').length > 0) return
-    //     this.reloadLibs();
-
-    //     setTimeout(() => {
-    //         console.log($('.dataTables_length').find('label'));
-    //     }, 2000);
-    // }
-
     reloadLibs() {
-        console.log('Category reloadLibs');
+        console.log('User reloadLibs');
 
         $(document).ready(() => {
             var body = document.getElementsByTagName('body')[0];
@@ -87,41 +84,44 @@ class Category extends Component {
         })
     }
 
-    async getCategories() {
-        await this._categoryService.getCategory().then(res => {
+    async getUsers() {
+        await this._userService.getUsers(Cookies.get('token')).then(res => {
             this.setState(state => {
                 return {
                     ...state,
-                    category: res.data
+                    users: res.data
                 }
             }, () => {
-                console.log(this.state.category);
+                console.log(this.state.users);
                 this.reloadLibs();
             })
         })
     }
 
-    updateCategories() {
-        this.getCategories()
+    updateUsers() {
+        this.getUsers();
     }
 
-    deleteCategory(idCategory, e) {
+    deleteUser(idUser, e) {
         e.preventDefault();
 
-        this._categoryService.deleteCategory(Cookies.get('token'), idCategory).then((res, error) => {
+        this._userService.deleteUser(Cookies.get('token'), idUser).then((res, error) => {
             console.log(res);
             if (res && res.status === 200) {
-                NotificationManager.success('Delete category success!', 'Success');
+                NotificationManager.success('Delete user success!', 'Success');
             }
 
             this.setState(state => {
-                const indexPosition = state.category.findIndex(item => {
-                    return item.idCategory.toString() === idCategory;
+                const indexPosition = state.users.findIndex(item => {
+                    return item.iduser.toString() === idUser;
                 })
-                state.category.splice(indexPosition, 1);
+
+                console.log(indexPosition);
+                state.users.splice(indexPosition, 1);
+                console.log(state.users);
                 return {
                     ...state,
-                    category: state.category
+                    users: state.users
                 }
             })
         }).catch((e) => {
@@ -129,12 +129,17 @@ class Category extends Component {
                 console.log(e.response);
                 if (e.response.status === 400) {
                     if (e.response.data && e.response.data.Message) {
-                        NotificationManager.error('The category is in use! Can not delete.', 'Error');
+                        if (e.response.data.Message === "Username đã tồn tại !") {
+                            NotificationManager.error("Username already existed!", 'Error');
+                        } else if (e.response.data.Message === "CMND đã tồn tại !") {
+                            NotificationManager.error("Identity Card already existed!", 'Error');
+                        } else {
+                            NotificationManager.error('Delete user fail!', 'Error');
+                        }
                     } else {
-                        NotificationManager.error('Delete category fail!', 'Error');
+                        NotificationManager.error('Delete user fail!', 'Error');
+                        // this.props.history.push('/admin')
                     }
-                } else {
-                    NotificationManager.error('Delete category fail!', 'Error');
                 }
             } else {
                 e && console.log(e);
@@ -143,7 +148,24 @@ class Category extends Component {
         })
     }
 
+
     render() {
+        let user = {};
+        let isAdmin = false;
+
+        const isHaveUser = Cookies.get('user');
+        isHaveUser && (() => {
+            user = JSON.parse(Cookies.get('user'))
+
+            user.data.User.role === 1 && (isAdmin = true);
+            console.log(user.data.User);
+        })();
+
+        !isAdmin && (() => {
+            NotificationManager.error("Don't have permission to access this page!", "Error");
+            this.props.history.goBack();
+        })();
+
         return (
             <Switch>
                 <Route exact path={this.props.match.path} render={() => (
@@ -154,10 +176,10 @@ class Category extends Component {
                                     <div className="x_panel">
                                         <div className="x_title">
                                             <h2>
-                                                Category Overview
+                                                User Overview
                                             </h2>
                                             <div className="colLine"></div>
-                                            <Link to="/admin/category/create-new" className="btn btn-success">
+                                            <Link to="/admin/user/create-new" className="btn btn-success">
                                                 <h5>Create New</h5>
                                             </Link>
                                             <div className="clearfix" />
@@ -171,21 +193,32 @@ class Category extends Component {
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Name</th>
+                                                        <th>Username</th>
+                                                        <th>Role</th>
+                                                        <th>Phone</th>
+                                                        <th>Address</th>
+                                                        <th>Identity Card</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {this.state.category.map((item, i) => {
-                                                        return (
-                                                            <tr key={"category" + i.toString()}>
-                                                                <td>{item['idCategory']}</td>
-                                                                <td>{item['name']}</td>
+                                                    {this.state.users.map((item, i) => {
+                                                        return [
+                                                            <tr key={"user" + i.toString()}>
+                                                                <td>{item['iduser']}</td>
+                                                                <td>{item['fullname']}</td>
+                                                                <td>{item['username']}</td>
+                                                                <td>{item['role'] === 1 ? "Admin" : "User"}</td>
+                                                                <td>{item['phone']}</td>
+                                                                <td>{item['address']}</td>
+                                                                <td>{item['cmnd']}</td>
                                                                 <td>
-                                                                    <Link to={"/admin/category/edit/" + item['idCategory'].toString()} className="btn btn-primary">Edit</Link>
-                                                                    <button className="btn btn-primary" onClick={this.deleteCategory.bind(this, item['idCategory'].toString())}>Delete</button>
+                                                                    <Link to={"/admin/user/edit/" + item['iduser'].toString()} className="btn btn-primary">Edit</Link>
+                                                                    <button className="btn btn-primary" onClick={this.deleteUser.bind(this, item['iduser'].toString())}>Delete</button>
                                                                 </td>
                                                             </tr>
-                                                        );
+
+                                                        ];
                                                     })}
                                                 </tbody>
                                             </table>
@@ -195,13 +228,14 @@ class Category extends Component {
                             </div>
                         </div>
                     </div>
+
                 )} />
 
-                <Route path={`${this.props.match.path}/create-new`} render={props => <AddCategory {...props} unmount={this.updateCategories.bind(this)}></AddCategory>} />
-                <Route path={`${this.props.match.path}/edit/:id`} render={props => <EditCategory {...props} unmount={this.updateCategories.bind(this)}></EditCategory>} />
+                <Route path={`${this.props.match.path}/create-new`} render={props => <AddUser {...props} unmount={this.updateUsers.bind(this)}></AddUser>} />
+                <Route path={`${this.props.match.path}/edit/:id`} render={props => <EditUser {...props} unmount={this.updateUsers.bind(this)}></EditUser>} />
             </Switch>
         )
     }
 }
 
-export default Category;
+export default User;

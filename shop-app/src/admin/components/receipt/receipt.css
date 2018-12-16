@@ -1,0 +1,11 @@
+.form-control.receipt--has-change {
+    border: 1px solid #26B99A;
+    background-color: #26B99A;
+    color: white;
+}
+
+.form-control.receipt--has-change *{
+    border: unset;
+    background-color: unset;
+    color: unset;
+}

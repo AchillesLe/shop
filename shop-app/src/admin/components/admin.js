@@ -14,11 +14,14 @@ import {NotificationContainer} from 'react-notifications';
 
 import LeftNav from './navs/left-nav/left-nav';
 import TopNav from './navs/top-nav/top-nav';
+import Profile from './navs/top-nav/profile';
 
 import Content from './content/content';
 import Product from './product/product';
 import Category from './category/category';
 import Statistic from './statistic/statistic';
+import Receipt from './receipt/receipt';
+import User from './user/user';
 
 import Footer from './footer/footer';
 
@@ -126,6 +129,9 @@ class Admin extends Component {
                     <HomeRoute path={`${this.props.match.path}/product`} history={history} component={Product} />
                     <HomeRoute path={`${this.props.match.path}/category`} history={history} component={Category} />
                     <HomeRoute path={`${this.props.match.path}/statistic`} history={history} component={Statistic} />
+                    <HomeRoute path={`${this.props.match.path}/receipt`} history={history} component={Receipt} />
+                    <HomeRoute path={`${this.props.match.path}/user`} history={history} component={User} />
+                    <HomeRoute path={`${this.props.match.path}/profile/:id`} history={history} component={Profile} />
                 </Switch>
             </AdminContext.Provider>
         )

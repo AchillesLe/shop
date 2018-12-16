@@ -106,15 +106,12 @@ class AddProduct extends Component {
 
             this.props.history.push('/admin/product');
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
-                if (e.response.status === 400) {
-                    NotificationManager.error('Unauthorized!', 'Error');
-                    this.props.history.push('/admin')
-                }
+                NotificationManager.error('Add product fail!', 'Error');
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }

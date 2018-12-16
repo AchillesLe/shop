@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import img from '../../../../assets/images/img.jpg';
+
 import AdminContext from '../../admin.context';
 import TopNavService from './top-nav.service';
+import { NotificationManager } from 'react-notifications';
+
 import $ from 'jquery';
 const Cookies = require('js-cookie');
 
@@ -19,31 +22,31 @@ class TopNav extends Component {
         this._topNavService = new TopNavService();
     }
 
-    componentDidMount(){
+    componentDidMount() {
         var $BODY = $('body'),
-        $MENU_TOGGLE = $('#menu_toggle1'),
-        $SIDEBAR_MENU = $('#sidebar-menu1'),
-        $SIDEBAR_FOOTER = $('.sidebar-footer'),
-        $LEFT_COL = $('.left_col'),
-        $RIGHT_COL = $('.right_col'),
-        $NAV_MENU = $('.nav_menu'),
-        $FOOTER = $('footer');
+            $MENU_TOGGLE = $('#menu_toggle1'),
+            $SIDEBAR_MENU = $('#sidebar-menu1'),
+            $SIDEBAR_FOOTER = $('.sidebar-footer'),
+            $LEFT_COL = $('.left_col'),
+            $RIGHT_COL = $('.right_col'),
+            $NAV_MENU = $('.nav_menu'),
+            $FOOTER = $('footer');
 
         var setContentHeight = function () {
             // reset height
             $RIGHT_COL.css('min-height', $(window).height());
-        
+
             var bodyHeight = $BODY.outerHeight(),
                 footerHeight = $BODY.hasClass('footer_fixed') ? -10 : $FOOTER.height(),
                 leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
                 contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
-        
+
             // normalize content
             contentHeight -= $NAV_MENU.height() + footerHeight;
-        
+
             $RIGHT_COL.css('min-height', contentHeight);
         };
-        
+
         // toggle small or large menu 
         $MENU_TOGGLE.on('click', function () {
             console.log('clicked - menu toggle');
@@ -72,16 +75,32 @@ class TopNav extends Component {
         })
     }
 
-    logOut(token,callback, e){
+    logOut(token, callback, e) {
         e.preventDefault();
         console.log(token);
         this._topNavService.logOut(token).then(res => {
             console.log(res.data);
-            if(res.status === 200){
-                callback({});
-                Cookies.remove('token');
-                Cookies.remove('user');
-                this.props.history.push('/admin');
+            if (res.status === 200) {
+                if (res.data && res.data === "Logout successfuly !") {
+                    NotificationManager.success('Logout success!', 'Success');
+
+                    callback({});
+                    Cookies.remove('token');
+                    Cookies.remove('user');
+                    this.props.history.push('/admin');
+                } else {
+                    NotificationManager.success('Logout fail!', 'Success');
+                }
+            } else {
+                NotificationManager.success('Logout success!', 'Success');
+            }
+        }).catch((e) => {
+            if (e && e.response) {
+                console.log(e.response);
+                NotificationManager.error('Logout fail!', 'Error');
+            } else {
+                e && console.log(e);
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         });
     }
@@ -89,7 +108,7 @@ class TopNav extends Component {
     render() {
         return (
             <AdminContext.Consumer>
-                {({ user , setUser}) => !Cookies.get('token') ? <Redirect to="/admin" /> : (
+                {({ user, setUser }) => !Cookies.get('token') ? <Redirect to="/admin" /> : (
                     <div className="top_nav">
                         <div className="nav_menu">
                             <nav>
@@ -98,19 +117,12 @@ class TopNav extends Component {
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li className={this.state.user.isActive ? "open" : ""}>
-                                        <a onClick={this.toggleUser.bind(this)} className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <a style={{ cursor: "pointer" }} onClick={this.toggleUser.bind(this)} className="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <img src={img} alt="Profile" /><span>{Object.keys(user).length === 0 ? "" : user.data.User.fullname}   </span>
                                             <span className=" fa fa-angle-down" />
                                         </a>
                                         <ul className="dropdown-menu dropdown-usermenu pull-right">
-                                            <li><a href=""> Profile</a></li>
-                                            <li>
-                                                <a href="">
-                                                    <span className="badge bg-red pull-right">50%</span>
-                                                    <span>Settings</span>
-                                                </a>
-                                            </li>
-                                            <li><a href="">Help</a></li>
+                                            <li><Link to={user.data ? "/admin/profile/" + user.data.User.iduser : "/admin"}> Profile</Link></li>
                                             <li><a href="" onClick={this.logOut.bind(this, Object.keys(user).length === 0 ? "" : user.data.token, setUser.bind(this))}><i className="fa fa-sign-out pull-right" /> Log Out</a></li>
                                         </ul>
                                     </li>

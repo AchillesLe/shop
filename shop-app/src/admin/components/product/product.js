@@ -12,7 +12,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 import productService from './product.service';
 import EditProduct from './editProduct';
@@ -42,6 +42,8 @@ class Product extends Component {
     }
 
     reloadLibs() {
+        console.log('Product reloadLibs');
+
         $(document).ready(() => {
             var body = document.getElementsByTagName('body')[0];
             var script = document.createElement('script');
@@ -105,7 +107,7 @@ class Product extends Component {
 
         this._productService.deleteProduct(Cookies.get('token'), idProduct).then((res, error) => {
             console.log(res);
-            if(res && res.status === 200) {
+            if (res && res.status === 200) {
                 NotificationManager.success('Delete product success!', 'Success');
             }
 
@@ -124,15 +126,12 @@ class Product extends Component {
                 }
             })
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
-                if (e.response.status === 400) {
-                    NotificationManager.error('Unauthorized!', 'Error');
-                    this.props.history.push('/admin')
-                }
+                NotificationManager.error('Delete product fail!', 'Error');
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }
@@ -177,11 +176,11 @@ class Product extends Component {
                                                 </thead>
                                                 <tbody>
                                                     {this.state.products.map((item, i) => {
-                                                        return [
-                                                            <tr key={i}>
+                                                        return (
+                                                            <tr key={"product" + i.toString()}>
                                                                 <td>
                                                                     <div className="cell-image">
-                                                                        <img alt="Avatar" src={item['avatar'] ? item['avatar'] : defaultImage}></img>
+                                                                        <img alt="Avatar" src={item['avatar'] && item['avatar'] !== null ? item['avatar'] : defaultImage}></img>
                                                                     </div>
                                                                 </td>
                                                                 <td>{item['code']}</td>
@@ -196,8 +195,7 @@ class Product extends Component {
                                                                     <button className="btn btn-primary" onClick={this.deleteProduct.bind(this, item['idProduct'].toString())}>Delete</button>
                                                                 </td>
                                                             </tr>
-
-                                                        ];
+                                                        );
                                                     })}
                                                 </tbody>
                                             </table>
@@ -209,7 +207,7 @@ class Product extends Component {
                     </div>
 
                 )} />
-                
+
                 <Route path={`${this.props.match.path}/create-new`} render={props => <AddProduct {...props} unmount={this.updateProducts.bind(this)}></AddProduct>} />
                 <Route path={`${this.props.match.path}/edit/:id`} render={props => <EditProduct {...props} unmount={this.updateProducts.bind(this)}></EditProduct>} />
             </Switch>

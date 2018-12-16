@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import DateTimePicker from "react-datetime-picker";
 import { NotificationManager } from "react-notifications";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 import statisticService from "./statistic.service";
-import {ExportExcel} from './exportExcel'
+
+import ReceiptDetails from '../receipt/receiptDetails';
+
+import { ExportExcel } from './exportExcel'
 import formatPrice from "./../../../share/services/formatPrice";
 import $ from 'jquery'
+
 const moment = require("moment");
+
+const Cookies = require('js-cookie');
 class Statistic extends Component {
   constructor(props) {
     super(props);
@@ -19,49 +26,51 @@ class Statistic extends Component {
 
     this._statisticService = new statisticService();
   }
-  componentDidMount(){
-      this.reloadLibs()
+  componentDidMount() {
+    this.reloadLibs()
   }
   reloadLibs() {
-    $(document).ready(() => {
-        var body = document.getElementsByTagName('body')[0];
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = '/vendors/js/libs.js';
+    console.log('Statistic reloadLibs');
 
-        var currentScript = $('body').find('script[src="/vendors/js/libs.js"]');
-        if (currentScript) {
-            currentScript.remove();
+    $(document).ready(() => {
+      var body = document.getElementsByTagName('body')[0];
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = '/vendors/js/libs.js';
+
+      var currentScript = $('body').find('script[src="/vendors/js/libs.js"]');
+      if (currentScript) {
+        currentScript.remove();
+      }
+
+      body.appendChild(script);
+
+      $(window).on('load', () => {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '/vendors/css/libs.css';
+
+        var currentLink = $('head link[href="/vendors/css/libs.css"]');
+        if (currentLink) {
+          currentLink.remove();
         }
 
-        body.appendChild(script);
+        head.appendChild(link);
+      });
 
-        $(window).on('load', () => {
-            var head = document.getElementsByTagName('head')[0];
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = '/vendors/css/libs.css';
-
-            var currentLink = $('head link[href="/vendors/css/libs.css"]');
-            if (currentLink) {
-                currentLink.remove();
-            }
-
-            head.appendChild(link);
-        });
-
-        //remove conflict css
-        $('style[type="text/css"]').each(function () {
-            if ($(this).text().includes('Bootstrap v4.1.0')) {
-                console.log('_______________________');
-                console.log('remove conflict css');
-                console.log(this);
-                console.log('_______________________');
-                $(this).remove();
-            }
-        });
+      //remove conflict css
+      $('style[type="text/css"]').each(function () {
+        if ($(this).text().includes('Bootstrap v4.1.0')) {
+          console.log('_______________________');
+          console.log('remove conflict css');
+          console.log(this);
+          console.log('_______________________');
+          $(this).remove();
+        }
+      });
     })
-}
+  }
   // onChange = date => this.setState({ date })
   onChangeDateFrom = dateFrom => {
     this.refs.getDataStatistic.setAttribute("disabled", true);
@@ -100,20 +109,37 @@ class Statistic extends Component {
           this.setState({ total: data.total, receipts: data.data });
         } else {
           NotificationManager.warning(
-            "Không có doanh thu trong khoảng thời gian này",
-            "Thông báo"
+            "Dont't have revenue in this time!",
+            "Warning"
           );
         }
       })
       .catch(error => {
         if (error.response) {
-          NotificationManager.error(error.response.data.Message, "Lỗi");
+          NotificationManager.error(error.response.data.Message, "Error");
         }
       });
   };
   render() {
     const { total, receipts } = this.state;
     console.log(total);
+    
+    let user = {};
+    let isAdmin = false;
+
+    const isHaveUser = Cookies.get('user');
+    isHaveUser && (() => {
+        user = JSON.parse(Cookies.get('user'))
+
+        user.data.User.role === 1 && (isAdmin = true);
+        console.log(user.data.User);
+    })();
+
+    !isAdmin && (() => {
+      NotificationManager.error("Don't have permission to access this page!", "Error");
+      this.props.history.goBack();
+    })();
+
     return (
       <div className="right_col" role="main">
         <div>
@@ -121,7 +147,7 @@ class Statistic extends Component {
             <div className="col-md-12 col-sm-12 col-xs-12">
               <div className="x_panel">
                 <div className="x_title">
-                  <h2>Thống kê doanh thu</h2>
+                  <h2>Revenue Statistics</h2>
                   <div className="clearfix" />
                 </div>
                 <div className="x_content">
@@ -132,7 +158,7 @@ class Statistic extends Component {
                         className="control-label col-md-3 col-sm-3 col-xs-12"
                         htmlFor="name"
                       >
-                        Từ ngày <span className="required">*</span>
+                        From <span className="required">*</span>
                       </label>
                       <DateTimePicker
                         onChange={this.onChangeDateFrom}
@@ -144,17 +170,17 @@ class Statistic extends Component {
                         className="control-label col-md-3 col-sm-3 col-xs-12"
                         htmlFor="name"
                       >
-                        Đến ngày <span className="required">*</span>
+                        To <span className="required">*</span>
                       </label>
                       <DateTimePicker
                         onChange={this.onChangeDateTo}
                         value={this.state.dateTo}
                       />
                     </div>
-             
+
                     <button type="submit" ref="getDataStatistic" onClick={this.onSubmit} className="btn btn-success">Create</button>
                   </div>
-                  {total != 0?(<div className="x_content">
+                  {total != 0 ? (<div className="x_content">
                     <table
                       id="datatable"
                       className="table table-striped table-bordered"
@@ -175,32 +201,32 @@ class Statistic extends Component {
                       <tbody>
                         {receipts.map(item => {
                           return [
-                            <tr key={item.idReceipt}>
-                                <td>{item.idReceipt}</td>
-                                <td>{item.nameCustomer}</td>
-                                <td>{item.address}</td>
-                                <td>{item.email}</td>
-                                <td>{item.phone}</td>
-                                <td>{item.description}</td>
-                                <td>{formatPrice(item.total) + " VND"}</td>
-                                <td>
-                                    {moment(item["createdDate"]).format(
-                                    "DD/MM/YYYY h:mm:ss a"
-                                    )}
-                                </td>
-                                <td>
-                                    <Link to="" className="btn btn-primary"                               >
-                                    View Detail
+                            <tr key={"statistic" + item.idReceipt.toString()}>
+                              <td>{item.idReceipt}</td>
+                              <td>{item.nameCustomer}</td>
+                              <td>{item.address}</td>
+                              <td>{item.email}</td>
+                              <td>{item.phone}</td>
+                              <td>{item.description}</td>
+                              <td>{formatPrice(item.total) + " VND"}</td>
+                              <td>
+                                {moment(item["createdDate"]).format(
+                                  "DD/MM/YYYY h:mm:ss a"
+                                )}
+                              </td>
+                              <td>
+                                <Link to={"/admin/receipt/details/" + item['idReceipt'].toString()} className="btn btn-primary"                               >
+                                  View Detail
                                     </Link>
-                                </td>
+                              </td>
                             </tr>
                           ];
                         })}
                       </tbody>
                     </table>
-                    <ExportExcel data={receipts}/>
                     <p className="text-right">Total: {formatPrice(total) + " VND"}</p>
-                  </div>):''}
+                    <ExportExcel data={receipts} />
+                  </div>) : ''}
                   <div className="clearfix" />
                 </div>
                 {/* {total != 0?:''} */}

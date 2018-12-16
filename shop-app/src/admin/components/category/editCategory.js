@@ -79,15 +79,12 @@ class EditCategory extends Component {
 
             this.props.history.push('/admin/category');
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
-                if (e.response.status === 400) {
-                    NotificationManager.error('Unauthorized!', 'Error');
-                    this.props.history.push('/admin')
-                }
+                NotificationManager.error('Edit category fail!', 'Error');
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 //CSS
 import './category.css';
 
-import {NotificationManager} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 
 import categoryService from './category.service';
 
@@ -20,7 +20,7 @@ class AddCategory extends Component {
         this._categoryService = new categoryService();
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         console.log('AddCategory componentWillUnmount');
         this.props.unmount()
     }
@@ -59,21 +59,18 @@ class AddCategory extends Component {
 
         this._categoryService.addCategory(Cookies.get('token'), { name: this.state.category.name }).then((res, error) => {
             console.log(res);
-            if(res && res.status === 200) {
+            if (res && res.status === 200) {
                 NotificationManager.success('Add category success!', 'Success');
             }
 
             this.props.history.push('/admin/category');
         }).catch((e) => {
-            if(e && e.response) {
+            if (e && e.response) {
                 console.log(e.response);
-                if (e.response.status === 400) {
-                    NotificationManager.error('Unauthorized!', 'Error');
-                    this.props.history.push('/admin')
-                }
+                NotificationManager.error('Add category fail!', 'Error');
             } else {
                 e && console.log(e);
-                NotificationManager.error('Something wrong!', 'Error');
+                NotificationManager.error('Something\' wrong!', 'Error');
             }
         })
     }

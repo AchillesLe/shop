@@ -81,9 +81,9 @@
     });
 
     // :: Nice Select Active Code
-    if ($.fn.niceSelect) {
-        $('select').niceSelect();
-    }
+    // if ($.fn.niceSelect) {
+    //     $('select').niceSelect();
+    // }
     function currencyParser(num){
         var n =  num.toFixed(1).replace(/(\d)(?=(\d{3})+\.)/g,'$1,');
         var cur = n.split(".")

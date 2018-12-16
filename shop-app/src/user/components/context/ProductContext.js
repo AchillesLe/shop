@@ -30,7 +30,7 @@ export class ProducProvider extends Component {
           }
           var res =products.map((p,i) => {
             return i<10 ? (
-              <Product key={p.idProduct} product={p} />
+              <Product key={`${p.idProduct}_${p.code}`} product={p} />
             ):''});
           return <OwlCarousel
                   className="owl-theme"

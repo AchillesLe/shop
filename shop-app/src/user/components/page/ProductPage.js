@@ -24,10 +24,11 @@ class ProductPage extends Component {
             minRange:10000
         }
     }
-    sortProduct = (products,page) => {
+    sortProduct = (products,page,sortKey) => {
         const lastItemIndex = page * this.state.itemsCounterPerPage
         const firstItemIndex = lastItemIndex - this.state.itemsCounterPerPage
-        switch(this.state.sortKey){
+        console.log(sortKey)
+        switch(sortKey){
             case 'newest':
                 products = orderBy(products,'idProduct','desc')
                 break;
@@ -69,7 +70,7 @@ class ProductPage extends Component {
         })
     }
     handleRangeChange = (range)=>{
-        console.log(range)
+
         this.setRange(range);
     }
     componentDidMount(){
@@ -78,17 +79,13 @@ class ProductPage extends Component {
             const activePage = queryString["page"]||1;
             const idCate = queryString["id"];
             const keyword = queryString['keyword'];
-            let _this = this;
-            $(document).on("click",".list li", function(){
-                var value = $(this).data('value')
-                _this.setState({sortKey:value})
-            })
+           
             var products = this.filterProduct(this.props.products,idCate,keyword)
             this.setState({
                 activePage: activePage,
                 keyword:keyword,
                 totalItemsCount: products.length,
-                productsPerPage: this.sortProduct(products, activePage),
+                productsPerPage: this.sortProduct(products, activePage,this.state.sortKey),
             });
         }catch(ex){
             const {history} = this.props
@@ -117,7 +114,8 @@ class ProductPage extends Component {
                     keyword:keywordNew,
                     productsPerPage: this.sortProduct(
                         products,
-                        activePageNext
+                        activePageNext,
+                        this.state.sortKey
                     )
                 });
             }
@@ -131,14 +129,17 @@ class ProductPage extends Component {
             var queryStringNext = queryStringParser(decodeURI(nextProps.location.search));
             const activePageNext = queryStringNext["page"];
             const idCateNext = queryStringNext["id"];
-            var products = this.filterProduct(nextProps.products,idCateNext,queryStringNext['keyword'])
+           
+            console.log(nextState.sortKey,this.state.sortKey)
             if(nextState.sortKey !== this.state.sortKey || this.state.minRange !== nextState.minRange || this.state.maxRange !== nextState.maxRange){
+                var products = this.filterProduct(nextProps.products,idCateNext,queryStringNext['keyword'])
                 this.setState({        
                     activePage: activePageNext,
                     totalItemsCount: products.length,       
                     productsPerPage: this.sortProduct(
                         products,
-                        activePageNext
+                        activePageNext,
+                        nextState.sortKey
                     )
                 });
             }
@@ -162,11 +163,15 @@ class ProductPage extends Component {
                     scrollTop: 0
                 }, 500);
             }
+           
         }catch(e){
             const {history} = this.props
             history.push(`${route.product}?page=1`); 
         }
 
+    }
+    handleSort = (e)=>{
+        this.setState({sortKey:e.target.value})
     }
   render() {
     const {activePage,itemsCounterPerPage,totalItemsCount,pageRangeDisplayed,sortKey,minRange,maxRange} = this.state
@@ -214,7 +219,7 @@ class ProductPage extends Component {
                                     <div className="product-sorting d-flex">
                                         <p>Sắp xếp:</p>
                                     
-                                        <select id="sortByselect" defaultValue={sortKey}>
+                                        <select id="sortByselect" onChange={this.handleSort}>
                                             <option value="newest">Mới nhất</option>
                                             <option value="decrease">Giá tăng dần</option>
                                             <option value="ascending">Giá giảm dần</option>

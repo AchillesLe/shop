@@ -27,7 +27,6 @@ class ProductPage extends Component {
     sortProduct = (products,page,sortKey) => {
         const lastItemIndex = page * this.state.itemsCounterPerPage
         const firstItemIndex = lastItemIndex - this.state.itemsCounterPerPage
-        console.log(sortKey)
         switch(sortKey){
             case 'newest':
                 products = orderBy(products,'idProduct','desc')
@@ -171,7 +170,14 @@ class ProductPage extends Component {
 
     }
     handleSort = (e)=>{
-        this.setState({sortKey:e.target.value})
+        // this.setState({sortKey:e.target.value})
+        var value = e.target.value;
+        this.setState(state => {
+            return {
+                ...state,
+                sortKey: value
+            }
+        })
     }
   render() {
     const {activePage,itemsCounterPerPage,totalItemsCount,pageRangeDisplayed,sortKey,minRange,maxRange} = this.state

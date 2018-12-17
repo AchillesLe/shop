@@ -153,7 +153,7 @@ class Statistic extends Component {
                 <div className="x_content">
                   <br />
                   <div className="row">
-                    <div className="form-group col-12 col-md-6">
+                    <div className="form-group col-12 col-md-4">
                       <label
                         className="control-label col-md-3 col-sm-3 col-xs-12"
                         htmlFor="name"
@@ -165,7 +165,7 @@ class Statistic extends Component {
                         value={this.state.dateFrom}
                       />
                     </div>
-                    <div className="form-group col-12 col-md-5">
+                    <div className="form-group col-12 col-md-4">
                       <label
                         className="control-label col-md-3 col-sm-3 col-xs-12"
                         htmlFor="name"
@@ -178,7 +178,7 @@ class Statistic extends Component {
                       />
                     </div>
 
-                    <button type="submit" ref="getDataStatistic" onClick={this.onSubmit} className="btn btn-success">Create</button>
+                    <button type="submit" ref="getDataStatistic" onClick={this.onSubmit} className="btn btn-success">Get Info</button>
                   </div>
                   {total != 0 ? (<div className="x_content">
                     <table

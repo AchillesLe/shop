@@ -9,7 +9,7 @@ const Category = ({ category }) => (
       style={{ backgroundImage: `url(${category.image})` }}
     >
       <div className="catagory-content">
-                <Link to={`${route.product}?id=${category.idCategory}`}>
+                <Link to={`${route.product}?id=${category.idCategory}&page=1`}>
           {category.name}
         </Link>
       </div>
